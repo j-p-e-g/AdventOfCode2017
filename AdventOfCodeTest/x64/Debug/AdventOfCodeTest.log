@@ -1,0 +1,40 @@
+﻿  stdafx.cpp
+  Test.December13.cpp
+  Test.December12.cpp
+  Test.December11.cpp
+  Test.December10.cpp
+  Test.December09.cpp
+  Test.December08.cpp
+  Test.December07.cpp
+c:\users\jploog\documents\visual studio 2015\projects\adventofcode2017\adventofcode\december07.h(125): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  Test.December06.cpp
+  Test.December05.cpp
+  Test.December04.cpp
+  Test.December03.cpp
+  Test.December02.cpp
+  Test.December01.cpp
+  December13.cpp
+  December12.cpp
+c:\users\jploog\documents\visual studio 2015\projects\adventofcode2017\adventofcode\december12.cpp(62): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  December11.cpp
+  December10.cpp
+  December09.cpp
+  December08.cpp
+  December07.cpp
+c:\users\jploog\documents\visual studio 2015\projects\adventofcode2017\adventofcode\december07.h(125): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+  Compiling...
+  December06.cpp
+c:\users\jploog\documents\visual studio 2015\projects\adventofcode2017\adventofcode\december06.cpp(51): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\jploog\documents\visual studio 2015\projects\adventofcode2017\adventofcode\december06.cpp(56): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\users\jploog\documents\visual studio 2015\projects\adventofcode2017\adventofcode\december06.cpp(71): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  December05.cpp
+  December04.cpp
+  December03.cpp
+  December02.cpp
+  December01.cpp
+  CodeUtil.cpp
+  Generating Code...
+     Creating library C:\Users\jploog\Documents\Visual Studio 2015\Projects\AdventOfCode2017\x64\Debug\AdventOfCodeTest.lib and object C:\Users\jploog\Documents\Visual Studio 2015\Projects\AdventOfCode2017\x64\Debug\AdventOfCodeTest.exp
+  AdventOfCodeTest.vcxproj -> C:\Users\jploog\Documents\Visual Studio 2015\Projects\AdventOfCode2017\x64\Debug\AdventOfCodeTest.dll
+  AdventOfCodeTest.vcxproj -> C:\Users\jploog\Documents\Visual Studio 2015\Projects\AdventOfCode2017\x64\Debug\AdventOfCodeTest.pdb (Partial PDB)
