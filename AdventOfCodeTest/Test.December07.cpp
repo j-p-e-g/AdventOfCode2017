@@ -85,7 +85,126 @@ namespace AdventOfCodeTest
 			Assert::AreEqual(true, test1->HasCircularDependency(temp));
 		}
 
-		// -----------------------------------------
+        // -----------------------------------------
+        // ParseDataFromLine
+        // -----------------------------------------
+        /*
+        try to parse an empty line
+        */
+        TEST_METHOD(December07_ParseDataFromLine_empty)
+        {
+            ProgramData test;
+            bool result = ProgramTree::ParseDataFromLine("", test);
+
+            Assert::AreEqual(false, result);
+            Assert::AreEqual(ProgramData().name, test.name);
+            Assert::AreEqual(ProgramData().weight, test.weight);
+            Assert::AreEqual(true, test.subProgramNames.empty());
+        }
+
+        /*
+        invalid string (missing the key)
+        */
+        TEST_METHOD(December07_ParseDataFromLine_missingKey)
+        {
+            ProgramData test;
+            bool result = ProgramTree::ParseDataFromLine("    (23) -> x, y, xyzzy", test);
+
+            Assert::AreEqual(false, result);
+            Assert::AreEqual(ProgramData().name, test.name);
+            Assert::AreEqual(ProgramData().weight, test.weight);
+            Assert::AreEqual(true, test.subProgramNames.empty());
+        }
+
+        /*
+        invalid string (missing the weight)
+        */
+        TEST_METHOD(December07_ParseDataFromLine_missingWeight)
+        {
+            ProgramData test;
+            bool result = ProgramTree::ParseDataFromLine("abc -> def", test);
+
+            Assert::AreEqual(false, result);
+            Assert::AreEqual(ProgramData().name, test.name);
+            Assert::AreEqual(ProgramData().weight, test.weight);
+            Assert::AreEqual(true, test.subProgramNames.empty());
+        }
+
+        /*
+        invalid string (missing the brackets around the weight)
+        */
+        TEST_METHOD(December07_ParseDataFromLine_missingWeightBrackets)
+        {
+            ProgramData test;
+            bool result = ProgramTree::ParseDataFromLine("hfhjhg 44 -> rzu", test);
+
+            Assert::AreEqual(false, result);
+            Assert::AreEqual(ProgramData().name, test.name);
+            Assert::AreEqual(ProgramData().weight, test.weight);
+            Assert::AreEqual(true, test.subProgramNames.empty());
+        }
+
+        /*
+        invalid string (missing the suffix after the -> signal)
+        */
+        TEST_METHOD(December07_ParseDataFromLine_missingSuffix)
+        {
+            ProgramData test;
+            bool result = ProgramTree::ParseDataFromLine("test (81) ->  ", test);
+
+            Assert::AreEqual(false, result);
+            Assert::AreEqual(ProgramData().name, test.name);
+            Assert::AreEqual(ProgramData().weight, test.weight);
+            Assert::AreEqual(true, test.subProgramNames.empty());
+        }
+
+        /*
+        invalid string (suffix contains empty strings)
+        */
+        TEST_METHOD(December07_ParseDataFromLine_emptySuffixElements)
+        {
+            ProgramData test;
+            bool result = ProgramTree::ParseDataFromLine("bla (474) -> abc, , , , qwrtz ", test);
+
+            Assert::AreEqual(false, result);
+            Assert::AreEqual(ProgramData().name, test.name);
+            Assert::AreEqual(ProgramData().weight, test.weight);
+            Assert::AreEqual(true, test.subProgramNames.empty());
+        }
+
+        /*
+        parse valid format (without specifying children)
+        */
+        TEST_METHOD(December07_ParseDataFromLine_noChildren)
+        {
+            ProgramData test;
+            bool result = ProgramTree::ParseDataFromLine("blubb (5795)", test);
+
+            Assert::AreEqual(true, result);
+            Assert::AreEqual("blubb", test.name.c_str());
+            Assert::AreEqual(5795, test.weight);
+            Assert::AreEqual(true, test.subProgramNames.empty());
+        }
+
+        /*
+        parse valid format (with specified children)
+        */
+        TEST_METHOD(December07_ParseDataFromLine_withChildren)
+        {
+            ProgramData test;
+            bool result = ProgramTree::ParseDataFromLine("foo (9) -> bar, baz, foobar", test);
+
+            Assert::AreEqual(true, result);
+            Assert::AreEqual("foo", test.name.c_str());
+            Assert::AreEqual(9, test.weight);
+            Assert::AreEqual(3, (int)test.subProgramNames.size());
+
+            Assert::AreEqual("bar", test.subProgramNames[0].c_str());
+            Assert::AreEqual("baz", test.subProgramNames[1].c_str());
+            Assert::AreEqual("foobar", test.subProgramNames[2].c_str());
+        }
+
+        // -----------------------------------------
 		// ProgramTree
 		// -----------------------------------------
 		/*

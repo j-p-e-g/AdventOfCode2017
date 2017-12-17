@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+
 #include "December01.h"
 #include "December02.h"
 #include "December03.h"
@@ -95,14 +96,24 @@ void aoc_December06()
     printf("December06: result = %d\n", result);
 }
 
+void aoc_December07()
+{
+    using namespace December07;
+
+    ProgramTree test("InputFiles/input07.txt");
+    const std::string result = test.GetRoot()->GetName();
+    printf("December07: result = %s\n", result.c_str());
+}
+
 int main()
 {
-    aoc_December01();
-    aoc_December02();
-    aoc_December03();
-    aoc_December04();
-    aoc_December05();
-    aoc_December06();
+    //aoc_December01();
+    //aoc_December02();
+    //aoc_December03();
+    //aoc_December04();
+    //aoc_December05();
+    //aoc_December06();
+    aoc_December07();
 
     return 0;
 }

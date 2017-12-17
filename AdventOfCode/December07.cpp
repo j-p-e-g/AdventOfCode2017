@@ -1,4 +1,8 @@
 #include "stdafx.h"
+
+#include <regex>
+
+#include "CodeUtil.h"
 #include "December07.h"
 
 using namespace December07;
@@ -53,27 +57,143 @@ bool Program::HasCircularDependency(std::vector<std::string>& visitedNodeNames) 
 	return false;
 }
 
+ProgramTree::ProgramTree(std::string fileName)
+{
+    m_root = std::make_shared<Program>("[root]", 0);
+
+    std::stringstream content;
+    CodeUtils::CodeUtil::ReadFile(fileName, content);
+
+    std::string line;
+    while (std::getline(content, line))
+    {
+        ParseLine(line);
+    }
+}
+
+bool ProgramTree::ParseLine(const std::string& inputLine)
+{
+    ProgramData data;
+    if (!ParseDataFromLine(inputLine, data))
+    {
+        return false;
+    }
+
+    AddData(data);
+    return true;
+}
+   
+bool ProgramTree::ParseDataFromLine(const std::string& inputLine, ProgramData& data)
+{
+    // input format:
+    //   nwtkz (304) -> eykks, rxivjye
+
+    //    ^(\w+) \((\d+)\)$
+    // or 
+    //    ^(\w+) \((\d+)\) -> ([\w\s,])$
+    std::regex regex("(\\w+)\\s+\\((\\d+)\\)(\\s*->\\s*([\\w\\s,]+))?");
+    std::smatch match;
+
+    std::string key;
+    int weight = 0;
+    std::vector<std::string> children;
+
+    if (!std::regex_match(inputLine, match, regex))
+    {
+        return false;
+    }
+
+    // 0: entire line
+    // 1: first word
+    // 2: number in brackets
+    // 3: entire string after the closing brackets (optional)
+    // 4: entire string after the -> symbol (if 3)
+    for (int index = 0; index < match.size(); index++)
+    {
+        const auto m = match[index];
+        switch (index)
+        {
+        case 1:
+            if (!m.matched)
+            {
+                return false;
+            }
+            key = m.str();
+            break;
+        case 2:
+            if (!m.matched)
+            {
+                return false;
+            }
+            weight = std::atoi(m.str().c_str());
+            break;
+        case 4:
+        {
+            if (!m.matched) // optional
+            {
+                break;
+            }
+
+            // fail if the base match is valid but the suffix is empty
+            std::string suffix = m.str();
+            std::regex suffixRegex("\\s*");
+            if (std::regex_match(suffix, suffixRegex))
+            {
+                return false;
+            }
+
+            // parse sub elements into children
+            std::regex commaRegex("(\\w+),\\s*");
+            std::smatch commaMatch;
+            while (std::regex_search(suffix, commaMatch, commaRegex))
+            {
+                children.push_back(commaMatch[1].str());
+                suffix = commaMatch.suffix();
+            }
+
+            // should not contain any other commas
+            commaRegex = ",";
+            if (std::regex_search(suffix, commaMatch, commaRegex))
+            {
+                return false;
+            }
+
+           children.push_back(suffix);
+        }
+        }
+    }
+
+    data = ProgramData(key, weight, children);
+
+    return true;
+}
+
 ProgramTree::ProgramTree(std::vector<ProgramData> programData)
 {
 	m_root = std::make_shared<Program>("[root]", 0);
 
 	for (const auto& data : programData)
 	{
-		auto found = m_programMap.find(data.name);
-		if (found == m_programMap.end())
-		{
-			auto temp = std::make_shared<Program>(data.name, data.weight);
-			AddParentChildLink(m_root, temp);
-			m_programMap.emplace(data.name, temp);
-
-			CreateChildren(temp, data.subProgramNames);
-		}
-		else
-		{
-			found->second->SetWeight(data.weight);
-			CreateChildren(found->second, data.subProgramNames);
-		}
+        AddData(data);
 	}
+}
+
+void ProgramTree::AddData(ProgramData data)
+{
+    auto found = m_programMap.find(data.name);
+    if (found == m_programMap.end())
+    {
+        auto temp = std::make_shared<Program>(data.name, data.weight);
+        AddParentChildLink(m_root, temp);
+        m_programMap.emplace(data.name, temp);
+
+        CreateChildren(temp, data.subProgramNames);
+    }
+    else
+    {
+        found->second->SetWeight(data.weight);
+        CreateChildren(found->second, data.subProgramNames);
+    }
 }
 
 void ProgramTree::AddParentChildLink(std::shared_ptr<Program> parent, std::shared_ptr<Program> child)
