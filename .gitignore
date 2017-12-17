@@ -1,0 +1,21 @@
+# Compiled source #
+###################
+*.dll
+*.exe
+*.obj
+*.ilk
+*.lib
+*.pdb
+# directory
+x64
+
+# Config files #
+################
+*.suo
+.vs
+
+# Databases #
+#############
+*.db
+*.opendb
+
