@@ -48,12 +48,12 @@ void MemoryReallocator::RunMemoryAllocationCycle(MemoryBanks& memBanks)
 	memBanks[maxIndex] = 0;
 
 	// ... and redistribute it across the vector
-	int index = GetNextIndex(maxIndex, memBanks.size());
+	int index = GetNextIndex(maxIndex, static_cast<int>(memBanks.size()));
 	while (remaining > 0)
 	{
 		memBanks[index]++;
 		remaining--;
-		index = GetNextIndex(index, memBanks.size());
+		index = GetNextIndex(index, static_cast<int>(memBanks.size()));
 	}
 }
 
@@ -68,5 +68,5 @@ int MemoryReallocator::CountCyclesUntilStuck(const MemoryBanks& memBanks)
 		RunMemoryAllocationCycle(currentSetup);
 	}
 
-	return seenSetups.size();
+	return static_cast<int>(seenSetups.size());
 }

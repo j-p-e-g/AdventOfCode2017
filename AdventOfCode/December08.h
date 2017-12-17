@@ -63,7 +63,7 @@ namespace December08
 
 		std::string ToString() const
 		{
-			const std::string str = "Condition( id: " + id + ", type: " + std::to_string(static_cast<int>((int)comparisonType)) + ", value: " + std::to_string(value) + " )";
+			const std::string str = "Condition( id: " + id + ", type: " + std::to_string(static_cast<int>(comparisonType)) + ", value: " + std::to_string(value) + " )";
 
 			return str;
 		}

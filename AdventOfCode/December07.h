@@ -130,7 +130,7 @@ namespace December07
         void AddData(ProgramData data);
 		void AddParentChildLink(std::shared_ptr<Program> parent, std::shared_ptr<Program> child);
 		void CreateChildren(std::shared_ptr<Program> parent, std::vector<std::string> childNames);
-		int GetSize() const { return m_programMap.size(); }
+		int GetSize() const { return static_cast<int>(m_programMap.size()); }
 		std::shared_ptr<Program> GetRoot() const;
 		bool IsValid() const;
 		bool ContainsCircularDependency() const;

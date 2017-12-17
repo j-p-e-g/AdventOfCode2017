@@ -59,6 +59,6 @@ int ConnectionManager::GetGroupSize(int id) const
     std::set<int> connectedNodes;
     GetConnectedNodes(id, connectedNodes);
 
-	return connectedNodes.size();
+	return static_cast<int>(connectedNodes.size());
 }
 
