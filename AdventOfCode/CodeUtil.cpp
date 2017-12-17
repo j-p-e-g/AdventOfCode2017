@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <regex>
 #include <sstream>
 
 using namespace CodeUtils;
@@ -52,4 +53,20 @@ std::vector<std::string> CodeUtil::SplitStringBySpace(std::string input)
 	}
 
 	return elements;
+}
+
+bool CodeUtil::ConvertStringVectorToIntVector(const std::vector<std::string>& input, std::vector<int>& result)
+{
+    for (const auto& str : input)
+    {
+        std::regex regex("-?\\d+");
+        if (!std::regex_match(str, regex))
+        {
+            return false;
+        }
+
+        result.push_back(atoi(str.c_str()));
+    }
+
+    return result.size() == input.size();
 }

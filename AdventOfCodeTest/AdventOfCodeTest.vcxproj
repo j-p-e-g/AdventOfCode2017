@@ -175,6 +175,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Test.CodeUtils.cpp" />
     <ClCompile Include="Test.December01.cpp" />
     <ClCompile Include="Test.December02.cpp" />
     <ClCompile Include="Test.December03.cpp" />

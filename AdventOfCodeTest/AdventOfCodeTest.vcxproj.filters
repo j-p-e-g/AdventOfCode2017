@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Linked">
+      <UniqueIdentifier>{39dc51d8-ebfa-44f8-ab0b-9c0c79927bbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tests">
+      <UniqueIdentifier>{71a39c16-177e-4b30-9154-19be1a0c5b7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -23,89 +29,92 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.December01.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\AdventOfCode\CodeUtil.cpp">
+      <Filter>Source Files\Linked</Filter>
     </ClCompile>
     <ClCompile Include="..\AdventOfCode\December01.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.December02.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Linked</Filter>
     </ClCompile>
     <ClCompile Include="..\AdventOfCode\December02.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Linked</Filter>
     </ClCompile>
     <ClCompile Include="..\AdventOfCode\December03.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.December03.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Linked</Filter>
     </ClCompile>
     <ClCompile Include="..\AdventOfCode\December04.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.December04.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Linked</Filter>
     </ClCompile>
     <ClCompile Include="..\AdventOfCode\December05.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.December05.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.December06.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Linked</Filter>
     </ClCompile>
     <ClCompile Include="..\AdventOfCode\December06.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.December07.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Linked</Filter>
     </ClCompile>
     <ClCompile Include="..\AdventOfCode\December07.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Linked</Filter>
     </ClCompile>
     <ClCompile Include="..\AdventOfCode\December08.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.December08.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AdventOfCode\CodeUtil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.December09.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Linked</Filter>
     </ClCompile>
     <ClCompile Include="..\AdventOfCode\December09.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.December10.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Linked</Filter>
     </ClCompile>
     <ClCompile Include="..\AdventOfCode\December10.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Linked</Filter>
     </ClCompile>
     <ClCompile Include="..\AdventOfCode\December11.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.December11.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.December12.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Linked</Filter>
     </ClCompile>
     <ClCompile Include="..\AdventOfCode\December12.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.December13.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Linked</Filter>
     </ClCompile>
     <ClCompile Include="..\AdventOfCode\December13.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Linked</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files\Linked</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December01.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December02.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December03.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December04.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December05.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December06.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December07.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December08.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December09.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December10.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December11.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December12.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December13.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.CodeUtils.cpp">
+      <Filter>Source Files\Tests</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
