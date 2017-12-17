@@ -42,7 +42,6 @@ namespace December04
 		~PassPhraseCheck() = default;
 
 	public:
-		std::vector<std::string> SplitStringBySpace(std::string input) const;
 		bool CheckPassPhrase(std::string input) const;
         int CountValidPassPhrases(std::vector<std::string> list) const;
 	};

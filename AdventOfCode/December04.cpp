@@ -6,14 +6,9 @@
 
 using namespace December04;
 
-std::vector<std::string> December04::PassPhraseCheck::SplitStringBySpace(std::string input) const
-{
-	return CodeUtils::CodeUtil::SplitStringBySpace(input);
-}
-
 bool PassPhraseCheck::CheckPassPhrase(std::string input) const
 {
-	const std::vector<std::string> elements = SplitStringBySpace(input);
+	const std::vector<std::string> elements = CodeUtils::CodeUtil::SplitStringBySpace(input);
 	std::set<std::string> uniqueElements;
 
 	for (const auto& elem : elements)
