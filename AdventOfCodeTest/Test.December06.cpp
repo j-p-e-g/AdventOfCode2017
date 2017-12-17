@@ -2,16 +2,63 @@
 #include "CppUnitTest.h"
 #include "../AdventOfCode/December06.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-using namespace December06;
-
 namespace AdventOfCodeTest
 {
-	TEST_CLASS(Test_December06)
+    using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+    using namespace AdventOfCode::December06;
+
+    TEST_CLASS(Test_December06)
 	{
 	public:
-		//--------------------------------------------------------
+        // -------------------------------------
+        // ParseLine
+        // -------------------------------------
+        /*
+        handle empty string
+        */
+        TEST_METHOD(December06_ParseLine_EmptyString)
+        {
+            MemoryReallocator mem;
+            Assert::AreEqual(true, mem.ParseLine(""));
+        }
+
+        /*
+        invalid: not a number
+        */
+        TEST_METHOD(December06_ParseLine_nonNumber)
+        {
+            MemoryReallocator mem;
+            Assert::AreEqual(false, mem.ParseLine("edt"));
+        }
+
+        /*
+        valid: numbers
+        */
+        TEST_METHOD(December06_ParseLine_valid)
+        {
+            MemoryReallocator mem;
+            Assert::AreEqual(true, mem.ParseLine("-86686 0 0 75"));
+        }
+
+        /*
+        invalid: row contains non-number
+        */
+        TEST_METHOD(December06_ParseLine_containsNonNumber)
+        {
+            MemoryReallocator mem;
+            Assert::AreEqual(false, mem.ParseLine("975hf 762"));
+        }
+
+        /*
+        invalid: comma separated values
+        */
+        TEST_METHOD(December06_ParseLine_commaSeparated)
+        {
+            MemoryReallocator mem;
+            Assert::AreEqual(false, mem.ParseLine("5, 926, 3, -25, 2"));
+        }
+
+        //--------------------------------------------------------
 		// GetMaxIndex
 		// -------------------------------------------------------
 		/*

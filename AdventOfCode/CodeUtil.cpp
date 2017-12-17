@@ -38,7 +38,7 @@ bool CodeUtil::ReadFile(const std::string& filePath, std::stringstream& fileCont
     return true;
 }
 
-std::vector<std::string> CodeUtil::SplitStringBySpace(std::string input)
+std::vector<std::string> CodeUtil::SplitStringBySpace(const std::string& input)
 {
 	std::vector<std::string> elements;
 
@@ -59,8 +59,8 @@ bool CodeUtil::ConvertStringVectorToIntVector(const std::vector<std::string>& in
 {
     for (const auto& str : input)
     {
-        std::regex regex("-?\\d+");
-        if (!std::regex_match(str, regex))
+        int value = -1;
+        if (!ReadStringToInt(str, value, true))
         {
             return false;
         }
@@ -69,4 +69,21 @@ bool CodeUtil::ConvertStringVectorToIntVector(const std::vector<std::string>& in
     }
 
     return result.size() == input.size();
+}
+
+bool CodeUtil::ReadStringToInt(const std::string& input, int& number, bool allowNegative)
+{
+    std::regex regex("-?\\d+");
+    if (!allowNegative)
+    {
+        regex = "\\d+";
+    }
+
+    if (!std::regex_match(input, regex))
+    {
+        return false;
+    }
+
+    number = atoi(input.c_str());
+    return true;
 }

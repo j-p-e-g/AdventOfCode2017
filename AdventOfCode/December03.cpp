@@ -1,11 +1,30 @@
 #include "stdafx.h"
-#include "December03.h"
 
+#include <iostream>
 #include <math.h>
 
-using namespace December03;
+#include "CodeUtil.h"
+#include "December03.h"
 
-bool December03::SpiralMemory::GetNextDir(Point pos, Point& dir, int& diameter)
+using namespace AdventOfCode::December03;
+
+SpiralMemory::SpiralMemory(const std::string& fileName)
+    : AdventOfCodeBase()
+{
+    ReadFile(fileName);
+}
+
+bool SpiralMemory::ParseLine(const std::string& inputLine)
+{
+    return CodeUtils::CodeUtil::ReadStringToInt(inputLine, m_id, false);
+}
+
+void SpiralMemory::OutputResultToConsole() const
+{
+    std::cout << "December03: result = " << GetManhattanDistance(m_id) << std::endl;
+}
+
+bool SpiralMemory::GetNextDir(Point pos, Point& dir, int& diameter)
 {
 	if (dir == DirRight)
 	{
@@ -44,7 +63,7 @@ bool December03::SpiralMemory::GetNextDir(Point pos, Point& dir, int& diameter)
 	return true;
 }
 
-Point December03::SpiralMemory::FindCoord(int id)
+Point SpiralMemory::FindCoord(int id)
 {
 	if (id < 1)
 	{
@@ -86,7 +105,7 @@ Point December03::SpiralMemory::FindCoord(int id)
 	return pos;
 }
 
-int December03::SpiralMemory::GetManhattanDistance(int id)
+int SpiralMemory::GetManhattanDistance(int id)
 {
 	Point coord = FindCoord(id);
 	if (coord == InvalidCoord)

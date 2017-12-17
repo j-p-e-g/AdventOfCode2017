@@ -2,13 +2,12 @@
 #include "CppUnitTest.h"
 #include "../AdventOfCode/December04.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-using namespace December04;
-
 namespace AdventOfCodeTest
 {
-	TEST_CLASS(Test_December04)
+    using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+    using namespace AdventOfCode::December04;
+
+    TEST_CLASS(Test_December04)
 	{
 	public:
         // -----------------------------------------

@@ -1,5 +1,9 @@
 #pragma once
+
+#include <string>
 #include <vector>
+
+#include "AdventOfCodeBase.h"
 
 /*
     https://adventofcode.com/2017/day/6
@@ -38,21 +42,35 @@
 
     How many cycles are in the infinite loop that arises from the configuration in your puzzle input?
 */
-namespace December06
-{
-	typedef std::vector<int> MemoryBanks;
+
+namespace AdventOfCode {
+namespace December06 {
+
+    typedef std::vector<int> MemoryBanks;
 
 	class MemoryReallocator
+        : protected AdventOfCodeBase
 	{
 	public:
 		MemoryReallocator() {};
-		~MemoryReallocator() = default;
+        MemoryReallocator(const std::string& fileName);
+        ~MemoryReallocator() = default;
 
-	public:
-		int GetNextIndex(int currentIndex, int maxSize);
-		int GetMaxIndex(const MemoryBanks& memBanks);
-		void RunMemoryAllocationCycle(MemoryBanks& memBanks);
-		int CountCyclesUntilStuck(const MemoryBanks& memBanks);
+    public:
+        // AdventOfCodeBase
+        bool ParseLine(const std::string& inputLine) override;
+        void OutputResultToConsole() const override;
+        // ~AdventOfCodeBase
+
+    public:
+		int GetNextIndex(int currentIndex, int maxSize) const;
+		int GetMaxIndex(const MemoryBanks& memBanks) const;
+		void RunMemoryAllocationCycle(MemoryBanks& memBanks) const;
+		int CountCyclesUntilStuck(const MemoryBanks& memBanks) const;
+
+    private:
+        MemoryBanks m_memory;
 	};
-}
+
+}}
 

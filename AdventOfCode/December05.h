@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "AdventOfCodeBase.h"
+
 /*
     https://adventofcode.com/2017/day/5
 
@@ -43,15 +45,31 @@
 
     How many steps does it now take to reach the exit?
 */
-namespace December05
-{
-	class InstructionMaze
+namespace AdventOfCode {
+namespace December05 {
+
+    class InstructionMaze
+        : protected AdventOfCodeBase
 	{
 	public:
 		InstructionMaze() {};
-		~InstructionMaze() = default;
+        InstructionMaze(const std::string& fileName);
+        ~InstructionMaze() = default;
 
-	public:
-		int CountInstructionSteps(std::vector<int> input);
-	};
-}
+    public:
+        // AdventOfCodeBase
+        bool ParseLine(const std::string& inputLine) override;
+        void OutputResultToConsole() const override;
+        // ~AdventOfCodeBase
+
+    public:
+		static int CountInstructionSteps(std::vector<int> input);
+
+    private:
+        void AddInstruction(int number);
+
+    private:
+        std::vector<int> m_instructions;
+    };
+
+}}

@@ -63,11 +63,13 @@ namespace December02 {
         // ~AdventOfCodeBase
 
     public:
-        void AddRow(const MatrixRow& row);
         int GetCheckSum() const;
 
 		static int GetRowCheckSum(const MatrixRow& row);
 		static int GetMatrixCheckSum(const Matrix& matrix);
+
+    private:
+        void AddRow(const MatrixRow& row);
 
     private:
         Matrix m_matrix;

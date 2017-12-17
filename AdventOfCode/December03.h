@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "AdventOfCodeBase.h"
+
 /*
     https://adventofcode.com/2017/day/3
 
@@ -51,8 +53,9 @@
 
     What is the first value written that is larger than your puzzle input?
 */
-namespace December03
-{
+namespace AdventOfCode {
+namespace December03 {
+
 	struct Point
 	{
 	public:
@@ -102,16 +105,27 @@ namespace December03
 
 	//const Point* OrderDir = { DirRight, DirUp, DirLeft, DirDown };
 	class SpiralMemory
+        : protected AdventOfCodeBase
 	{
 	public:
 		SpiralMemory() {};
-		~SpiralMemory() = default;
+        SpiralMemory(const std::string& fileName);
+        ~SpiralMemory() = default;
 
-	public:
-		Point FindCoord(int id);
-		int GetManhattanDistance(int id);
+    public:
+        // AdventOfCodeBase
+        bool ParseLine(const std::string& inputLine) override;
+        void OutputResultToConsole() const override;
+        // ~AdventOfCodeBase
+
+    public:
+		static Point FindCoord(int id);
+		static int GetManhattanDistance(int id);
 
 	private:
-		bool GetNextDir(Point pos, Point& dir, int& diameter);
+		static bool GetNextDir(Point pos, Point& dir, int& diameter);
+
+    private:
+        int m_id = -1;
 	};
-}
+}}

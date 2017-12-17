@@ -10,6 +10,63 @@ namespace AdventOfCodeTest
     TEST_CLASS(Test_December02)
 	{
 	public:
+        // -------------------------------------
+        // ParseLine
+        // -------------------------------------
+        /*
+        handle empty string
+        */
+        TEST_METHOD(December02_ParseLine_EmptyString)
+        {
+            MatrixCheckSum matrix;
+            Assert::AreEqual(true, matrix.ParseLine(""));
+        }
+
+        /*
+        empty row
+        */
+        TEST_METHOD(December02_ParseLine_emptyRow)
+        {
+            MatrixCheckSum matrix;
+            Assert::AreEqual(true, matrix.ParseLine("\n\n"));
+        }
+
+        /*
+        invalid: not a number
+        */
+        TEST_METHOD(December02_ParseLine_nonNumber)
+        {
+            MatrixCheckSum matrix;
+            Assert::AreEqual(false, matrix.ParseLine("796skhg"));
+        }
+
+        /*
+        valid: numbers
+        */
+        TEST_METHOD(December02_ParseLine_valid)
+        {
+            MatrixCheckSum matrix;
+            Assert::AreEqual(true, matrix.ParseLine("97 -3 515968926"));
+        }
+
+        /*
+        invalid: row contains non-number
+        */
+        TEST_METHOD(December02_ParseLine_containsNonNumber)
+        {
+            MatrixCheckSum matrix;
+            Assert::AreEqual(false, matrix.ParseLine("18 947 lklh"));
+        }
+
+        /*
+        invalid: comma separated values
+        */
+        TEST_METHOD(December02_ParseLine_commaSeparated)
+        {
+            MatrixCheckSum matrix;
+            Assert::AreEqual(false, matrix.ParseLine("6, 3, 27"));
+        }
+
         // ------------------------------------
         // GetRowCheckSum
         // ------------------------------------

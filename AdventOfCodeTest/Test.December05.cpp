@@ -2,51 +2,40 @@
 #include "CppUnitTest.h"
 #include "../AdventOfCode/December05.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-using namespace December05;
-
 namespace AdventOfCodeTest
 {
-	TEST_CLASS(Test_December05)
+    using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+    using namespace AdventOfCode::December05;
+
+    TEST_CLASS(Test_December05)
 	{
 	public:
 		TEST_METHOD(December05_empty)
 		{
-			InstructionMaze test;
-			std::vector<int> input = { };
-			Assert::AreEqual(0, test.CountInstructionSteps(input));
+            Assert::AreEqual(0, InstructionMaze::CountInstructionSteps({}));
 		}
 
 		TEST_METHOD(December05_justZero)
 		{
-			InstructionMaze test;
-			std::vector<int> input = { 0 };
-			Assert::AreEqual(2, test.CountInstructionSteps(input));
+            Assert::AreEqual(2, InstructionMaze::CountInstructionSteps({ 0 }));
 		}
 
 		TEST_METHOD(December05_justPositive)
 		{
-			InstructionMaze test;
-			std::vector<int> input = { 3 };
-			Assert::AreEqual(1, test.CountInstructionSteps(input));
-		}
+            Assert::AreEqual(1, InstructionMaze::CountInstructionSteps({ 3 }));
+        }
 
 		TEST_METHOD(December05_justNegative)
 		{
-			InstructionMaze test;
-			std::vector<int> input = { -73 };
-			Assert::AreEqual(1, test.CountInstructionSteps(input));
-		}
+            Assert::AreEqual(1, InstructionMaze::CountInstructionSteps({ -73 }));
+        }
 
 		TEST_METHOD(December05_vector)
 		{
-			InstructionMaze test;
-			std::vector<int> input = { 5, 4, 3, -3, -4, -5 };
-			Assert::AreEqual(3, test.CountInstructionSteps(input));
-		}
+            Assert::AreEqual(3, InstructionMaze::CountInstructionSteps({ 5, 4, 3, -3, -4, -5 }));
+        }
 
-		/*
+        /*
 		(0) 3  0  1  -3  - before we have taken any steps.
 		(1) 3  0  1  -3  - jump with offset 0 (that is, don't jump at all). Fortunately, the instruction is then incremented to 1.
 		2 (3) 0  1  -3  - step forward because of the instruction we just modified. The first instruction is incremented again, now to 2.
@@ -58,10 +47,8 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December05_AoC_Test)
 		{
-			InstructionMaze test;
-			std::vector<int> input = {0, 3, 0, 1, -3};
-			Assert::AreEqual(5, test.CountInstructionSteps(input));
-		}
+            Assert::AreEqual(5, InstructionMaze::CountInstructionSteps({ 0, 3, 0, 1, -3 }));
+        }
 	};
 }
 

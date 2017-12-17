@@ -2,11 +2,34 @@
 #include "CodeUtil.h"
 #include "December04.h"
 
+#include <iostream>
 #include <set>
 
-using namespace December04;
+using namespace AdventOfCode::December04;
 
-bool PassPhraseCheck::CheckPassPhrase(std::string input) const
+PassPhraseCheck::PassPhraseCheck(const std::string& fileName)
+    : AdventOfCodeBase()
+{
+    ReadFile(fileName);
+}
+
+bool PassPhraseCheck::ParseLine(const std::string& inputLine)
+{
+    AddPassPhrase(inputLine);
+    return true;
+}
+
+void PassPhraseCheck::AddPassPhrase(const std::string& phrase)
+{
+    m_phraseList.push_back(phrase);
+}
+
+void PassPhraseCheck::OutputResultToConsole() const
+{
+    std::cout << "December04: result = " << CountValidPassPhrases(m_phraseList) << std::endl;
+}
+
+bool PassPhraseCheck::CheckPassPhrase(const std::string& input) const
 {
 	const std::vector<std::string> elements = CodeUtils::CodeUtil::SplitStringBySpace(input);
 	std::set<std::string> uniqueElements;
@@ -19,7 +42,7 @@ bool PassPhraseCheck::CheckPassPhrase(std::string input) const
 	return elements.size() == uniqueElements.size();
 }
 
-int PassPhraseCheck::CountValidPassPhrases(std::vector<std::string> list) const
+int PassPhraseCheck::CountValidPassPhrases(const std::vector<std::string>& list) const
 {
     int count = 0;
     for (const auto& elem : list)

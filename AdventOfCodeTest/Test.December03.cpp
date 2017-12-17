@@ -3,13 +3,12 @@
 #include "CppUnitTest.h"
 #include "../AdventOfCode/December03.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-using namespace December03;
-
 namespace Microsoft
 {
-	namespace VisualStudio
+    using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+    using namespace AdventOfCode::December03;
+
+    namespace VisualStudio
 	{
 		namespace CppUnitTestFramework
 		{
@@ -20,17 +19,52 @@ namespace Microsoft
 
 namespace AdventOfCodeTest
 {
-	TEST_CLASS(Test_December03)
+    using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+    using namespace AdventOfCode::December03;
+
+    TEST_CLASS(Test_December03)
 	{
 	public:
-		// test spiral
+        // -------------------------------------
+        // ParseLine
+        // -------------------------------------
+        /*
+        empty string
+        */
+        TEST_METHOD(December03_ParseLine_emptyString)
+        {
+            SpiralMemory spiral;
+            Assert::AreEqual(false, spiral.ParseLine(""));
+        }
+
+        /*
+        invalid: not a number
+        */
+        TEST_METHOD(December03_ParseLine_nonNumber)
+        {
+            SpiralMemory spiral;
+            Assert::AreEqual(false, spiral.ParseLine("qtfss"));
+        }
+
+        /*
+        invalid: contains a second line
+        */
+        TEST_METHOD(December03_ParseLine_secondLine)
+        {
+            SpiralMemory spiral;
+            Assert::AreEqual(false, spiral.ParseLine("85\n3"));
+        }
+
+        //-----------------------------
+        // FindCoord
+        //-----------------------------
+        // test spiral
 		/*
 		spiral starts counting at 1
 		*/
 		TEST_METHOD(December03_FindCoord_Zero)
 		{
-			SpiralMemory test;
-			const Point coord = test.FindCoord(0);
+			const Point coord = SpiralMemory::FindCoord(0);
 			Assert::AreEqual(InvalidCoord, coord);
 		}
 
@@ -39,9 +73,8 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December03_FindCoord_NegativeInput)
 		{
-			SpiralMemory test;
-			const Point coord = test.FindCoord(-3);
-			Assert::AreEqual(InvalidCoord, coord);
+            const Point coord = SpiralMemory::FindCoord(-3);
+            Assert::AreEqual(InvalidCoord, coord);
 		}
 
 		/*
@@ -49,9 +82,8 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December03_FindCoord_1)
 		{
-			SpiralMemory test;
-			const Point coord = test.FindCoord(1);
-			Assert::AreEqual(Point(0,0), coord);
+            const Point coord = SpiralMemory::FindCoord(1);
+            Assert::AreEqual(Point(0,0), coord);
 		}
 
 		/*
@@ -59,9 +91,8 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December03_FindCoord_12)
 		{
-			SpiralMemory test;
-			const Point coord = test.FindCoord(12);
-			Assert::AreEqual(Point(2, -1), coord);
+            const Point coord = SpiralMemory::FindCoord(12);
+            Assert::AreEqual(Point(2, -1), coord);
 		}
 
 		/*
@@ -69,19 +100,19 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December03_FindCoord_23)
 		{
-			SpiralMemory test;
-			const Point coord = test.FindCoord(23);
+            const Point coord = SpiralMemory::FindCoord(23);
 			Assert::AreEqual(Point(0, 2), coord);
 		}
 
-		// test Manhattan distance
-		/*
+        //-----------------------------
+		// GetManhattanDistance
+        //-----------------------------
+        /*
 		spiral starts counting at 1
 		*/
 		TEST_METHOD(December03_InvalidInput_Zero)
 		{
-			SpiralMemory test;
-			Assert::AreEqual(-1, test.GetManhattanDistance(0));
+			Assert::AreEqual(-1, SpiralMemory::GetManhattanDistance(0));
 		}
 
 		/*
@@ -90,7 +121,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December03_InvalidInput_NegativeNumber)
 		{
 			SpiralMemory test;
-			Assert::AreEqual(-1, test.GetManhattanDistance(-14));
+			Assert::AreEqual(-1, SpiralMemory::GetManhattanDistance(-14));
 		}
 
 		/*
@@ -99,7 +130,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December03_AoC_Test1)
 		{
 			SpiralMemory test;
-			Assert::AreEqual(0, test.GetManhattanDistance(1));
+			Assert::AreEqual(0, SpiralMemory::GetManhattanDistance(1));
 		}
 
 		/*
@@ -108,7 +139,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December03_AoC_Test12)
 		{
 			SpiralMemory test;
-			Assert::AreEqual(3, test.GetManhattanDistance(12));
+			Assert::AreEqual(3, SpiralMemory::GetManhattanDistance(12));
 		}
 
 		/*
@@ -117,7 +148,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December03_AoC_Test23)
 		{
 			SpiralMemory test;
-			Assert::AreEqual(2, test.GetManhattanDistance(23));
+			Assert::AreEqual(2, SpiralMemory::GetManhattanDistance(23));
 		}
 
 		/*
@@ -126,7 +157,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December03_AoC_Test1024)
 		{
 			SpiralMemory test;
-			Assert::AreEqual(31, test.GetManhattanDistance(1024));
+			Assert::AreEqual(31, SpiralMemory::GetManhattanDistance(1024));
 		}
 	};
 }

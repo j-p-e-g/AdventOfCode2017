@@ -55,6 +55,8 @@ namespace December01 {
         int ComputeSum() const;
 
         static int ComputeSumForCaptchaString(const std::string& captchaString);
+
+    private:
         static int CharToInt(char c);
 
     private:

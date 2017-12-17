@@ -1,7 +1,39 @@
 #include "stdafx.h"
+
+#include <iostream>
+
+#include "CodeUtil.h"
 #include "December05.h"
 
-using namespace December05;
+using namespace AdventOfCode::December05;
+
+InstructionMaze::InstructionMaze(const std::string& fileName)
+    : AdventOfCodeBase()
+{
+    ReadFile(fileName);
+}
+
+bool InstructionMaze::ParseLine(const std::string& inputLine)
+{
+    int value = -1;
+    if (CodeUtils::CodeUtil::ReadStringToInt(inputLine, value, true))
+    {
+        AddInstruction(atoi(inputLine.c_str()));
+        return true;
+    }
+
+    return false;
+}
+
+void InstructionMaze::AddInstruction(int number)
+{
+    m_instructions.push_back(number);
+}
+
+void InstructionMaze::OutputResultToConsole() const
+{
+    std::cout << "December05: result = " << CountInstructionSteps(m_instructions) << std::endl;
+}
 
 int InstructionMaze::CountInstructionSteps(std::vector<int> input)
 {

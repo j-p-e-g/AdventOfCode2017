@@ -1,7 +1,9 @@
 #pragma once
+
 #include <string>
 #include <vector>
 
+#include "AdventOfCodeBase.h"
 /*
     https://adventofcode.com/2017/day/4
 
@@ -33,16 +35,32 @@
 
     Under this new system policy, how many passphrases are valid?
 */
-namespace December04
-{
+namespace AdventOfCode {
+namespace December04 {
+
 	class PassPhraseCheck
+        : protected AdventOfCodeBase
 	{
 	public:
 		PassPhraseCheck() {};
-		~PassPhraseCheck() = default;
+        PassPhraseCheck(const std::string& fileName);
+        ~PassPhraseCheck() = default;
 
-	public:
-		bool CheckPassPhrase(std::string input) const;
-        int CountValidPassPhrases(std::vector<std::string> list) const;
+    public:
+        // AdventOfCodeBase
+        bool ParseLine(const std::string& inputLine) override;
+        void OutputResultToConsole() const override;
+        // ~AdventOfCodeBase
+
+    public:
+		bool CheckPassPhrase(const std::string& input) const;
+        int CountValidPassPhrases(const std::vector<std::string>& list) const;
+
+    private:
+        void AddPassPhrase(const std::string& phrase);
+
+    private:
+        std::vector<std::string> m_phraseList;
 	};
-}
+
+}}

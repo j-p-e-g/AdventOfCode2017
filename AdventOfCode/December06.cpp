@@ -1,14 +1,34 @@
 #include "stdafx.h"
-#include "December06.h"
 
+#include <iostream>
 #include <set>
 
-using namespace December06;
+#include "CodeUtil.h"
+#include "December06.h"
+
+using namespace AdventOfCode::December06;
+
+MemoryReallocator::MemoryReallocator(const std::string& fileName)
+    : AdventOfCodeBase()
+{
+    ReadFile(fileName);
+}
+
+bool MemoryReallocator::ParseLine(const std::string& inputLine)
+{
+    const std::vector<std::string> temp = CodeUtils::CodeUtil::SplitStringBySpace(inputLine);
+    return CodeUtils::CodeUtil::ConvertStringVectorToIntVector(temp, m_memory);
+}
+
+void MemoryReallocator::OutputResultToConsole() const
+{
+    std::cout << "December06: result = " << CountCyclesUntilStuck(m_memory) << std::endl;
+}
 
 /*
 In each cycle, it finds the memory bank with the most blocks (ties won by the lowest-numbered memory bank)
 */
-int MemoryReallocator::GetMaxIndex(const MemoryBanks& memBanks)
+int MemoryReallocator::GetMaxIndex(const MemoryBanks& memBanks) const
 {
 	int maxIndex = -1;
 	for (int k = 0; k < memBanks.size(); k++)
@@ -22,7 +42,7 @@ int MemoryReallocator::GetMaxIndex(const MemoryBanks& memBanks)
 	return maxIndex;
 }
 
-int MemoryReallocator::GetNextIndex(int currentIndex, int maxSize)
+int MemoryReallocator::GetNextIndex(int currentIndex, int maxSize) const
 {
 	if (maxSize <= 0)
 	{
@@ -35,7 +55,7 @@ int MemoryReallocator::GetNextIndex(int currentIndex, int maxSize)
 /*
 The reallocation routine operates in cycles. In each cycle, it finds the memory bank with the most blocks (ties won by the lowest-numbered memory bank) and redistributes those blocks among the banks. To do this, it removes all of the blocks from the selected bank, then moves to the next (by index) memory bank and inserts one of the blocks. It continues doing this until it runs out of blocks; if it reaches the last memory bank, it wraps around to the first one.
 */
-void MemoryReallocator::RunMemoryAllocationCycle(MemoryBanks& memBanks)
+void MemoryReallocator::RunMemoryAllocationCycle(MemoryBanks& memBanks) const
 {
 	const int maxIndex = GetMaxIndex(memBanks);
 	if (maxIndex < 0 || maxIndex >= memBanks.size())
@@ -57,7 +77,7 @@ void MemoryReallocator::RunMemoryAllocationCycle(MemoryBanks& memBanks)
 	}
 }
 
-int MemoryReallocator::CountCyclesUntilStuck(const MemoryBanks& memBanks)
+int MemoryReallocator::CountCyclesUntilStuck(const MemoryBanks& memBanks) const
 {
 	std::set<MemoryBanks> seenSetups;
 

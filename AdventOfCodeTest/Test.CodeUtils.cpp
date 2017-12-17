@@ -125,6 +125,65 @@ namespace CodeUtilTest
         }
 
         // -----------------------------------------------
+        // ReadStringToInt
+        // -----------------------------------------------
+        /*
+        empty input
+        */
+        TEST_METHOD(CodeUtil_ReadStringToInt_empty)
+        {
+            int value = 0;
+            Assert::AreEqual(false, CodeUtil::ReadStringToInt("", value, true));
+        }
+
+        /*
+        non-numerical
+        */
+        TEST_METHOD(CodeUtil_ReadStringToInt_nonNumber)
+        {
+            int value = 0;
+            Assert::AreEqual(false, CodeUtil::ReadStringToInt("k85dg", value, true));
+        }
+
+        /*
+        contains spaces
+        */
+        TEST_METHOD(CodeUtil_ReadStringToInt_spaces)
+        {
+            int value = 0;
+            Assert::AreEqual(false, CodeUtil::ReadStringToInt("3 17 2", value, true));
+        }
+
+        /*
+        valid: positive number
+        */
+        TEST_METHOD(CodeUtil_ReadStringToInt_positive)
+        {
+            int value = 0;
+            Assert::AreEqual(true, CodeUtil::ReadStringToInt("625", value, true));
+            Assert::AreEqual(625, value);
+        }
+
+        /*
+        valid: negative number
+        */
+        TEST_METHOD(CodeUtil_ReadStringToInt_negativeAllowed)
+        {
+            int value = 0;
+            Assert::AreEqual(true, CodeUtil::ReadStringToInt("-7", value, true));
+            Assert::AreEqual(-7, value);
+        }
+
+        /*
+        invalid: negative number (if disallowed)
+        */
+        TEST_METHOD(CodeUtil_ReadStringToInt_negativeForbidden)
+        {
+            int value = 0;
+            Assert::AreEqual(false, CodeUtil::ReadStringToInt("-9", value, false));
+        }
+
+        // -----------------------------------------------
         // ConvertStringVectorToIntVector
         // -----------------------------------------------
         /*
