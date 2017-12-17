@@ -116,5 +116,8 @@
     <ClCompile Include="Test.CodeUtils.cpp">
       <Filter>Source Files\Tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\AdventOfCode\AdventOfCodeBase.cpp">
+      <Filter>Source Files\Linked</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

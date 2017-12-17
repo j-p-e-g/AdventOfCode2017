@@ -1,5 +1,9 @@
 #pragma once
+
+#include <string>
 #include <vector>
+
+#include "AdventOfCodeBase.h"
 
 /*
 	https://adventofcode.com/2017/day/2
@@ -38,20 +42,35 @@
 
     What is the sum of each row's result in your puzzle input?
 */
-namespace December02
-{
-	typedef std::vector<int> MatrixRow;
+namespace AdventOfCode {
+namespace December02 {
+
+    typedef std::vector<int> MatrixRow;
 	typedef std::vector<MatrixRow> Matrix;
 
-	class CheckSum
+	class MatrixCheckSum
+        : protected AdventOfCodeBase
 	{
 	public:
-		CheckSum() {};
-		~CheckSum() = default;
+		MatrixCheckSum() {};
+        MatrixCheckSum(const std::string& fileName);
+        ~MatrixCheckSum() = default;
 
-	public:
-		int GetCheckSum(const MatrixRow& row) const;
-		int GetCheckSum(const Matrix& matrix) const;
+    public:
+        // AdventOfCodeBase
+        bool ParseLine(const std::string& inputLine) override;
+        void OutputResultToConsole() const override;
+        // ~AdventOfCodeBase
+
+    public:
+        void AddRow(const MatrixRow& row);
+        int GetCheckSum() const;
+
+		static int GetRowCheckSum(const MatrixRow& row);
+		static int GetMatrixCheckSum(const Matrix& matrix);
+
+    private:
+        Matrix m_matrix;
 	};
 
-}
+}}

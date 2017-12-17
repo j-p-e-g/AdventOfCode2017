@@ -2,90 +2,109 @@
 #include "CppUnitTest.h"
 #include "../AdventOfCode/December01.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
 namespace AdventOfCodeTest
 {		
+    using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+    using namespace AdventOfCode::December01;
+
 	TEST_CLASS(Test_December01)
 	{
 	public:
-		/*
-		handle empty string
-		*/
-		TEST_METHOD(December01_String_EmptyString)
+        // -------------------------------------
+        // Parse numbers
+        // -------------------------------------
+        /*
+        handle empty string
+        */
+        TEST_METHOD(December01_String_EmptyString)
+        {
+            CheckSum checkSum;
+            checkSum.ParseLine("");
+            Assert::AreEqual(0, checkSum.GetNumber());
+            Assert::AreEqual(0, checkSum.ComputeSum());
+        }
+
+        /*
+        not a number
+        */
+        TEST_METHOD(December01_String_NotANumber)
+        {
+            CheckSum checkSum;
+            checkSum.ParseLine("9xgh5");
+            Assert::AreEqual(0, checkSum.GetNumber());
+        }
+
+        /*
+        valid number
+        */
+        TEST_METHOD(December01_String_IsANumber)
+        {
+            CheckSum checkSum;
+            checkSum.ParseLine("743367");
+            Assert::AreEqual(743367, checkSum.GetNumber());
+        }
+
+        // -------------------------------------
+        // ComputeSum, given a string
+        // -------------------------------------
+        /*
+        single digit -> no next digit to match
+        */
+        TEST_METHOD(December01_String_SingleDigit)
 		{
-			December01 adventClass;
-			Assert::AreEqual(0, adventClass.ComputeSumForCaptchaString(""));
+			CheckSum checkSum;
+            checkSum.ParseLine("7");
+            Assert::AreEqual(0, checkSum.ComputeSum());
 		}
 
-		/*
-		single digit -> no next digit to match
-		*/
-		TEST_METHOD(December01_Number_SingleDigit)
+        /*
+        each digits matches the next
+        */
+        TEST_METHOD(December01_String_AllSameDigit)
 		{
-			December01 adventClass;
-			Assert::AreEqual(0, adventClass.ComputeSumForCaptchaNumber(5));
-		}
-		TEST_METHOD(December01_String_SingleDigit)
-		{
-			December01 adventClass;
-			Assert::AreEqual(0, adventClass.ComputeSumForCaptchaString("5"));
+            CheckSum checkSum;
+            checkSum.ParseLine("3333");
+			Assert::AreEqual(12, checkSum.ComputeSum());
 		}
 
-		/*
-		1111 produces 4 because each digit (all 1) matches the next.
-		*/
-		TEST_METHOD(December01_Number_AllSameDigit)
-		{
-			December01 adventClass;
-			Assert::AreEqual(4, adventClass.ComputeSumForCaptchaNumber(1111));
-		}
-		TEST_METHOD(December01_String_AllSameDigit)
-		{
-			December01 adventClass;
-			Assert::AreEqual(4, adventClass.ComputeSumForCaptchaString("1111"));
-		}
-
-		/*
-		1122 produces a sum of 3 (1 + 2) because the first digit (1) matches the second digit and the third digit (2) matches the fourth digit.
-		*/
-		TEST_METHOD(December01_Number_DoubleDigit)
-		{
-			December01 adventClass;
-			Assert::AreEqual(3, adventClass.ComputeSumForCaptchaNumber(1122));
-		}
+        /*
+        two digits each match the next one
+        */
 		TEST_METHOD(December01_String_DoubleDigit)
 		{
-			December01 adventClass;
-			Assert::AreEqual(3, adventClass.ComputeSumForCaptchaString("1122"));
+            CheckSum checkSum;
+            checkSum.ParseLine("4422");
+			Assert::AreEqual(6, checkSum.ComputeSum());
 		}
 
-		/*
-		1234 produces 0 because no digit matches the next.
-		*/
-		TEST_METHOD(December01_Number_AllDifferentDigits)
-		{
-			December01 adventClass;
-			Assert::AreEqual(0, adventClass.ComputeSumForCaptchaNumber(1234));
-		}
+        /*
+        each digit is unique
+        */
 		TEST_METHOD(December01_String_AllDifferentDigits)
 		{
-			December01 adventClass;
-			Assert::AreEqual(0, adventClass.ComputeSumForCaptchaString("1234"));
+            CheckSum checkSum;
+            checkSum.ParseLine("7589");
+            Assert::AreEqual(0, checkSum.ComputeSum());
 		}
 
-		/*
-		91212129 produces 9 because the only digit that matches the next one is the last digit, 9.
-		*/
-		TEST_METHOD(December01_Number_OnlyFirstAndLastDigitsMatch)
+        /*
+        digits repeat, but not consecutively
+        */
+        TEST_METHOD(December01_String_NonConsecutiveRepeats)
+        {
+            CheckSum checkSum;
+            checkSum.ParseLine("51515151");
+            Assert::AreEqual(0, checkSum.ComputeSum());
+        }
+
+        /*
+        the first and last digits match
+        */
+        TEST_METHOD(December01_String_OnlyFirstAndLastDigitsMatch)
 		{
-			December01 adventClass;
-			Assert::AreEqual(9, adventClass.ComputeSumForCaptchaNumber(91212129));
-		}
-		TEST_METHOD(December01_String_OnlyFirstAndLastDigitsMatch)
-		{
-			December01 adventClass;
-			Assert::AreEqual(9, adventClass.ComputeSumForCaptchaString("91212129"));
+            CheckSum checkSum;
+            checkSum.ParseLine("3679483");
+            Assert::AreEqual(3, checkSum.ComputeSum());
 		}
 	};
 }

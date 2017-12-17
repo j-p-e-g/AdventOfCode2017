@@ -2,24 +2,24 @@
 #include "CppUnitTest.h"
 #include "../AdventOfCode/December02.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-using namespace December02;
-
 namespace AdventOfCodeTest
 {
-	TEST_CLASS(Test_December02)
+    using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+    using namespace AdventOfCode::December02;
+
+    TEST_CLASS(Test_December02)
 	{
 	public:
-		/*
+        // ------------------------------------
+        // GetRowCheckSum
+        // ------------------------------------
+        /*
 		handle empty row
 		*/
 		TEST_METHOD(December02_EmptyRow)
 		{
 			MatrixRow row;
-
-			CheckSum adventClass;
-			Assert::AreEqual(0, adventClass.GetCheckSum(row));
+			Assert::AreEqual(0, MatrixCheckSum::GetRowCheckSum(row));
 		}
 
 		/*
@@ -28,9 +28,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December02_SingleValueRow)
 		{
 			MatrixRow row = { 8 };
-
-			CheckSum adventClass;
-			Assert::AreEqual(0, adventClass.GetCheckSum(row));
+			Assert::AreEqual(0, MatrixCheckSum::GetRowCheckSum(row));
 		}
 
 		/*
@@ -39,9 +37,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December02_SingleNegativeValueRow)
 		{
 			MatrixRow row = { -5 };
-
-			CheckSum adventClass;
-			Assert::AreEqual(0, adventClass.GetCheckSum(row));
+			Assert::AreEqual(0, MatrixCheckSum::GetRowCheckSum(row));
 		}
 
 		/*
@@ -50,9 +46,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December02_IdenticalValueRow)
 		{
 			MatrixRow row = { 3, 3, 3, 3, 3, 3 };
-
-			CheckSum adventClass;
-			Assert::AreEqual(0, adventClass.GetCheckSum(row));
+			Assert::AreEqual(0, MatrixCheckSum::GetRowCheckSum(row));
 		}
 
 		/*
@@ -61,9 +55,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December02_IdenticalNegativeValueRow)
 		{
 			MatrixRow row = { -93, -93 };
-
-			CheckSum adventClass;
-			Assert::AreEqual(0, adventClass.GetCheckSum(row));
+			Assert::AreEqual(0, MatrixCheckSum::GetRowCheckSum(row));
 		}
 
 		/*
@@ -73,32 +65,28 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December02_CheckSumRow)
 		{
 			MatrixRow row = { 5, 1, 9, 5 };
-
-			CheckSum adventClass;
-			Assert::AreEqual(8, adventClass.GetCheckSum(row));
+			Assert::AreEqual(8, MatrixCheckSum::GetRowCheckSum(row));
 		}
 
 		/*
-		5 1 9 5
-		The first row's largest and smallest values are 9 and 1, and their difference is 8.
+        the row minimum is negative, the maximum positive
 		*/
 		TEST_METHOD(December02_CheckSumNegativeRow)
 		{
 			MatrixRow row = { 4, -8, -9, 2, 15 };
-
-			CheckSum adventClass;
-			Assert::AreEqual(24, adventClass.GetCheckSum(row));
+			Assert::AreEqual(24, MatrixCheckSum::GetRowCheckSum(row));
 		}
 
+        // ------------------------------------
+        // GetMatrixCheckSum
+        // ------------------------------------
 		/*
 		handle empty matrix
 		*/
 		TEST_METHOD(December02_EmptyMatrix)
 		{
 			Matrix matrix;
-
-			CheckSum adventClass;
-			Assert::AreEqual(0, adventClass.GetCheckSum(matrix));
+			Assert::AreEqual(0, MatrixCheckSum::GetMatrixCheckSum(matrix));
 		}
 
 		/*
@@ -110,8 +98,7 @@ namespace AdventOfCodeTest
 			MatrixRow row2;
 			Matrix matrix = { row1, row2 };
 
-			CheckSum adventClass;
-			Assert::AreEqual(0, adventClass.GetCheckSum(matrix));
+			Assert::AreEqual(0, MatrixCheckSum::GetMatrixCheckSum(matrix));
 		}
 
 		/*
@@ -122,8 +109,7 @@ namespace AdventOfCodeTest
 			MatrixRow row = { 7, 35, 30656 };
 			Matrix matrix = { row };
 
-			CheckSum adventClass;
-			Assert::AreEqual(adventClass.GetCheckSum(row), adventClass.GetCheckSum(matrix));
+			Assert::AreEqual(MatrixCheckSum::GetRowCheckSum(row), MatrixCheckSum::GetMatrixCheckSum(matrix));
 		}
 
 		/*
@@ -146,8 +132,7 @@ namespace AdventOfCodeTest
 			MatrixRow row3 = { 2, 4, 6, 8 };
 			Matrix matrix = { row1, row2, row3 };
 
-			CheckSum adventClass;
-			Assert::AreEqual(18, adventClass.GetCheckSum(matrix));
+			Assert::AreEqual(18, MatrixCheckSum::GetMatrixCheckSum(matrix));
 		}
 
 	};

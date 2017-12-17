@@ -1,9 +1,44 @@
 #include "stdafx.h"
+
+#include <iostream>
+
+#include "CodeUtil.h"
 #include "December02.h"
 
-using namespace December02;
+using namespace AdventOfCode::December02;
 
-int CheckSum::GetCheckSum(const MatrixRow& row) const
+MatrixCheckSum::MatrixCheckSum(const std::string& fileName)
+    : AdventOfCodeBase()
+{
+    ReadFile(fileName);
+}
+
+bool MatrixCheckSum::ParseLine(const std::string& inputLine)
+{
+    std::vector<std::string> stringVec = CodeUtils::CodeUtil::SplitStringBySpace(inputLine);
+    std::vector<int> intVec;
+
+    bool success = CodeUtils::CodeUtil::ConvertStringVectorToIntVector(stringVec, intVec);
+    if (success)
+    {
+        AddRow(intVec);
+        return true;
+    }
+
+    return false;
+}
+
+void MatrixCheckSum::OutputResultToConsole() const
+{
+    std::cout << "December02: result = " << GetCheckSum() << std::endl;
+}
+
+void MatrixCheckSum::AddRow(const MatrixRow& row)
+{
+    m_matrix.push_back(row);
+}
+
+int MatrixCheckSum::GetRowCheckSum(const MatrixRow& row)
 {
 	if (row.empty())
 	{
@@ -28,15 +63,20 @@ int CheckSum::GetCheckSum(const MatrixRow& row) const
 	return max - min;
 }
 
-int CheckSum::GetCheckSum(const Matrix& matrix) const
+int MatrixCheckSum::GetMatrixCheckSum(const Matrix& matrix)
 {
 	// the checksum is the sum of all of these differences.
 
 	int sum = 0;
 	for (auto& row : matrix)
 	{
-		sum += GetCheckSum(row);
+		sum += GetRowCheckSum(row);
 	}
 
 	return sum;
+}
+
+int MatrixCheckSum::GetCheckSum() const
+{
+    return MatrixCheckSum::GetMatrixCheckSum(m_matrix);
 }

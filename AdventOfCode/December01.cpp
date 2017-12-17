@@ -1,67 +1,69 @@
 #include "stdafx.h"
+
+#include <iostream>
+#include <regex>
+
 #include "December01.h"
 
-int December01::ComputeSumForCaptchaNumber(int captchaNumber)
+using namespace AdventOfCode::December01;
+
+CheckSum::CheckSum(const std::string& fileName)
+    : AdventOfCodeBase()
 {
-	if (captchaNumber < 10)
-	{
-		return 0;
-	}
-
-	int tempNum = captchaNumber;
-	int sum = 0;
-	int prevRest = 0;
-
-	while (tempNum > 0)
-	{
-		int rest = tempNum % 10;
-		tempNum /= 10;
-
-		if (rest == prevRest)
-		{
-			sum += rest;
-		}
-
-		prevRest = rest;
-	}
-
-	if (prevRest == captchaNumber % 10)
-	{
-		sum += prevRest;
-	}
-
-	return sum;
+    ReadFile(fileName);
 }
 
-int December01::ComputeSumForCaptchaString(const std::string& captchaString)
+bool CheckSum::ParseLine(const std::string& inputLine)
 {
-	if (captchaString.length() < 2)
-	{
-		return 0;
-	}
+    std::regex regex("\\d+");
+    if (!std::regex_match(inputLine, regex))
+    {
+        return false;
+    }
 
-	int prevDigit = 0;
-	int sum = 0;
-	for (auto& c : captchaString)
-	{
-		int digit = CharToInt(c);
-		if (digit == prevDigit)
-		{
-			sum += digit;
-		}
-
-		prevDigit = digit;
-	}
-
-	if (prevDigit == CharToInt(captchaString[0]))
-	{
-		sum += prevDigit;
-	}
-
-	return sum;
+    m_inputValue = inputLine;
+    return true;
 }
 
-int December01::CharToInt(char c)
+void CheckSum::OutputResultToConsole() const
 {
-	return c - '0';
+    std::cout << "December01: result = " << ComputeSum() << std::endl;
+}
+
+int CheckSum::ComputeSum() const
+{
+    return ComputeSumForCaptchaString(m_inputValue);
+}
+
+int CheckSum::ComputeSumForCaptchaString(const std::string& captchaString)
+{
+    if (captchaString.length() < 2)
+    {
+        return 0;
+    }
+
+    int prevDigit = 0;
+    int sum = 0;
+    for (auto& c : captchaString)
+    {
+        int digit = CharToInt(c);
+        if (digit == prevDigit)
+        {
+            sum += digit;
+        }
+
+        prevDigit = digit;
+    }
+
+    if (prevDigit == CharToInt(captchaString[0]))
+    {
+        sum += prevDigit;
+    }
+
+    return sum;
+}
+
+int CheckSum::CharToInt(char c)
+{
+    return c - '0';
 }

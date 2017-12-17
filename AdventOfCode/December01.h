@@ -1,5 +1,8 @@
 #pragma once
+
 #include <string>
+
+#include "AdventOfCodeBase.h"
 
 /*
 	https://adventofcode.com/2017/day/1
@@ -30,16 +33,32 @@
 
     What is the solution to your new captcha?
 */
-class December01
-{
-public:
-	December01() {};
-	~December01() = default;
+namespace AdventOfCode {
+namespace December01 {
 
-public:
-	int ComputeSumForCaptchaNumber(int captchaNumber);
-	int ComputeSumForCaptchaString(const std::string& captchaString);
+    class CheckSum
+        : protected AdventOfCodeBase
+    {
+    public:
+        CheckSum() {};
+        CheckSum(const std::string& fileName);
+        ~CheckSum() = default;
 
-private:
-	int CharToInt(char c);
-};
+    public:
+        // AdventOfCodeBase
+        bool ParseLine(const std::string& inputLine) override;
+        void OutputResultToConsole() const override;
+        // ~AdventOfCodeBase
+
+    public:
+        int GetNumber() const { return atoi(m_inputValue.c_str()); }
+        int ComputeSum() const;
+
+        static int ComputeSumForCaptchaString(const std::string& captchaString);
+        static int CharToInt(char c);
+
+    private:
+        std::string m_inputValue;
+    };
+
+}}

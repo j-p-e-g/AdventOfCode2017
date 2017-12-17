@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
+#include <iostream>
 #include <regex>
 
-#include "CodeUtil.h"
 #include "December07.h"
 
-using namespace December07;
+using namespace AdventOfCode::December07;
 
 Program::Program(std::string name, int weight)
 	: m_name(name)
@@ -57,18 +57,15 @@ bool Program::HasCircularDependency(std::vector<std::string>& visitedNodeNames) 
 	return false;
 }
 
-ProgramTree::ProgramTree(std::string fileName)
+/*
+ *  ProgramTree
+ */
+ProgramTree::ProgramTree(const std::string& fileName)
+    : AdventOfCodeBase()
 {
     m_root = std::make_shared<Program>("[root]", 0);
 
-    std::stringstream content;
-    CodeUtils::CodeUtil::ReadFile(fileName, content);
-
-    std::string line;
-    while (std::getline(content, line))
-    {
-        ParseLine(line);
-    }
+    ReadFile(fileName);
 }
 
 bool ProgramTree::ParseLine(const std::string& inputLine)
@@ -82,7 +79,12 @@ bool ProgramTree::ParseLine(const std::string& inputLine)
     AddData(data);
     return true;
 }
-   
+
+void ProgramTree::OutputResultToConsole() const
+{
+    std::cout << "December07: result = " << GetRoot()->GetName() << std::endl;
+}
+
 bool ProgramTree::ParseDataFromLine(const std::string& inputLine, ProgramData& data)
 {
     // input format:
@@ -169,6 +171,7 @@ bool ProgramTree::ParseDataFromLine(const std::string& inputLine, ProgramData& d
 }
 
 ProgramTree::ProgramTree(std::vector<ProgramData> programData)
+    : AdventOfCodeBase()
 {
 	m_root = std::make_shared<Program>("[root]", 0);
 

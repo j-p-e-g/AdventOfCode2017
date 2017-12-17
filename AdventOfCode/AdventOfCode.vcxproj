@@ -146,6 +146,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AdventOfCodeBase.h" />
     <ClInclude Include="CodeUtil.h" />
     <ClInclude Include="December01.h" />
     <ClInclude Include="December02.h" />
@@ -165,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AdventOfCode.cpp" />
+    <ClCompile Include="AdventOfCodeBase.cpp" />
     <ClCompile Include="CodeUtil.cpp" />
     <ClCompile Include="December01.cpp" />
     <ClCompile Include="December02.cpp" />

@@ -155,6 +155,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\AdventOfCode\AdventOfCodeBase.cpp" />
     <ClCompile Include="..\AdventOfCode\CodeUtil.cpp" />
     <ClCompile Include="..\AdventOfCode\December01.cpp" />
     <ClCompile Include="..\AdventOfCode\December02.cpp" />
