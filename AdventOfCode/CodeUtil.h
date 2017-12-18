@@ -1,5 +1,6 @@
 #pragma once
 
+#include <regex>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -13,6 +14,7 @@ namespace CodeUtils
 	public:
         static bool ReadFile(const std::string& filePath, std::stringstream& fileContents, int recursionDepth = 0);
         static std::vector<std::string> SplitStringBySpace(const std::string& input);
+        static bool SplitStringByRegex(const std::string& input, std::vector<std::string>& output, std::regex regex);
         static bool ConvertStringVectorToIntVector(const std::vector<std::string>& input, std::vector<int>& result);
         static bool ReadStringToInt(const std::string& input, int& number, bool allowNegative);
 

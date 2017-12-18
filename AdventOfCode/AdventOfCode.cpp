@@ -12,6 +12,9 @@
 #include "December07.h"
 #include "December08.h"
 #include "December09.h"
+#include "December10.h"
+#include "December11.h"
+#include "December12.h"
 
 int main()
 {
@@ -49,6 +52,13 @@ int main()
     }
     {
         AdventOfCode::December09::StreamOfChars test("InputFiles/input09.txt");
+        test.OutputResultToConsole();
+    }
+
+    // December10
+
+    {
+        AdventOfCode::December11::InfiniteHexGrid test("InputFiles/input11.txt");
         test.OutputResultToConsole();
     }
 

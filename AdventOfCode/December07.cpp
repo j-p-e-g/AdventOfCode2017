@@ -3,6 +3,7 @@
 #include <iostream>
 #include <regex>
 
+#include "CodeUtil.h"
 #include "December07.h"
 
 using namespace AdventOfCode::December07;
@@ -146,21 +147,17 @@ bool ProgramTree::ParseDataFromLine(const std::string& inputLine, ProgramData& d
 
             // parse sub elements into children
             std::regex commaRegex("(\\w+),\\s*");
-            std::smatch commaMatch;
-            while (std::regex_search(suffix, commaMatch, commaRegex))
-            {
-                children.push_back(commaMatch[1].str());
-                suffix = commaMatch.suffix();
-            }
-
-            // should not contain any other commas
-            commaRegex = ",";
-            if (std::regex_search(suffix, commaMatch, commaRegex))
+            if (!CodeUtils::CodeUtil::SplitStringByRegex(suffix, children, commaRegex))
             {
                 return false;
             }
 
-           children.push_back(suffix);
+            // should not contain any other commas
+            commaRegex = ",";
+            if (std::regex_search(children[children.size() - 1], commaRegex))
+            {
+                return false;
+            }
         }
         }
     }

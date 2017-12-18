@@ -3,8 +3,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <regex>
-#include <sstream>
 
 using namespace CodeUtils;
 
@@ -53,6 +51,21 @@ std::vector<std::string> CodeUtil::SplitStringBySpace(const std::string& input)
 	}
 
 	return elements;
+}
+
+bool CodeUtil::SplitStringByRegex(const std::string& input, std::vector<std::string>& output, std::regex regex)
+{
+    std::string suffix = input;
+    std::smatch match;
+    while (std::regex_search(suffix, match, regex))
+    {
+        output.push_back(match[1].str());
+        suffix = match.suffix();
+    }
+
+    output.push_back(suffix);
+
+    return true;
 }
 
 bool CodeUtil::ConvertStringVectorToIntVector(const std::vector<std::string>& input, std::vector<int>& result)

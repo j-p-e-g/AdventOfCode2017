@@ -1,14 +1,62 @@
 #include "stdafx.h"
+
+#include "CodeUtil.h"
 #include "December11.h"
 
+#include <iostream>
 #include <math.h>
+#include <regex>
 
-using namespace December11;
+using namespace AdventOfCode::December11;
+
+InfiniteHexGrid::InfiniteHexGrid()
+    : AdventOfCodeBase()
+{
+    SetupDirections();
+}
+
+InfiniteHexGrid::InfiniteHexGrid(const std::string& fileName)
+    : InfiniteHexGrid()
+{
+    ReadFile(fileName);
+    m_pathTarget = GetTargetCell();
+}
+
+bool InfiniteHexGrid::ParseLine(const std::string& inputLine)
+{
+    if (inputLine.empty())
+    {
+        m_path.clear();
+        return true;
+    }
+
+    std::regex regex("(\\w+),\\s*");
+    if (!CodeUtils::CodeUtil::SplitStringByRegex(inputLine, m_path, regex))
+    {
+        return false;
+    }
+
+    for (const auto& step : m_path)
+    {
+        // invalid direction
+        if (m_directions.find(step) == m_directions.end())
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void InfiniteHexGrid::OutputResultToConsole() const
+{
+    std::cout << "December11: result = " << GetTargetDistanceToOrigin() << std::endl;
+}
 
 InfiniteHexGrid::InfiniteHexGrid(const std::vector<std::string>& path)
-	: m_path(path)
+    : InfiniteHexGrid()
 {
-	SetupDirections();
+    m_path = path;
 	m_pathTarget = GetTargetCell();
 }
 
@@ -54,8 +102,129 @@ Cell InfiniteHexGrid::GetTargetCell() const
 	return curr;
 }
 
+std::vector<std::string> InfiniteHexGrid::GetSimplifiedPath() const
+{
+    int countN = 0;
+    int countS = 0;
+    int countNE = 0;
+    int countNW = 0;
+    int countSE = 0;
+    int countSW = 0;
+
+    for (const auto& step : m_path)
+    {
+        if (step == "n")
+        {
+            countN++;
+        }
+        else if (step == "ne")
+        {
+            countNE++;
+        }
+        else if (step == "nw")
+        {
+            countNW++;
+        }
+        else if (step == "s")
+        {
+            countS++;
+        }
+        else if (step == "se")
+        {
+            countSE++;
+        }
+        else if (step == "sw")
+        {
+            countSW++;
+        }
+    }
+
+    // simple cancelation
+    if (countN >= countS)
+    {
+        countN -= countS;
+        countS = 0;
+    }
+    else
+    {
+        countS -= countN;
+        countN = 0;
+    }
+
+    if (countNE >= countSW)
+    {
+        countNE -= countSW;
+        countSW = 0;
+    }
+    else
+    {
+        countSW -= countNE;
+        countNE = 0;
+    }
+
+    if (countNW >= countSE)
+    {
+        countNW -= countSE;
+        countSE = 0;
+    }
+    else
+    {
+        countSE -= countNW;
+        countNW = 0;
+    }
+
+    // straighten zigzag paths
+    if (countNE > 0 && countNW > 0)
+    {
+        int numZigZag = std::min(countNE, countNW);
+        countN += numZigZag;
+        countNE -= numZigZag;
+        countNW -= numZigZag;
+    }
+
+    if (countSE > 0 && countSW > 0)
+    {
+        int numZigZag = std::min(countSE, countSW);
+        countS += numZigZag;
+        countSE -= numZigZag;
+        countSW -= numZigZag;
+    }
+
+    // construct simplified path (also sorts steps)
+    std::vector<std::string> result;
+
+    for (int k = 0; k < countN; k++)
+    {
+        result.push_back("n");
+    }
+    for (int k = 0; k < countNE; k++)
+    {
+        result.push_back("ne");
+    }
+    for (int k = 0; k < countNW; k++)
+    {
+        result.push_back("nw");
+    }
+    for (int k = 0; k < countS; k++)
+    {
+        result.push_back("s");
+    }
+    for (int k = 0; k < countSE; k++)
+    {
+        result.push_back("se");
+    }
+    for (int k = 0; k < countSW; k++)
+    {
+        result.push_back("sw");
+    }
+
+    return result;
+}
+
 int InfiniteHexGrid::GetTargetDistanceToOrigin() const
 {
-	return static_cast<int>(std::fmax(std::abs(m_pathTarget.x), std::abs(m_pathTarget.y)));
+    return std::max({ std::abs(m_pathTarget.x),
+                      std::abs(m_pathTarget.y),
+                      std::abs(m_pathTarget.x + m_pathTarget.y) });
 }
 

@@ -74,7 +74,6 @@ void StreamOfChars::OutputResultToConsole() const
     std::cout << "December09: result = " << GetGroupScore() << std::endl;
 }
 
-
 StreamOfChars::StreamOfChars(const std::stringstream& stream)
 {
 	ProcessStream(stream);

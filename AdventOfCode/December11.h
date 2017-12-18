@@ -4,36 +4,48 @@
 #include <string>
 #include <vector>
 
+#include "AdventOfCodeBase.h"
+
 /*
-https://adventofcode.com/2017/day/11
-a program comes up to you, clearly in distress. "It's my child process," she says, "he's gotten lost in an infinite grid!"
+    https://adventofcode.com/2017/day/11
 
-Fortunately for her, you have plenty of experience with infinite grids.
+    Part 1:
 
-Unfortunately for you, it's a hex grid.
+    a program comes up to you, clearly in distress. "It's my child process," she says, "he's gotten lost in an infinite grid!"
 
-The hexagons ("hexes") in this grid are aligned such that adjacent hexes can be found to the north, northeast, southeast, south, southwest, and northwest:
+    Fortunately for her, you have plenty of experience with infinite grids.
 
-      \ n  /
-    nw +--+ ne
-      /    \
-    -+      +-
-      \    /
-    sw +--+ se
-      / s  \
+    Unfortunately for you, it's a hex grid.
 
-You have the path the child process took. Starting where he started, you need to determine the fewest number of steps required to reach him. (A "step" means to move from the hex you are in to any adjacent hex.)
+    The hexagons ("hexes") in this grid are aligned such that adjacent hexes can be found to the north, northeast, southeast, south, southwest, and northwest:
 
-For example:
+          \ n  /
+        nw +--+ ne
+          /    \
+        -+      +-
+          \    /
+        sw +--+ se
+          / s  \
 
-    ne,ne,ne is 3 steps away.
-    ne,ne,sw,sw is 0 steps away (back where you started).
-    ne,ne,s,s is 2 steps away (se,se).
-    se,sw,se,sw,sw is 3 steps away (s,s,sw).
+    You have the path the child process took. Starting where he started, you need to determine the fewest number of steps required to reach him. (A "step" means to move from the hex you are in to any adjacent hex.)
+
+    For example:
+
+        ne,ne,ne is 3 steps away.
+        ne,ne,sw,sw is 0 steps away (back where you started).
+        ne,ne,s,s is 2 steps away (se,se).
+        se,sw,se,sw,sw is 3 steps away (s,s,sw).
 */
-namespace December11
-{
-	struct Cell
+/*
+    Part 2:
+
+    How many steps away is the furthest he ever got from his starting position?
+*/
+
+namespace AdventOfCode {
+namespace December11 {
+
+    struct Cell
 	{
 		Cell() = delete;
 		Cell(int _x, int _y)
@@ -58,14 +70,26 @@ namespace December11
 	};
 
 	class InfiniteHexGrid
+        : protected AdventOfCodeBase
 	{
 	public:
-		InfiniteHexGrid(const std::vector<std::string>& path);
-		~InfiniteHexGrid() = default;
+        InfiniteHexGrid();
+        InfiniteHexGrid(const std::vector<std::string>& path);
+        InfiniteHexGrid(const std::string& fileName);
+        ~InfiniteHexGrid() = default;
 
-	public:
+    public:
+        // AdventOfCodeBase
+        bool ParseLine(const std::string& inputLine) override;
+        void OutputResultToConsole() const override;
+        // ~AdventOfCodeBase
+
+    public:
 		Cell GetTargetCell() const;
-		int GetTargetDistanceToOrigin() const;
+        int GetPathLength() const { return static_cast<int>(m_path.size()); }
+        // for sanity checks
+        std::vector<std::string> GetSimplifiedPath() const;
+        int GetTargetDistanceToOrigin() const;
 
 	private:
 		Cell GetDirection(std::string dirString) const;
@@ -76,4 +100,5 @@ namespace December11
 		Cell m_pathTarget = Cell(0, 0);
 		std::map<std::string, Cell> m_directions;
 	};
-}
+
+}}
