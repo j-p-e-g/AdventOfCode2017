@@ -61,6 +61,10 @@ int main()
         AdventOfCode::December11::InfiniteHexGrid test("InputFiles/input11.txt");
         test.OutputResultToConsole();
     }
+    {
+        AdventOfCode::December12::ConnectionManager test("InputFiles/input12.txt");
+        test.OutputResultToConsole();
+    }
 
     return 0;
 }

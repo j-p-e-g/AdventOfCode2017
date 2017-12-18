@@ -2,16 +2,84 @@
 #include "CppUnitTest.h"
 #include "../AdventOfCode/December12.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-using namespace December12;
-
 namespace AdventOfCodeTest
 {
-	TEST_CLASS(Test_December12)
+    using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+    using namespace AdventOfCode::December12;
+
+    TEST_CLASS(Test_December12)
 	{
 	public:
 
+        // ---------------------------------
+        // ParseLine
+        // ---------------------------------
+        /*
+        empty line
+        */
+        TEST_METHOD(December12_ParseLine_empty)
+        {
+            ConnectionManager test;
+            Assert::AreEqual(false, test.ParseLine(""));
+        }
+
+        TEST_METHOD(December12_ParseLine_missingKey)
+        {
+            ConnectionManager test;
+            Assert::AreEqual(false, test.ParseLine("  <-> 7, 3, 2"));
+        }
+
+        TEST_METHOD(December12_ParseLine_missingValues)
+        {
+            ConnectionManager test;
+            Assert::AreEqual(false, test.ParseLine("9763 <-> "));
+        }
+
+        TEST_METHOD(December12_ParseLine_missingOperator)
+        {
+            ConnectionManager test;
+            Assert::AreEqual(false, test.ParseLine("2 86, 25"));
+        }
+
+        TEST_METHOD(December12_ParseLine_wrongOperator)
+        {
+            ConnectionManager test;
+            Assert::AreEqual(false, test.ParseLine("8 <=> 0, 2075"));
+        }
+
+        TEST_METHOD(December12_ParseLine_valuesMissingCommas)
+        {
+            ConnectionManager test;
+            Assert::AreEqual(false, test.ParseLine("99 <-> 3 4 5"));
+        }
+
+        TEST_METHOD(December12_ParseLine_validSingleValue)
+        {
+            ConnectionManager test;
+            Assert::AreEqual(true, test.ParseLine("14 <-> 25"));
+        }
+
+        TEST_METHOD(December12_ParseLine_validSeveralValuesNoSpaces)
+        {
+            ConnectionManager test;
+            Assert::AreEqual(true, test.ParseLine("0<->1,69,352,2,5"));
+        }
+
+        TEST_METHOD(December12_ParseLine_validSeveralValuesWithSpaces)
+        {
+            ConnectionManager test;
+            Assert::AreEqual(true, test.ParseLine("100 <-> 9, 3, 24 "));
+        }
+
+        TEST_METHOD(December12_ParseLine_duplicateValues)
+        {
+            ConnectionManager test;
+            Assert::AreEqual(false, test.ParseLine("5 <-> 86, 2, 86"));
+        }
+
+        // ---------------------------------
+        // GetConnectedNodes
+        // ---------------------------------
         /*
         empty map
         */

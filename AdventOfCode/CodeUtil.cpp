@@ -59,7 +59,7 @@ bool CodeUtil::SplitStringByRegex(const std::string& input, std::vector<std::str
     std::smatch match;
     while (std::regex_search(suffix, match, regex))
     {
-        output.push_back(match[1].str());
+        output.push_back(match[match.size()-1].str());
         suffix = match.suffix();
     }
 
@@ -86,17 +86,18 @@ bool CodeUtil::ConvertStringVectorToIntVector(const std::vector<std::string>& in
 
 bool CodeUtil::ReadStringToInt(const std::string& input, int& number, bool allowNegative)
 {
-    std::regex regex("-?\\d+");
+    std::regex regex("\\s*(-?\\d+)\\s*");
     if (!allowNegative)
     {
-        regex = "\\d+";
+        regex = "\\s*(\\d+)\\s*";
     }
 
-    if (!std::regex_match(input, regex))
+    std::smatch match;
+    if (!std::regex_match(input, match, regex))
     {
         return false;
     }
 
-    number = atoi(input.c_str());
+    number = atoi(match.str().c_str());
     return true;
 }
