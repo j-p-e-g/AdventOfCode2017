@@ -26,7 +26,7 @@ void PassPhraseCheck::AddPassPhrase(const std::string& phrase)
 
 void PassPhraseCheck::OutputResultToConsole() const
 {
-    std::cout << "December04: result = " << CountValidPassPhrases(m_phraseList) << std::endl;
+    std::cout << "December04.a: result = " << CountValidPassPhrases(m_phraseList) << std::endl;
 }
 
 bool PassPhraseCheck::CheckPassPhrase(const std::string& input) const

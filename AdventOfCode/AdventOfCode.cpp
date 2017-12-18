@@ -6,7 +6,7 @@
 #include "December01b.h"
 #include "December02b.h"
 #include "December03b.h"
-#include "December04.h"
+#include "December04b.h"
 #include "December05.h"
 #include "December06.h"
 #include "December07.h"
@@ -37,8 +37,10 @@ int main()
         testb.OutputResultToConsole();
     }
     {
-        AdventOfCode::December04::PassPhraseCheck test("InputFiles/input04.txt");
-        test.OutputResultToConsole();
+        AdventOfCode::December04::PassPhraseCheck testa("InputFiles/input04.txt");
+        testa.OutputResultToConsole();
+        AdventOfCode::December04::AnagramPassPhraseCheck testb("InputFiles/input04.txt");
+        testb.OutputResultToConsole();
     }
     {
         AdventOfCode::December05::InstructionMaze test("InputFiles/input05.txt");
