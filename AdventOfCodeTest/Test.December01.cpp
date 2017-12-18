@@ -21,7 +21,7 @@ namespace AdventOfCodeTest
             CheckSum checkSum;
             checkSum.ParseLine("");
             Assert::AreEqual(0, checkSum.GetNumber());
-            Assert::AreEqual(0, checkSum.ComputeSum());
+            Assert::AreEqual(0, checkSum.ComputeCheckSum());
         }
 
         /*
@@ -54,7 +54,7 @@ namespace AdventOfCodeTest
 		{
 			CheckSum checkSum;
             checkSum.ParseLine("7");
-            Assert::AreEqual(0, checkSum.ComputeSum());
+            Assert::AreEqual(0, checkSum.ComputeCheckSum());
 		}
 
         /*
@@ -64,7 +64,7 @@ namespace AdventOfCodeTest
 		{
             CheckSum checkSum;
             checkSum.ParseLine("3333");
-			Assert::AreEqual(12, checkSum.ComputeSum());
+			Assert::AreEqual(12, checkSum.ComputeCheckSum());
 		}
 
         /*
@@ -74,7 +74,7 @@ namespace AdventOfCodeTest
 		{
             CheckSum checkSum;
             checkSum.ParseLine("4422");
-			Assert::AreEqual(6, checkSum.ComputeSum());
+			Assert::AreEqual(6, checkSum.ComputeCheckSum());
 		}
 
         /*
@@ -84,7 +84,7 @@ namespace AdventOfCodeTest
 		{
             CheckSum checkSum;
             checkSum.ParseLine("7589");
-            Assert::AreEqual(0, checkSum.ComputeSum());
+            Assert::AreEqual(0, checkSum.ComputeCheckSum());
 		}
 
         /*
@@ -94,7 +94,7 @@ namespace AdventOfCodeTest
         {
             CheckSum checkSum;
             checkSum.ParseLine("51515151");
-            Assert::AreEqual(0, checkSum.ComputeSum());
+            Assert::AreEqual(0, checkSum.ComputeCheckSum());
         }
 
         /*
@@ -104,7 +104,7 @@ namespace AdventOfCodeTest
 		{
             CheckSum checkSum;
             checkSum.ParseLine("3679483");
-            Assert::AreEqual(3, checkSum.ComputeSum());
+            Assert::AreEqual(3, checkSum.ComputeCheckSum());
 		}
 	};
 }

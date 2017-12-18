@@ -27,10 +27,10 @@ bool CheckSum::ParseLine(const std::string& inputLine)
 
 void CheckSum::OutputResultToConsole() const
 {
-    std::cout << "December01: result = " << ComputeSum() << std::endl;
+    std::cout << "December01.a: result = " << ComputeCheckSum() << std::endl;
 }
 
-int CheckSum::ComputeSum() const
+int CheckSum::ComputeCheckSum() const
 {
     return ComputeSumForCaptchaString(m_inputValue);
 }

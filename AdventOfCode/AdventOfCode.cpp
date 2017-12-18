@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 
-#include "December01.h"
+#include "December01b.h"
 #include "December02.h"
 #include "December03.h"
 #include "December04.h"
@@ -19,8 +19,11 @@
 int main()
 {
     {
-        AdventOfCode::December01::CheckSum test("InputFiles/input01.txt");
-        test.OutputResultToConsole();
+        AdventOfCode::December01::CheckSum testa("InputFiles/input01.txt");
+        testa.OutputResultToConsole();
+
+        AdventOfCode::December01::CircularCheckSum testb("InputFiles/input01.txt");
+        testb.OutputResultToConsole();
     }
     {
         AdventOfCode::December02::MatrixCheckSum test("InputFiles/input02.txt");

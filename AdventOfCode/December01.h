@@ -18,21 +18,7 @@
 	    1234 produces 0 because no digit matches the next.
 	    91212129 produces 9 because the only digit that matches the next one is the last digit, 9.
 */
-/*
-    Part2:
 
-    Now, instead of considering the next digit, it wants you to consider the digit halfway around the circular list. That is, if your list contains 10 items, only include a digit in your sum if the digit 10/2 = 5 steps forward matches it. Fortunately, your list has an even number of elements.
-
-    For example:
-
-        1212 produces 6: the list contains 4 items, and all four digits match the digit 2 items ahead.
-        1221 produces 0, because every comparison is between a 1 and a 2.
-        123425 produces 4, because both 2s match each other, but no other digit has a match.
-        123123 produces 12.
-        12131415 produces 4.
-
-    What is the solution to your new captcha?
-*/
 namespace AdventOfCode {
 namespace December01 {
 
@@ -46,20 +32,20 @@ namespace December01 {
 
     public:
         // AdventOfCodeBase
-        bool ParseLine(const std::string& inputLine) override;
-        void OutputResultToConsole() const override;
+        virtual bool ParseLine(const std::string& inputLine) override;
+        virtual void OutputResultToConsole() const override;
         // ~AdventOfCodeBase
 
     public:
         int GetNumber() const { return atoi(m_inputValue.c_str()); }
-        int ComputeSum() const;
+        int ComputeCheckSum() const;
 
         static int ComputeSumForCaptchaString(const std::string& captchaString);
 
-    private:
+    protected:
         static int CharToInt(char c);
 
-    private:
+    protected:
         std::string m_inputValue;
     };
 
