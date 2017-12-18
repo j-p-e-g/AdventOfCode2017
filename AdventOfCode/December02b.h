@@ -38,7 +38,6 @@ namespace December02 {
 
     public:
         // AdventOfCodeBase
-        virtual bool ParseLine(const std::string& inputLine) override;
         virtual void OutputResultToConsole() const override;
         // ~AdventOfCodeBase
 

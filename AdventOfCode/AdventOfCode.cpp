@@ -5,7 +5,7 @@
 
 #include "December01b.h"
 #include "December02b.h"
-#include "December03.h"
+#include "December03b.h"
 #include "December04.h"
 #include "December05.h"
 #include "December06.h"
@@ -21,7 +21,6 @@ int main()
     {
         AdventOfCode::December01::CheckSum testa("InputFiles/input01.txt");
         testa.OutputResultToConsole();
-
         AdventOfCode::December01::CircularCheckSum testb("InputFiles/input01.txt");
         testb.OutputResultToConsole();
     }
@@ -32,8 +31,10 @@ int main()
         testb.OutputResultToConsole();
     }
     {
-        AdventOfCode::December03::SpiralMemory test("InputFiles/input03.txt");
-        test.OutputResultToConsole();
+        AdventOfCode::December03::SpiralMemory testa("InputFiles/input03.txt");
+        testa.OutputResultToConsole();
+        AdventOfCode::December03::SumSpiralMemory testb("InputFiles/input03.txt");
+        testb.OutputResultToConsole();
     }
     {
         AdventOfCode::December04::PassPhraseCheck test("InputFiles/input04.txt");

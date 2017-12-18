@@ -16,12 +16,12 @@ SpiralMemory::SpiralMemory(const std::string& fileName)
 
 bool SpiralMemory::ParseLine(const std::string& inputLine)
 {
-    return CodeUtils::CodeUtil::ReadStringToInt(inputLine, m_id, false);
+    return CodeUtils::CodeUtil::ReadStringToInt(inputLine, m_number, false);
 }
 
 void SpiralMemory::OutputResultToConsole() const
 {
-    std::cout << "December03: result = " << GetManhattanDistance(m_id) << std::endl;
+    std::cout << "December03.a: result = " << GetManhattanDistance(m_number) << std::endl;
 }
 
 bool SpiralMemory::GetNextDir(Point pos, Point& dir, int& diameter)

@@ -11,11 +11,6 @@ MatrixCheckSumMultiple::MatrixCheckSumMultiple(const std::string& fileName)
 {
 }
 
-bool MatrixCheckSumMultiple::ParseLine(const std::string& inputLine)
-{
-    return false;
-}
-
 void MatrixCheckSumMultiple::OutputResultToConsole() const
 {
     std::cout << "December02.b: result = " << GetCheckSum() << std::endl;
