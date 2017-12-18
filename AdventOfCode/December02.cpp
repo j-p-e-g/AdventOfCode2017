@@ -30,7 +30,12 @@ bool MatrixCheckSum::ParseLine(const std::string& inputLine)
 
 void MatrixCheckSum::OutputResultToConsole() const
 {
-    std::cout << "December02: result = " << GetCheckSum() << std::endl;
+    std::cout << "December02.a: result = " << GetCheckSum() << std::endl;
+}
+
+MatrixCheckSum::MatrixCheckSum(const Matrix& matrix)
+    : m_matrix(matrix)
+{
 }
 
 void MatrixCheckSum::AddRow(const MatrixRow& row)
@@ -38,7 +43,7 @@ void MatrixCheckSum::AddRow(const MatrixRow& row)
     m_matrix.push_back(row);
 }
 
-int MatrixCheckSum::GetRowCheckSum(const MatrixRow& row)
+int MatrixCheckSum::GetRowCheckSum(const MatrixRow& row) const
 {
 	if (row.empty())
 	{
@@ -63,7 +68,7 @@ int MatrixCheckSum::GetRowCheckSum(const MatrixRow& row)
 	return max - min;
 }
 
-int MatrixCheckSum::GetMatrixCheckSum(const Matrix& matrix)
+int MatrixCheckSum::GetMatrixCheckSum(const Matrix& matrix) const
 {
 	// the checksum is the sum of all of these differences.
 

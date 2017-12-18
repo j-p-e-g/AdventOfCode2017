@@ -75,8 +75,10 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December02_EmptyRow)
 		{
-			MatrixRow row;
-			Assert::AreEqual(0, MatrixCheckSum::GetRowCheckSum(row));
+            MatrixCheckSum test;
+            MatrixRow row;
+
+			Assert::AreEqual(0, test.GetRowCheckSum(row));
 		}
 
 		/*
@@ -84,8 +86,9 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December02_SingleValueRow)
 		{
-			MatrixRow row = { 8 };
-			Assert::AreEqual(0, MatrixCheckSum::GetRowCheckSum(row));
+            MatrixCheckSum test;
+            MatrixRow row = { 8 };
+			Assert::AreEqual(0, test.GetRowCheckSum(row));
 		}
 
 		/*
@@ -93,8 +96,9 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December02_SingleNegativeValueRow)
 		{
-			MatrixRow row = { -5 };
-			Assert::AreEqual(0, MatrixCheckSum::GetRowCheckSum(row));
+            MatrixCheckSum test;
+            MatrixRow row = { -5 };
+			Assert::AreEqual(0, test.GetRowCheckSum(row));
 		}
 
 		/*
@@ -102,8 +106,9 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December02_IdenticalValueRow)
 		{
-			MatrixRow row = { 3, 3, 3, 3, 3, 3 };
-			Assert::AreEqual(0, MatrixCheckSum::GetRowCheckSum(row));
+            MatrixCheckSum test;
+            MatrixRow row = { 3, 3, 3, 3, 3, 3 };
+			Assert::AreEqual(0, test.GetRowCheckSum(row));
 		}
 
 		/*
@@ -111,8 +116,9 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December02_IdenticalNegativeValueRow)
 		{
-			MatrixRow row = { -93, -93 };
-			Assert::AreEqual(0, MatrixCheckSum::GetRowCheckSum(row));
+            MatrixCheckSum test;
+            MatrixRow row = { -93, -93 };
+			Assert::AreEqual(0, test.GetRowCheckSum(row));
 		}
 
 		/*
@@ -121,8 +127,9 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December02_CheckSumRow)
 		{
-			MatrixRow row = { 5, 1, 9, 5 };
-			Assert::AreEqual(8, MatrixCheckSum::GetRowCheckSum(row));
+            MatrixCheckSum test;
+            MatrixRow row = { 5, 1, 9, 5 };
+			Assert::AreEqual(8, test.GetRowCheckSum(row));
 		}
 
 		/*
@@ -130,8 +137,9 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December02_CheckSumNegativeRow)
 		{
-			MatrixRow row = { 4, -8, -9, 2, 15 };
-			Assert::AreEqual(24, MatrixCheckSum::GetRowCheckSum(row));
+            MatrixCheckSum test;
+            MatrixRow row = { 4, -8, -9, 2, 15 };
+			Assert::AreEqual(24, test.GetRowCheckSum(row));
 		}
 
         // ------------------------------------
@@ -142,8 +150,9 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December02_EmptyMatrix)
 		{
-			Matrix matrix;
-			Assert::AreEqual(0, MatrixCheckSum::GetMatrixCheckSum(matrix));
+            MatrixCheckSum test;
+            Matrix matrix;
+			Assert::AreEqual(0, test.GetMatrixCheckSum(matrix));
 		}
 
 		/*
@@ -151,11 +160,12 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December02_MatrixOfEmptyRows)
 		{
-			MatrixRow row1;
+            MatrixCheckSum test;
+            MatrixRow row1;
 			MatrixRow row2;
 			Matrix matrix = { row1, row2 };
 
-			Assert::AreEqual(0, MatrixCheckSum::GetMatrixCheckSum(matrix));
+			Assert::AreEqual(0, test.GetMatrixCheckSum(matrix));
 		}
 
 		/*
@@ -163,10 +173,11 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December02_SingleRowMatrix)
 		{
-			MatrixRow row = { 7, 35, 30656 };
+            MatrixCheckSum test;
+            MatrixRow row = { 7, 35, 30656 };
 			Matrix matrix = { row };
 
-			Assert::AreEqual(MatrixCheckSum::GetRowCheckSum(row), MatrixCheckSum::GetMatrixCheckSum(matrix));
+			Assert::AreEqual(test.GetRowCheckSum(row), test.GetMatrixCheckSum(matrix));
 		}
 
 		/*
@@ -184,12 +195,13 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December02_CheckSumMatrix)
 		{
-			MatrixRow row1 = {5, 1, 9, 5};
+            MatrixCheckSum test;
+            MatrixRow row1 = {5, 1, 9, 5};
 			MatrixRow row2 = { 7, 5, 3 };
 			MatrixRow row3 = { 2, 4, 6, 8 };
 			Matrix matrix = { row1, row2, row3 };
 
-			Assert::AreEqual(18, MatrixCheckSum::GetMatrixCheckSum(matrix));
+			Assert::AreEqual(18, test.GetMatrixCheckSum(matrix));
 		}
 
 	};

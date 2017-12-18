@@ -4,7 +4,7 @@
 #include "stdafx.h"
 
 #include "December01b.h"
-#include "December02.h"
+#include "December02b.h"
 #include "December03.h"
 #include "December04.h"
 #include "December05.h"
@@ -26,8 +26,10 @@ int main()
         testb.OutputResultToConsole();
     }
     {
-        AdventOfCode::December02::MatrixCheckSum test("InputFiles/input02.txt");
-        test.OutputResultToConsole();
+        AdventOfCode::December02::MatrixCheckSum testa("InputFiles/input02.txt");
+        testa.OutputResultToConsole();
+        AdventOfCode::December02::MatrixCheckSumMultiple testb("InputFiles/input02.txt");
+        testb.OutputResultToConsole();
     }
     {
         AdventOfCode::December03::SpiralMemory test("InputFiles/input03.txt");
