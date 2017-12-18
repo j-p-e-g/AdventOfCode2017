@@ -1,8 +1,12 @@
 #include "stdafx.h"
+
+#include <iostream>
+
 #include "CodeUtil.h"
 #include "December08.h"
 
-using namespace December08;
+
+using namespace AdventOfCode::December08;
 
 ComparisonType Condition::GetComparisonType(const std::string& typeString)
 {
@@ -121,13 +125,33 @@ bool RegisterCommand::ParseCommandString(const std::string& commandString)
 	}
 
 	m_condition.value = atoi(elements[6].c_str());
-	if (m_condition.value == 0 && elements[2] != "0")
+	if (m_condition.value == 0 && elements[6] != "0")
 	{
 		// bad number
 		return false;
 	}
 
 	return true;
+}
+
+// -------------------------------------
+// RegisterHandler
+// -------------------------------------
+
+RegisterHandler::RegisterHandler(const std::string& fileName)
+    : AdventOfCodeBase()
+{
+    ReadFile(fileName);
+}
+
+bool RegisterHandler::ParseLine(const std::string& inputLine)
+{
+    return ApplyCommand(inputLine);
+}
+
+void RegisterHandler::OutputResultToConsole() const
+{
+    std::cout << "December08: result = " << GetLargestRegisterEntry() << std::endl;
 }
 
 bool RegisterHandler::ApplyCommand(const std::string& commandString)
@@ -192,7 +216,6 @@ int RegisterHandler::GetValue(const std::string& id) const
 
 int RegisterHandler::GetLargestRegisterEntry() const
 {
-
 	int maxValue = INT_MIN;
 
 	for (const auto& entry : m_register)

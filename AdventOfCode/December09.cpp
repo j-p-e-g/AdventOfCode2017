@@ -1,7 +1,10 @@
 #include "stdafx.h"
+
+#include <iostream>
+
 #include "December09.h"
 
-using namespace December09;
+using namespace AdventOfCode::December09;
 
 StreamObject::StreamObject(ObjectType type, std::shared_ptr<StreamObject> parent)
 	: m_objectType(type)
@@ -49,12 +52,35 @@ int StreamObject::GetScore(int parentScore) const
 	return totalScore;
 }
 
-StreamOfChars::StreamOfChars(const std::stringstream & stream)
+// -----------------------------------
+// StreamOfChars
+// -----------------------------------
+
+StreamOfChars::StreamOfChars(const std::string& fileName)
+    : AdventOfCodeBase()
+{
+    ReadFile(fileName);
+}
+
+bool StreamOfChars::ParseLine(const std::string& inputLine)
+{
+    std::stringstream stream(inputLine);
+    ProcessStream(stream);
+    return true;
+}
+
+void StreamOfChars::OutputResultToConsole() const
+{
+    std::cout << "December09: result = " << GetGroupScore() << std::endl;
+}
+
+
+StreamOfChars::StreamOfChars(const std::stringstream& stream)
 {
 	ProcessStream(stream);
 }
 
-void StreamOfChars::ProcessStream(const std::stringstream & stream)
+void StreamOfChars::ProcessStream(const std::stringstream& stream)
 {
 	std::stringstream ss(stream.str());
 

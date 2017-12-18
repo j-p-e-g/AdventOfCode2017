@@ -43,6 +43,14 @@ int main()
         AdventOfCode::December07::ProgramTree test("InputFiles/input07.txt");
         test.OutputResultToConsole();
     }
+    {
+        AdventOfCode::December08::RegisterHandler test("InputFiles/input08.txt");
+        test.OutputResultToConsole();
+    }
+    {
+        AdventOfCode::December09::StreamOfChars test("InputFiles/input09.txt");
+        test.OutputResultToConsole();
+    }
 
     return 0;
 }

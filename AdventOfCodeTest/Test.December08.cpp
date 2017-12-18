@@ -2,13 +2,12 @@
 #include "CppUnitTest.h"
 #include "../AdventOfCode/December08.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-using namespace December08;
-
 namespace AdventOfCodeTest
 {
-	TEST_CLASS(Test_December08)
+    using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+    using namespace AdventOfCode::December08;
+
+    TEST_CLASS(Test_December08)
 	{
 	public:
 		// ---------------------------------
@@ -165,7 +164,26 @@ namespace AdventOfCodeTest
 			Assert::AreEqual(true, parsedCommand == expectedCommand);
 		}
 
-		// -------------------------------
+        /*
+        condition compares against zero
+        */
+        TEST_METHOD(December08_RegisterCommand_zeroComparison)
+        {
+            Condition condition;
+            condition.id = "uzt";
+            condition.comparisonType = ComparisonType::CT_NOT_EQUAL_TO;
+            condition.value = 0;
+
+            RegisterCommand expectedCommand("testitest", -3, condition);
+            RegisterCommand parsedCommand("testitest dec 3 if uzt != 0");
+
+            Assert::AreEqual(true, parsedCommand.IsValid());
+            Assert::AreEqual(true, expectedCommand.HasCondition());
+            Assert::AreEqual(true, expectedCommand.GetCondition().IsValid());
+            Assert::AreEqual(true, parsedCommand == expectedCommand);
+        }
+
+        // -------------------------------
 		// RegisterHandler
 		// -------------------------------
 		/*
@@ -303,7 +321,15 @@ namespace AdventOfCodeTest
 			Assert::AreEqual(3, test.GetValue("xy"));
 		}
 
-		TEST_METHOD(December08_RegisterHandler_modifyExistingRegister_conditionTrue)
+        TEST_METHOD(December08_RegisterHandler_modifyExistingRegister_compareToNonExistingRegister)
+        {
+            RegisterHandler test;
+            test.ApplyCommand("bla dec -2");
+            test.ApplyCommand("bla inc 18 if qwrtz == 0"); // default value 0 -> true
+            Assert::AreEqual(20, test.GetValue("bla"));
+        }
+
+        TEST_METHOD(December08_RegisterHandler_modifyExistingRegister_conditionTrue)
 		{
 			RegisterHandler test;
 			test.ApplyCommand("abc inc 900");
@@ -326,7 +352,21 @@ namespace AdventOfCodeTest
 			Assert::AreEqual(35, test.GetLargestRegisterEntry());
 		}
 
-		/*
+        /*
+        ensure the commands are applied in the right order
+        */
+        TEST_METHOD(December08_RegisterHandler_OrderMatters)
+        {
+            RegisterHandler test;
+            test.ApplyCommand("ffff inc 15 if zzz < 50"); // ffff becomes 15
+            Assert::AreEqual(15, test.GetLargestRegisterEntry());
+            test.ApplyCommand("zz inc 100 if aaa > -20"); // zz becomes 100
+            Assert::AreEqual(100, test.GetLargestRegisterEntry());
+            test.ApplyCommand("aaa dec 30"); // aaa becomes 30
+            Assert::AreEqual(100, test.GetLargestRegisterEntry());
+        }
+
+        /*
 		b inc 5 if a > 1
 		a inc 1 if b < 5
 		c dec -10 if a >= 1
