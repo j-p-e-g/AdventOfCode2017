@@ -10,7 +10,7 @@
 #include "December05b.h"
 #include "December06b.h"
 #include "December07b.h"
-#include "December08.h"
+#include "December08b.h"
 #include "December09.h"
 #include "December10.h"
 #include "December11.h"
@@ -61,8 +61,10 @@ int main()
         testb.OutputResultToConsole();
     }
     {
-        AdventOfCode::December08::RegisterHandler test("InputFiles/input08.txt");
-        test.OutputResultToConsole();
+        AdventOfCode::December08::RegisterHandler testa("InputFiles/input08.txt");
+        testa.OutputResultToConsole();
+        AdventOfCode::December08::RegisterHandlerB testb("InputFiles/input08.txt");
+        testb.OutputResultToConsole();
     }
     {
         AdventOfCode::December09::StreamOfChars test("InputFiles/input09.txt");

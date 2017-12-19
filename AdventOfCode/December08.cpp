@@ -151,7 +151,7 @@ bool RegisterHandler::ParseLine(const std::string& inputLine)
 
 void RegisterHandler::OutputResultToConsole() const
 {
-    std::cout << "December08: result = " << GetLargestRegisterEntry() << std::endl;
+    std::cout << "December08.a: result = " << GetCurrentlyLargestRegisterValue() << std::endl;
 }
 
 bool RegisterHandler::ApplyCommand(const std::string& commandString)
@@ -214,7 +214,7 @@ int RegisterHandler::GetValue(const std::string& id) const
 	return 0;
 }
 
-int RegisterHandler::GetLargestRegisterEntry() const
+int RegisterHandler::GetCurrentlyLargestRegisterValue() const
 {
 	int maxValue = INT_MIN;
 

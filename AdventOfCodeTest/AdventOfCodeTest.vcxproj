@@ -172,6 +172,7 @@
     <ClCompile Include="..\AdventOfCode\December07.cpp" />
     <ClCompile Include="..\AdventOfCode\December07b.cpp" />
     <ClCompile Include="..\AdventOfCode\December08.cpp" />
+    <ClCompile Include="..\AdventOfCode\December08b.cpp" />
     <ClCompile Include="..\AdventOfCode\December09.cpp" />
     <ClCompile Include="..\AdventOfCode\December10.cpp" />
     <ClCompile Include="..\AdventOfCode\December11.cpp" />
@@ -199,6 +200,7 @@
     <ClCompile Include="Test.December07.cpp" />
     <ClCompile Include="Test.December07b.cpp" />
     <ClCompile Include="Test.December08.cpp" />
+    <ClCompile Include="Test.December08b.cpp" />
     <ClCompile Include="Test.December09.cpp" />
     <ClCompile Include="Test.December10.cpp" />
     <ClCompile Include="Test.December11.cpp" />

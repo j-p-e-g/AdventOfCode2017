@@ -184,7 +184,7 @@ namespace AdventOfCodeTest
         }
 
         // -------------------------------
-		// RegisterHandler
+		// RegisterHandler: ApplyCommand
 		// -------------------------------
 		/*
 		try applying invalid commands
@@ -216,7 +216,7 @@ namespace AdventOfCodeTest
 			Assert::AreEqual(false, test.RegisterExists("b"));
 		}
 
-		TEST_METHOD(December08_RegisterHandler_misSpeltIf)
+		TEST_METHOD(December08_RegisterHandler_misspeltIf)
 		{
 			RegisterHandler test;
 			Assert::AreEqual(false, test.ApplyCommand("bbb inc 14 iff st != -2"));
@@ -337,19 +337,26 @@ namespace AdventOfCodeTest
 			Assert::AreEqual(850, test.GetValue("abc"));
 		}
 
-		TEST_METHOD(December08_RegisterHandler_GetLargestRegisterEntry_emptyRegister)
+		TEST_METHOD(December08_RegisterHandler_GetCurrentlyLargestRegisterValue_emptyRegister)
 		{
 			RegisterHandler test;
-			Assert::AreEqual(INT_MIN, test.GetLargestRegisterEntry());
+			Assert::AreEqual(INT_MIN, test.GetCurrentlyLargestRegisterValue());
 		}
 
-		TEST_METHOD(December08_RegisterHandler_GetLargestRegisterEntry)
+        TEST_METHOD(December08_RegisterHandler_GetCurrentlyLargestRegisterValue_decNewValue)
+        {
+            RegisterHandler test;
+            test.ApplyCommand("bla dec 12");
+            Assert::AreEqual(-12, test.GetCurrentlyLargestRegisterValue());
+        }
+
+        TEST_METHOD(December08_RegisterHandler_GetCurrentlyLargestRegisterValue)
 		{
 			RegisterHandler test;
 			test.ApplyCommand("q inc 35");
 			test.ApplyCommand("w dec -80 if q != 35"); // skipped
 			Assert::AreEqual(false, test.RegisterExists("w"));
-			Assert::AreEqual(35, test.GetLargestRegisterEntry());
+			Assert::AreEqual(35, test.GetCurrentlyLargestRegisterValue());
 		}
 
         /*
@@ -359,11 +366,11 @@ namespace AdventOfCodeTest
         {
             RegisterHandler test;
             test.ApplyCommand("ffff inc 15 if zzz < 50"); // ffff becomes 15
-            Assert::AreEqual(15, test.GetLargestRegisterEntry());
+            Assert::AreEqual(15, test.GetCurrentlyLargestRegisterValue());
             test.ApplyCommand("zz inc 100 if aaa > -20"); // zz becomes 100
-            Assert::AreEqual(100, test.GetLargestRegisterEntry());
+            Assert::AreEqual(100, test.GetCurrentlyLargestRegisterValue());
             test.ApplyCommand("aaa dec 30"); // aaa becomes 30
-            Assert::AreEqual(100, test.GetLargestRegisterEntry());
+            Assert::AreEqual(100, test.GetCurrentlyLargestRegisterValue());
         }
 
         /*
@@ -388,7 +395,7 @@ namespace AdventOfCodeTest
 			Assert::AreEqual(true, test.ApplyCommand("a inc 1 if b < 5"));
 			Assert::AreEqual(true, test.ApplyCommand("c dec -10 if a >= 1"));
 			Assert::AreEqual(true, test.ApplyCommand("c inc -20 if c == 10"));
-			Assert::AreEqual(1, test.GetLargestRegisterEntry());
+			Assert::AreEqual(1, test.GetCurrentlyLargestRegisterValue());
 		}
 	};
 }

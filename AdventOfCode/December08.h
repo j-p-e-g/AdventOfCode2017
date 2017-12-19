@@ -31,13 +31,7 @@
 
     What is the largest value in any register after completing the instructions in your puzzle input?
 */
-/*
-    Part 2:
 
-    the CPU also needs to know the highest value held in any register during this process so that it can decide how much memory to allocate to these operations. 
-
-        For example, in the above instructions, the highest value ever held was 10 (in register c after the third instruction was evaluated).
-*/
 namespace AdventOfCode {
 namespace December08 {
 
@@ -155,15 +149,15 @@ namespace December08 {
 
     public:
         // AdventOfCodeBase
-        bool ParseLine(const std::string& inputLine) override;
-        void OutputResultToConsole() const override;
+        virtual bool ParseLine(const std::string& inputLine) override;
+        virtual void OutputResultToConsole() const override;
         // ~AdventOfCodeBase
 
 	public:
-		bool ApplyCommand(const std::string& commandString);
+		virtual bool ApplyCommand(const std::string& commandString);
 		bool RegisterExists(const std::string& id) const;
 		int GetValue(const std::string& id) const;
-		int GetLargestRegisterEntry() const;
+		int GetCurrentlyLargestRegisterValue() const;
 
 	private:
 		std::map<std::string, int> m_register;
