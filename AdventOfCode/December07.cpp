@@ -58,6 +58,90 @@ bool Program::HasCircularDependency(std::vector<std::string>& visitedNodeNames) 
 	return false;
 }
 
+void Program::SetParent(std::shared_ptr<Program> parent)
+{
+    // maybe assert that this doesn't overwrite a valid parent
+    m_parent = parent;
+}
+
+void Program::AddChild(std::shared_ptr<Program> child)
+{
+    m_children.push_back(child);
+}
+
+void Program::RemoveChild(std::shared_ptr<Program> child)
+{
+    auto found = std::find(m_children.begin(), m_children.end(), child);
+    if (found != m_children.end())
+    {
+        m_children.erase(found);
+    }
+}
+
+int Program::GetTreeWeight() const
+{
+    int treeWeight = m_weight;
+
+    for (const auto& child : m_children)
+    {
+        treeWeight += child->GetTreeWeight();
+    }
+
+    return treeWeight;
+}
+
+bool Program::IsBalancedSubTree() const
+{
+    if (m_children.empty())
+    {
+        return true;
+    }
+
+    int balancedWeight = -1;
+    for (const auto& child : m_children)
+    {
+        const int weight = child->GetTreeWeight();
+        if (balancedWeight == -1)
+        {
+            balancedWeight = weight;
+        }
+        else if (weight != balancedWeight)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool Program::GetUnbalancedNode(std::shared_ptr<Program>& node) const
+{
+    // always balanced
+    if (m_children.empty())
+    {
+        return false;
+    }
+
+    for (const auto& child : m_children)
+    {
+        // recursively try to reach unbalanced child node
+        if (child->GetUnbalancedNode(node))
+        {
+            return true;
+        }
+    }
+
+    // if each child is balanced but the tree is not, _this_ is the first unbalanced node
+    if (!IsBalancedSubTree())
+    {
+        node = std::make_shared<Program>(*this);
+        return true;
+    }
+
+    // the subtree is balanced
+    return false;
+}
+
 /*
  *  ProgramTree
  */
@@ -83,7 +167,7 @@ bool ProgramTree::ParseLine(const std::string& inputLine)
 
 void ProgramTree::OutputResultToConsole() const
 {
-    std::cout << "December07: result = " << GetRoot()->GetName() << std::endl;
+    std::cout << "December07.a: result = " << GetRoot()->GetName() << std::endl;
 }
 
 bool ProgramTree::ParseDataFromLine(const std::string& inputLine, ProgramData& data)
@@ -279,7 +363,7 @@ std::shared_ptr<Program> ProgramTree::GetRoot() const
 	auto rootChildren = m_root->GetChildren();
 	if (rootChildren.empty())
 	{
-		return std::make_shared<Program>("", -1);
+		return std::make_shared<Program>();
 	}
 	else
 	{

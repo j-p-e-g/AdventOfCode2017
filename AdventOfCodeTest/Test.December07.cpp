@@ -85,6 +85,272 @@ namespace AdventOfCodeTest
 		}
 
         // -----------------------------------------
+        // Program::GetTreeWeight
+        // -----------------------------------------
+        /*
+        tree consisting of a single node
+        */
+        TEST_METHOD(December07_GetTreeWeight_single)
+        {
+            Program test = Program("test", 17);
+            Assert::AreEqual(17, test.GetTreeWeight());
+        }
+
+        /*
+        small tree with a single child
+        */
+        TEST_METHOD(December07_GetTreeWeight_oneChild)
+        {
+            std::shared_ptr<Program> parent = std::make_shared<Program>("parent", 53);
+            std::shared_ptr<Program> child = std::make_shared<Program>("child", 3236);
+            child->SetParent(parent);
+            parent->AddChild(child);
+
+            Assert::AreEqual(3236, child->GetTreeWeight());
+            Assert::AreEqual(3289, parent->GetTreeWeight());
+        }
+
+        /*
+        tree with several children
+        */
+        TEST_METHOD(December07_GetTreeWeight_multipleChildren)
+        {
+            std::shared_ptr<Program> parent = std::make_shared<Program>("bla", 0);
+            std::shared_ptr<Program> child1 = std::make_shared<Program>("foo", 86);
+            std::shared_ptr<Program> child2 = std::make_shared<Program>("bar", 3);
+            std::shared_ptr<Program> child3 = std::make_shared<Program>("baz", 98);
+            child1->SetParent(parent);
+            child2->SetParent(parent);
+            child3->SetParent(parent);
+            parent->AddChild(child1);
+            parent->AddChild(child2);
+            parent->AddChild(child3);
+
+            Assert::AreEqual(187, parent->GetTreeWeight());
+        }
+
+        /*
+        recursive tree weight
+        */
+        TEST_METHOD(December07_GetTreeWeight_recursive)
+        {
+            std::shared_ptr<Program> parent = std::make_shared<Program>("abc", 7);
+            std::shared_ptr<Program> child = std::make_shared<Program>("def", 6);
+            std::shared_ptr<Program> grandchild = std::make_shared<Program>("ghi", 13);
+            std::shared_ptr<Program> greatgrandchild = std::make_shared<Program>("jkl", 5);
+            child->SetParent(parent);
+            parent->AddChild(child);
+            grandchild->SetParent(child);
+            child->AddChild(grandchild);
+            greatgrandchild->SetParent(grandchild);
+            grandchild->AddChild(greatgrandchild);
+
+            Assert::AreEqual(31, parent->GetTreeWeight());
+        }
+
+        // -----------------------------------------
+        // IsBalancedSubTree
+        // -----------------------------------------
+        /*
+        tree consisting of a single node
+        */
+        TEST_METHOD(December07_IsBalancedSubTree_single)
+        {
+            Program test = Program("guaz", 6);
+            Assert::AreEqual(true, test.IsBalancedSubTree());
+        }
+
+        /*
+        single child -> always balanced
+        */
+        TEST_METHOD(December07_IsBalancedSubTree_oneChild)
+        {
+            std::shared_ptr<Program> parent = std::make_shared<Program>("ztlksg", 62);
+            std::shared_ptr<Program> child = std::make_shared<Program>("lafk", 18);
+            child->SetParent(parent);
+            parent->AddChild(child);
+
+            Assert::AreEqual(true, parent->IsBalancedSubTree());
+        }
+
+        /*
+        two children with equal weight
+        */
+        TEST_METHOD(December07_IsBalancedSubTree_twoChildren_balanced)
+        {
+            std::shared_ptr<Program> parent = std::make_shared<Program>("blue", 5);
+            std::shared_ptr<Program> child1 = std::make_shared<Program>("red", 99);
+            std::shared_ptr<Program> child2 = std::make_shared<Program>("green", 99);
+            child1->SetParent(parent);
+            parent->AddChild(child1);
+            child2->SetParent(parent);
+            parent->AddChild(child2);
+
+            Assert::AreEqual(true, parent->IsBalancedSubTree());
+        }
+
+        /*
+        two children with different weight
+        */
+        TEST_METHOD(December07_IsBalancedSubTree_twoChildren_unbalanced)
+        {
+            std::shared_ptr<Program> parent = std::make_shared<Program>("test", 17);
+            std::shared_ptr<Program> child1 = std::make_shared<Program>("testa", 8);
+            std::shared_ptr<Program> child2 = std::make_shared<Program>("testb", 9);
+            child1->SetParent(parent);
+            parent->AddChild(child1);
+            child2->SetParent(parent);
+            parent->AddChild(child2);
+
+            Assert::AreEqual(false, parent->IsBalancedSubTree());
+        }
+
+        /*
+        balanced subtree
+        */
+        TEST_METHOD(December07_IsBalancedSubTree_balancedSubTree)
+        {
+            std::shared_ptr<Program> parent = std::make_shared<Program>("abc", 1);
+            std::shared_ptr<Program> child1 = std::make_shared<Program>("de", 36);
+            std::shared_ptr<Program> child2 = std::make_shared<Program>("fg", 5);
+            std::shared_ptr<Program> grandchild = std::make_shared<Program>("h", 31);
+            child1->SetParent(parent);
+            parent->AddChild(child1);
+            child2->SetParent(parent);
+            parent->AddChild(child2);
+            grandchild->SetParent(child2);
+            child2->AddChild(grandchild);
+
+            Assert::AreEqual(true, parent->IsBalancedSubTree());
+        }
+
+        /*
+        unbalanced subtree
+        */
+        TEST_METHOD(December07_IsBalancedSubTree_unbalancedSubTree)
+        {
+            std::shared_ptr<Program> parent = std::make_shared<Program>("abc", 54);
+            std::shared_ptr<Program> child1 = std::make_shared<Program>("de", 21);
+            std::shared_ptr<Program> child2 = std::make_shared<Program>("fg", 21);
+            std::shared_ptr<Program> grandchild = std::make_shared<Program>("h", 2);
+            child1->SetParent(parent);
+            parent->AddChild(child1);
+            child2->SetParent(parent);
+            parent->AddChild(child2);
+            grandchild->SetParent(child2);
+            child2->AddChild(grandchild);
+
+            Assert::AreEqual(false, parent->IsBalancedSubTree());
+        }
+
+        // -----------------------------------------
+        // GetUnbalancedNode
+        // -----------------------------------------
+        /*
+        tree consisting of a single node
+        */
+        TEST_METHOD(December07_GetUnbalancedNode_single)
+        {
+            Program test = Program("hgal", 879);
+            std::shared_ptr<Program> node;
+            // already balanced
+            Assert::AreEqual(false, test.GetUnbalancedNode(node));
+        }
+
+        /*
+        single child -> always balanced
+        */
+        TEST_METHOD(December07_GetUnbalancedNode_oneChild)
+        {
+            std::shared_ptr<Program> parent = std::make_shared<Program>("test", 2);
+            std::shared_ptr<Program> child = std::make_shared<Program>("testi", 33);
+            child->SetParent(parent);
+            parent->AddChild(child);
+
+            std::shared_ptr<Program> node;
+            // already balanced
+            Assert::AreEqual(false, parent->GetUnbalancedNode(node));
+        }
+
+        /*
+        two children with equal weight
+        */
+        TEST_METHOD(December07_GetUnbalancedNode_twoChildren_balanced)
+        {
+            std::shared_ptr<Program> parent = std::make_shared<Program>("bla", 96);
+            std::shared_ptr<Program> child1 = std::make_shared<Program>("blubb", 4);
+            std::shared_ptr<Program> child2 = std::make_shared<Program>("blargh", 4);
+            child1->SetParent(parent);
+            parent->AddChild(child1);
+            child2->SetParent(parent);
+            parent->AddChild(child2);
+
+            std::shared_ptr<Program> node;
+            // already balanced
+            Assert::AreEqual(false, parent->GetUnbalancedNode(node));
+        }
+
+        /*
+        two children with different weight
+        */
+        TEST_METHOD(December07_GetUnbalancedNode_twoChildren_unbalanced)
+        {
+            std::shared_ptr<Program> parent = std::make_shared<Program>("ghkj", 5);
+            std::shared_ptr<Program> child1 = std::make_shared<Program>("ajkh", 13);
+            std::shared_ptr<Program> child2 = std::make_shared<Program>("gzts", 21);
+            child1->SetParent(parent);
+            parent->AddChild(child1);
+            child2->SetParent(parent);
+            parent->AddChild(child2);
+
+            std::shared_ptr<Program> node;
+            Assert::AreEqual(true, parent->GetUnbalancedNode(node));
+            Assert::AreEqual("ghkj", node->GetName().c_str());
+        }
+
+        /*
+        balanced subtree
+        */
+        TEST_METHOD(December07_GetUnbalancedNode_balancedSubTree)
+        {
+            std::shared_ptr<Program> parent = std::make_shared<Program>("abc", 1000);
+            std::shared_ptr<Program> child1 = std::make_shared<Program>("de", 16);
+            std::shared_ptr<Program> child2 = std::make_shared<Program>("fg", 9);
+            std::shared_ptr<Program> grandchild = std::make_shared<Program>("h", 7);
+            child1->SetParent(parent);
+            parent->AddChild(child1);
+            child2->SetParent(parent);
+            parent->AddChild(child2);
+            grandchild->SetParent(child2);
+            child2->AddChild(grandchild);
+
+            std::shared_ptr<Program> node;
+            // already balanced
+            Assert::AreEqual(false, parent->GetUnbalancedNode(node));
+        }
+
+        /*
+        unbalanced subtree
+        */
+        TEST_METHOD(December07_GetUnbalancedNode_unbalancedSubTree)
+        {
+            std::shared_ptr<Program> parent = std::make_shared<Program>("lgh", 54);
+            std::shared_ptr<Program> child1 = std::make_shared<Program>("uz", 21);
+            std::shared_ptr<Program> child2 = std::make_shared<Program>("agag", 21);
+            std::shared_ptr<Program> grandchild = std::make_shared<Program>("ghs", 2);
+            child1->SetParent(parent);
+            parent->AddChild(child1);
+            child2->SetParent(parent);
+            parent->AddChild(child2);
+            grandchild->SetParent(child2);
+            child2->AddChild(grandchild);
+
+            std::shared_ptr<Program> node;
+            Assert::AreEqual(true, parent->GetUnbalancedNode(node));
+            Assert::AreEqual("lgh", node->GetName().c_str());
+        }
+
+        // -----------------------------------------
         // ParseDataFromLine
         // -----------------------------------------
         /*

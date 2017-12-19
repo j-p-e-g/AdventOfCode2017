@@ -58,25 +58,7 @@
 
     Before you're ready to help them, you need to make sure your information is correct. What is the name of the bottom program?
 */
-/*
-Part 2:
 
-    Apparently, one program has the wrong weight, [...]
-
-    For any program holding a disc, each program standing on that disc forms a sub-tower. Each of those sub-towers are supposed to be the same weight, or the disc itself isn't balanced. The weight of a tower is the sum of the weights of the programs in that tower.
-
-        In the example above, this means that for ugml's disc to be balanced, gyxo, ebii, and jptl must all have the same weight, and they do: 61.
-
-        However, for tknk to be balanced, each of the programs standing on its disc and all programs above it must each match. This means that the following sums must all be the same:
-
-        ugml + (gyxo + ebii + jptl) = 68 + (61 + 61 + 61) = 251
-        padx + (pbga + havc + qoyq) = 45 + (66 + 66 + 66) = 243
-        fwft + (ktlj + cntj + xhth) = 72 + (57 + 57 + 57) = 243
-
-        As you can see, tknk's disc is unbalanced: ugml's stack is heavier than the other two. Even though the nodes above ugml are balanced, ugml itself is too heavy: it needs to be 8 units lighter for its stack to weigh 243 and keep the towers balanced. If this change were made, its weight would be 60.
-
-    Given that exactly one program is the wrong weight, what would its weight need to be to balance the entire tower?
-*/
 namespace AdventOfCode {
 namespace December07 {
 
@@ -96,43 +78,35 @@ namespace December07 {
 		std::vector<std::string> subProgramNames;
 	};
 
-	class Program
+	class Program : std::enable_shared_from_this<Program>
 	{
 	public:
+        Program()
+            : Program("", -1)
+        {
+        }
+
 		Program(std::string name, int weight);
 		~Program() = default;
 
 	public:
-		bool IsValid() const;
-		bool HasCircularDependency(std::vector<std::string>& visitedNodeNames) const;
-
 		std::string GetName() const { return m_name; }
 		void SetWeight(int weight) { m_weight = weight; }
-
+        int GetWeight() const { return m_weight; }
 		std::shared_ptr<Program> GetParent() const { return m_parent; }
-		void SetParent(std::shared_ptr<Program> parent)
-		{
-			// maybe assert that this doesn't overwrite a valid parent
-			m_parent = parent;
-		}
-
 		std::vector<std::shared_ptr<Program>> GetChildren() const { return m_children; }
 
-		void AddChild(std::shared_ptr<Program> child)
-		{
-			m_children.push_back(child);
-		}
+        bool IsValid() const;
+        bool HasCircularDependency(std::vector<std::string>& visitedNodeNames) const;
+        void SetParent(std::shared_ptr<Program> parent);
+        void AddChild(std::shared_ptr<Program> child);
+        void RemoveChild(std::shared_ptr<Program> child);
+        int GetTreeWeight() const;
+        bool IsBalancedSubTree() const;
+        /// returns false if the tree is already balanced
+        bool GetUnbalancedNode(std::shared_ptr<Program>& node) const;
 
-		void RemoveChild(std::shared_ptr<Program> child)
-		{
-			auto found = std::find(m_children.begin(), m_children.end(), child);
-			if (found != m_children.end())
-			{
-				m_children.erase(found);
-			}
-		}
-
-	private:
+    private:
 		std::string m_name;
 		int m_weight;
 		std::shared_ptr<Program> m_parent;
@@ -149,8 +123,8 @@ namespace December07 {
 
 	public:
         // AdventOfCodeBase
-        bool ParseLine(const std::string& inputLine) override;;
-        void OutputResultToConsole() const override;
+        virtual bool ParseLine(const std::string& inputLine) override;;
+        virtual void OutputResultToConsole() const override;
         // ~AdventOfCodeBase
 
     public:
@@ -163,7 +137,7 @@ namespace December07 {
 		bool IsValid() const;
 		bool ContainsCircularDependency() const;
 
-	private:
+	protected:
 		std::shared_ptr<Program> m_root;
 		std::map<std::string, std::shared_ptr<Program>> m_programMap;
 	};
