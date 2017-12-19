@@ -7,7 +7,7 @@
 #include "December02b.h"
 #include "December03b.h"
 #include "December04b.h"
-#include "December05.h"
+#include "December05b.h"
 #include "December06.h"
 #include "December07.h"
 #include "December08.h"
@@ -43,8 +43,10 @@ int main()
         testb.OutputResultToConsole();
     }
     {
-        AdventOfCode::December05::InstructionMaze test("InputFiles/input05.txt");
-        test.OutputResultToConsole();
+        AdventOfCode::December05::InstructionMaze testa("InputFiles/input05.txt");
+        testa.OutputResultToConsole();
+        AdventOfCode::December05::InstructionMazeB testb("InputFiles/input05.txt");
+        testb.OutputResultToConsole();
     }
     {
         AdventOfCode::December06::MemoryReallocator test("InputFiles/input06.txt");

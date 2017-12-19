@@ -30,7 +30,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December04b_SortLettersInString_sortWithDuplicates)
         {
-            Assert::AreEqual("aabbccd", AnagramPassPhraseCheck::SortLettersInString("aaccdbb").c_str());
+            Assert::AreEqual("aabbccd", AnagramPassPhraseCheck::SortLettersInString("aacbcdb").c_str());
         }
 
         // ------------------------------------

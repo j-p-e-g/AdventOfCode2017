@@ -32,7 +32,7 @@ void InstructionMaze::AddInstruction(int number)
 
 void InstructionMaze::OutputResultToConsole() const
 {
-    std::cout << "December05: result = " << CountInstructionSteps(m_instructions) << std::endl;
+    std::cout << "December05.a: result = " << CountInstructionSteps(m_instructions) << std::endl;
 }
 
 int InstructionMaze::CountInstructionSteps(std::vector<int> input)
