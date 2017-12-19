@@ -33,15 +33,6 @@
 
     NOTE: Obviously this is stupid and highly inefficient way of handling "memory reallocation".
 */
-/*
-    Part 2:
-
-    Out of curiosity, the debugger would also like to know the size of the loop: starting from a state that has already been seen, how many block redistribution cycles must be performed before that same state is seen again?
-
-        In the example above, 2 4 1 2 is seen again after four cycles, and so the answer in that example would be 4.
-
-    How many cycles are in the infinite loop that arises from the configuration in your puzzle input?
-*/
 
 namespace AdventOfCode {
 namespace December06 {
@@ -58,8 +49,8 @@ namespace December06 {
 
     public:
         // AdventOfCodeBase
-        bool ParseLine(const std::string& inputLine) override;
-        void OutputResultToConsole() const override;
+        virtual bool ParseLine(const std::string& inputLine) override;
+        virtual void OutputResultToConsole() const override;
         // ~AdventOfCodeBase
 
     public:
@@ -68,7 +59,7 @@ namespace December06 {
 		void RunMemoryAllocationCycle(MemoryBanks& memBanks) const;
 		int CountCyclesUntilStuck(const MemoryBanks& memBanks) const;
 
-    private:
+    protected:
         MemoryBanks m_memory;
 	};
 

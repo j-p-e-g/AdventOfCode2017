@@ -22,7 +22,7 @@ bool MemoryReallocator::ParseLine(const std::string& inputLine)
 
 void MemoryReallocator::OutputResultToConsole() const
 {
-    std::cout << "December06: result = " << CountCyclesUntilStuck(m_memory) << std::endl;
+    std::cout << "December06.a: result = " << CountCyclesUntilStuck(m_memory) << std::endl;
 }
 
 /*
