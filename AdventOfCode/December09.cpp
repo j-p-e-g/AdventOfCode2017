@@ -27,6 +27,11 @@ void StreamObject::RemoveChild(std::shared_ptr<StreamObject> child)
 	}
 }
 
+void StreamObject::AddChar(char c)
+{
+    m_content += c;
+}
+
 int StreamObject::GetScore(int parentScore) const
 {
 	int score = 0;
@@ -52,6 +57,23 @@ int StreamObject::GetScore(int parentScore) const
 	return totalScore;
 }
 
+
+int StreamObject::GetGarbageCount() const
+{
+    if (m_objectType == OT_GARBAGE)
+    {
+        return GetContentSize();
+    }
+
+    int sum = 0;
+    for (const auto& child : m_children)
+    {
+        sum += child->GetGarbageCount();
+    }
+
+    return sum;
+}
+
 // -----------------------------------
 // StreamOfChars
 // -----------------------------------
@@ -71,7 +93,7 @@ bool StreamOfChars::ParseLine(const std::string& inputLine)
 
 void StreamOfChars::OutputResultToConsole() const
 {
-    std::cout << "December09: result = " << GetGroupScore() << std::endl;
+    std::cout << "December09.a: result = " << GetGroupScore() << std::endl;
 }
 
 StreamOfChars::StreamOfChars(const std::stringstream& stream)

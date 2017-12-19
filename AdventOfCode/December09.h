@@ -55,23 +55,6 @@
 
     What is the total score for all groups in your input?
 */
-/*
-    Part 2:
-
-    Now, you're ready to remove the garbage.
-
-    To prove you've removed it, you need to count all of the characters within the garbage. The leading and trailing < and > don't count, nor do any canceled characters or the ! doing the canceling.
-
-        <>, 0 characters.
-        <random characters>, 17 characters.
-        <<<<>, 3 characters.
-        <{!>}>, 2 characters.
-        <!!>, 0 characters.
-        <!!!>>, 0 characters.
-        <{o"i!a,<{i<a>, 10 characters.
-
-    How many non-canceled characters are within the garbage in your puzzle input?
-*/
 
 namespace AdventOfCode {
 namespace December09 {
@@ -87,45 +70,49 @@ namespace December09 {
 	{
 	public:
 		StreamObject(ObjectType type, std::shared_ptr<StreamObject> parent);
-		~StreamObject() = default;
+        ~StreamObject() = default;
 
 	public:
 		std::shared_ptr<StreamObject> GetParent() const { return m_parent; }
 		bool GetIsRoot() const { return m_objectType == OT_ROOT; }
 		bool GetIsGroup() const { return m_objectType == OT_GROUP; }
 		bool GetIsGarbage() const { return m_objectType == OT_GARBAGE; }
-		int GetScore(int parentScore = 0) const;
+        int GetContentSize() const { return static_cast<int>(m_content.length()); }
+        
+        int GetScore(int parentScore = 0) const;
+        int GetGarbageCount() const;
 
 		void AddChild(std::shared_ptr<StreamObject>);
 		void RemoveChild(std::shared_ptr<StreamObject>);
+        void AddChar(char c);
 
 	private:
 		ObjectType m_objectType = OT_ROOT;
 		std::vector<std::shared_ptr<StreamObject>> m_children;
 		std::shared_ptr<StreamObject> m_parent;
+        std::string m_content;
 	};
 
 	class StreamOfChars
         : protected AdventOfCodeBase
 	{
 	public:
+        StreamOfChars() {};
 		StreamOfChars(const std::stringstream& stream);
         StreamOfChars(const std::string& fileName);
         ~StreamOfChars() = default;
 
     public:
         // AdventOfCodeBase
-        bool ParseLine(const std::string& inputLine) override;
-        void OutputResultToConsole() const override;
+        virtual bool ParseLine(const std::string& inputLine) override;
+        virtual void OutputResultToConsole() const override;
         // ~AdventOfCodeBase
 
 	public:
-		void ProcessStream(const std::stringstream& stream);
-		//void OpenGroup();
-		//void CloseGroup();
+		virtual void ProcessStream(const std::stringstream& stream);
 		int GetGroupScore() const;
 
-	private:
+	protected:
 		std::shared_ptr<StreamObject> m_streamStack;
 	};
 
