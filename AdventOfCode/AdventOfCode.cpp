@@ -13,7 +13,7 @@
 #include "December08b.h"
 #include "December09b.h"
 #include "December10b.h"
-#include "December11.h"
+#include "December11b.h"
 #include "December12.h"
 
 int main()
@@ -79,8 +79,10 @@ int main()
         testb.OutputResultToConsole();
     }
     {
-        AdventOfCode::December11::InfiniteHexGrid test("InputFiles/input11.txt");
-        test.OutputResultToConsole();
+        AdventOfCode::December11::InfiniteHexGrid testa("InputFiles/input11.txt");
+        testa.OutputResultToConsole();
+        AdventOfCode::December11::InfiniteHexGridB testb("InputFiles/input11.txt");
+        testb.OutputResultToConsole();
     }
     {
         AdventOfCode::December12::ConnectionManager test("InputFiles/input12.txt");

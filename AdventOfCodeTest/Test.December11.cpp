@@ -129,7 +129,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December11_GetDistance_emptyPath)
 		{
 			InfiniteHexGrid test(std::vector<std::string>({}));
-			Assert::AreEqual(0, test.GetTargetDistanceToOrigin());
+			Assert::AreEqual(0, InfiniteHexGrid::GetTargetDistanceToOrigin(test.GetTargetCell()));
 		}
 
         /*
@@ -138,8 +138,9 @@ namespace AdventOfCodeTest
         TEST_METHOD(December11_GetDistance_clockwiseCircle)
         {
             InfiniteHexGrid test({ "n", "se", "s", "sw", "nw", "n", "ne" });
-            Assert::AreEqual(true, Cell(0, -1) == test.GetTargetCell());
-            Assert::AreEqual(1, test.GetTargetDistanceToOrigin());
+            const Cell targetCell = test.GetTargetCell();
+            Assert::AreEqual(true, Cell(0, -1) == targetCell);
+            Assert::AreEqual(1, InfiniteHexGrid::GetTargetDistanceToOrigin(targetCell));
         }
        
         /*
@@ -148,8 +149,9 @@ namespace AdventOfCodeTest
         TEST_METHOD(December11_GetDistance_counterClockwiseCircle)
         {
             InfiniteHexGrid test({ "se", "n", "nw", "sw", "s", "se", "ne" });
-            Assert::AreEqual(true, Cell(1, 0) == test.GetTargetCell());
-            Assert::AreEqual(1, test.GetTargetDistanceToOrigin());
+            const Cell targetCell = test.GetTargetCell();
+            Assert::AreEqual(true, Cell(1, 0) == targetCell);
+            Assert::AreEqual(1, InfiniteHexGrid::GetTargetDistanceToOrigin(targetCell));
         }
 
         /*
@@ -166,8 +168,9 @@ namespace AdventOfCodeTest
             //      / s  \              / (0, 1)  \
 
             InfiniteHexGrid test({ "nw", "n", "ne", "ne", "n", "se", "n", "ne" });
-            Assert::AreEqual(true, Cell(3, -6) == test.GetTargetCell());
-            Assert::AreEqual(6, test.GetTargetDistanceToOrigin());
+            const Cell targetCell = test.GetTargetCell();
+            Assert::AreEqual(true, Cell(3, -6) == targetCell);
+            Assert::AreEqual(6, InfiniteHexGrid::GetTargetDistanceToOrigin(targetCell));
         }
 
         /*
@@ -176,8 +179,9 @@ namespace AdventOfCodeTest
         TEST_METHOD(December11_GetDistance_diagonal)
         {
             InfiniteHexGrid test(std::vector<std::string>({ "nw", "n" }));
-            Assert::AreEqual(true, Cell(-1, -1) == test.GetTargetCell());
-            Assert::AreEqual(2, test.GetTargetDistanceToOrigin());
+            const Cell targetCell = test.GetTargetCell();
+            Assert::AreEqual(true, Cell(-1, -1) == targetCell);
+            Assert::AreEqual(2, InfiniteHexGrid::GetTargetDistanceToOrigin(targetCell));
         }
 
         // ----------------------------------
@@ -232,8 +236,8 @@ namespace AdventOfCodeTest
 
             // output should be the same
             InfiniteHexGrid simplifiedTest(simplifiedPath);
-            Assert::AreEqual(true, test.GetTargetCell() == simplifiedTest.GetTargetCell());
-            Assert::AreEqual(true, test.GetTargetDistanceToOrigin() == simplifiedTest.GetTargetDistanceToOrigin());
+            Cell targetCell = test.GetTargetCell();
+            Assert::AreEqual(true, targetCell == simplifiedTest.GetTargetCell());
         }
 
         // ----------------------------------
@@ -245,7 +249,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December11_AoC_test1)
 		{
 			InfiniteHexGrid test({"ne", "ne", "ne"});
-			Assert::AreEqual(3, test.GetTargetDistanceToOrigin());
+			Assert::AreEqual(3, InfiniteHexGrid::GetTargetDistanceToOrigin(test.GetTargetCell()));
 		}
 
 		/*
@@ -254,7 +258,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December11_AoC_test2)
 		{
 			InfiniteHexGrid test({ "ne", "ne", "sw", "sw" });
-			Assert::AreEqual(0, test.GetTargetDistanceToOrigin());
+			Assert::AreEqual(0, InfiniteHexGrid::GetTargetDistanceToOrigin(test.GetTargetCell()));
 		}
 
 		/*
@@ -263,7 +267,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December11_AoC_test3)
 		{
 			InfiniteHexGrid test({ "ne", "ne", "s", "s" });
-			Assert::AreEqual(2, test.GetTargetDistanceToOrigin());
+			Assert::AreEqual(2, InfiniteHexGrid::GetTargetDistanceToOrigin(test.GetTargetCell()));
 		}
 
 		/*
@@ -272,7 +276,7 @@ namespace AdventOfCodeTest
 		TEST_METHOD(December11_AoC_test4)
 		{
 			InfiniteHexGrid test({ "se", "sw", "se", "sw", "sw" });
-			Assert::AreEqual(3, test.GetTargetDistanceToOrigin());
+			Assert::AreEqual(3, InfiniteHexGrid::GetTargetDistanceToOrigin(test.GetTargetCell()));
 		}
 	};
 }

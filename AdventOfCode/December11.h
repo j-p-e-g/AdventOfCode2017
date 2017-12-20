@@ -36,11 +36,6 @@
         ne,ne,s,s is 2 steps away (se,se).
         se,sw,se,sw,sw is 3 steps away (s,s,sw).
 */
-/*
-    Part 2:
-
-    How many steps away is the furthest he ever got from his starting position?
-*/
 
 namespace AdventOfCode {
 namespace December11 {
@@ -80,8 +75,8 @@ namespace December11 {
 
     public:
         // AdventOfCodeBase
-        bool ParseLine(const std::string& inputLine) override;
-        void OutputResultToConsole() const override;
+        virtual bool ParseLine(const std::string& inputLine) override;
+        virtual void OutputResultToConsole() const override;
         // ~AdventOfCodeBase
 
     public:
@@ -89,16 +84,20 @@ namespace December11 {
         int GetPathLength() const { return static_cast<int>(m_path.size()); }
         // for sanity checks
         std::vector<std::string> GetSimplifiedPath() const;
-        int GetTargetDistanceToOrigin() const;
+        static int GetTargetDistanceToOrigin(const Cell& target);
 
-	private:
+	protected:
 		Cell GetDirection(std::string dirString) const;
+
+    private:
 		void SetupDirections();
 
-	private:
+	protected:
 		std::vector<std::string> m_path;
-		Cell m_pathTarget = Cell(0, 0);
 		std::map<std::string, Cell> m_directions;
-	};
+
+    private:
+        Cell m_pathTarget = Cell(0, 0);
+    };
 
 }}

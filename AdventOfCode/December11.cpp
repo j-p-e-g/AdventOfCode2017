@@ -50,7 +50,7 @@ bool InfiniteHexGrid::ParseLine(const std::string& inputLine)
 
 void InfiniteHexGrid::OutputResultToConsole() const
 {
-    std::cout << "December11: result = " << GetTargetDistanceToOrigin() << std::endl;
+    std::cout << "December11.a: result = " << GetTargetDistanceToOrigin(m_pathTarget) << std::endl;
 }
 
 InfiniteHexGrid::InfiniteHexGrid(const std::vector<std::string>& path)
@@ -221,10 +221,10 @@ std::vector<std::string> InfiniteHexGrid::GetSimplifiedPath() const
     return result;
 }
 
-int InfiniteHexGrid::GetTargetDistanceToOrigin() const
+int InfiniteHexGrid::GetTargetDistanceToOrigin(const Cell& target)
 {
-    return std::max({ std::abs(m_pathTarget.x),
-                      std::abs(m_pathTarget.y),
-                      std::abs(m_pathTarget.x + m_pathTarget.y) });
+    return std::max({ std::abs(target.x),
+                      std::abs(target.y),
+                      std::abs(target.x + target.y) });
 }
 

@@ -169,6 +169,7 @@
     <ClInclude Include="December10.h" />
     <ClInclude Include="December10b.h" />
     <ClInclude Include="December11.h" />
+    <ClInclude Include="December11b.h" />
     <ClInclude Include="December12.h" />
     <ClInclude Include="December13.h" />
     <ClInclude Include="stdafx.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="December10.cpp" />
     <ClCompile Include="December10b.cpp" />
     <ClCompile Include="December11.cpp" />
+    <ClCompile Include="December11b.cpp" />
     <ClCompile Include="December12.cpp" />
     <ClCompile Include="December13.cpp" />
     <ClCompile Include="stdafx.cpp">
