@@ -8,7 +8,7 @@
 
 using namespace AdventOfCode::December10;
 
-KnotHash::KnotHash(int hashSize)
+SimpleKnotHash::SimpleKnotHash(int hashSize)
     : AdventOfCodeBase()
 {
     // create the initial list
@@ -18,13 +18,13 @@ KnotHash::KnotHash(int hashSize)
     }
 }
 
-KnotHash::KnotHash(const std::string& fileName, int hashSize)
-    : KnotHash(hashSize)
+SimpleKnotHash::SimpleKnotHash(const std::string& fileName, int hashSize)
+    : SimpleKnotHash(hashSize)
 {
     ReadFile(fileName);
 }
 
-bool KnotHash::ParseLine(const std::string& inputLine)
+bool SimpleKnotHash::ParseLine(const std::string& inputLine)
 {
     std::regex regex("(\\w+)\\s*,\\s*");
     std::vector<std::string> suffixVector;
@@ -51,30 +51,29 @@ bool KnotHash::ParseLine(const std::string& inputLine)
         input.push_back(number);
     }
 
-    ApplyInput(input);
+    HashProcessValues hpv;
+    ApplyInput(input, hpv);
     return true;
 }
 
-void KnotHash::OutputResultToConsole() const
+void SimpleKnotHash::OutputResultToConsole() const
 {
-    std::cout << "December10: result = " << GetCheckSum() << std::endl;
+    std::cout << "December10.a: result = " << GetCheckSum() << std::endl;
 }
 
-void KnotHash::ApplyInput(const std::vector<int>& input)
+void SimpleKnotHash::ApplyInput(const std::vector<int>& input, HashProcessValues& hpv)
 {
-    int id = 0;
-    int skipSize = 0;
     for (const auto& len : input)
     {
-        InvertSubList(m_list, id, len);
+        InvertSubList(m_list, hpv.pos, len);
         // Move the current position forward by that length plus the skip size
-        id = (id + len + skipSize) % m_list.size();
+        hpv.pos = (hpv.pos + len + hpv.skipSize) % m_list.size();
         // Increase the skip size by one.
-        skipSize++;
+        hpv.skipSize++;
     }
 }
 
-bool KnotHash::InvertSubList(std::vector<int>& list, int id, int length)
+bool SimpleKnotHash::InvertSubList(std::vector<int>& list, int id, int length)
 {
     if (id < 0 || length < 0)
     {
@@ -95,7 +94,7 @@ bool KnotHash::InvertSubList(std::vector<int>& list, int id, int length)
     return true;
 }
 
-int KnotHash::GetCheckSum() const
+int SimpleKnotHash::GetCheckSum() const
 {
     if (m_list.size() < 2)
     {

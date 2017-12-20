@@ -19,7 +19,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December10_InvertSubList_single)
         {
             std::vector<int> numbers = { 2, 5, 7 };
-            KnotHash::InvertSubList(numbers, 2, 1);
+            SimpleKnotHash::InvertSubList(numbers, 2, 1);
 
             // same
             Assert::AreEqual(3, static_cast<int>(numbers.size()));
@@ -34,7 +34,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December10_InvertSubList_entire)
         {
             std::vector<int> numbers = { 17, -3, 5, 8, 2 };
-            KnotHash::InvertSubList(numbers, 0, 5);
+            SimpleKnotHash::InvertSubList(numbers, 0, 5);
 
             Assert::AreEqual(5, static_cast<int>(numbers.size()));
             // inverted
@@ -51,7 +51,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December10_InvertSubList_sublist_odd)
         {
             std::vector<int> numbers = { 2, 8, 62, 13, 12};
-            KnotHash::InvertSubList(numbers, 1, 3);
+            SimpleKnotHash::InvertSubList(numbers, 1, 3);
 
             Assert::AreEqual(5, static_cast<int>(numbers.size()));
             // same
@@ -70,7 +70,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December10_InvertSubList_sublist_even)
         {
             std::vector<int> numbers = { 7, 29, -3, -5, 1, 16 };
-            KnotHash::InvertSubList(numbers, 2, 4);
+            SimpleKnotHash::InvertSubList(numbers, 2, 4);
 
             Assert::AreEqual(6, static_cast<int>(numbers.size()));
             // same
@@ -89,7 +89,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December10_InvertSubList_entire_wrap)
         {
             std::vector<int> numbers = { 3, 4, 8, 9 };
-            KnotHash::InvertSubList(numbers, 1, 4);
+            SimpleKnotHash::InvertSubList(numbers, 1, 4);
 
             Assert::AreEqual(4, static_cast<int>(numbers.size()));
             Assert::AreEqual(4, numbers[0]);
@@ -104,7 +104,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December10_InvertSubList_sublist_wrap)
         {
             std::vector<int> numbers = { 1, 10, 11, 100 };
-            KnotHash::InvertSubList(numbers, 3, 2);
+            SimpleKnotHash::InvertSubList(numbers, 3, 2);
 
             Assert::AreEqual(4, static_cast<int>(numbers.size()));
             // inverted
@@ -126,7 +126,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December10_AoC_InvertSubList_base)
         {
             std::vector<int> numbers = { 0, 1, 2, 3, 4 };
-            KnotHash::InvertSubList(numbers, 0, 3);
+            SimpleKnotHash::InvertSubList(numbers, 0, 3);
             Assert::AreEqual(5, static_cast<int>(numbers.size()));
             // inverted
             Assert::AreEqual(2, numbers[0]);
@@ -144,7 +144,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December10_AoC_InvertSubList_wrapAround)
         {
             std::vector<int> numbers = { 2, 1, 0, 3, 4 };
-            KnotHash::InvertSubList(numbers, 3, 4);
+            SimpleKnotHash::InvertSubList(numbers, 3, 4);
             Assert::AreEqual(5, static_cast<int>(numbers.size()));
             // inverted
             Assert::AreEqual(4, numbers[0]);
@@ -162,7 +162,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December10_AoC_InvertSubList_lengthOne)
         {
             std::vector<int> numbers = { 4, 3, 0, 1, 2 };
-            KnotHash::InvertSubList(numbers, 4, 1);
+            SimpleKnotHash::InvertSubList(numbers, 4, 1);
             Assert::AreEqual(5, static_cast<int>(numbers.size()));
             // same
             Assert::AreEqual(4, numbers[0]);
@@ -178,7 +178,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December10_AoC_InvertSubList_wrapAround_entireList)
         {
             std::vector<int> numbers = { 4, 3, 0, 1, 2 };
-            KnotHash::InvertSubList(numbers, 1, 5);
+            SimpleKnotHash::InvertSubList(numbers, 1, 5);
             Assert::AreEqual(5, static_cast<int>(numbers.size()));
             // inverted
             Assert::AreEqual(3, numbers[0]);
@@ -210,8 +210,9 @@ namespace AdventOfCodeTest
         */
 		TEST_METHOD(December10_AoC_test)
 		{
-			KnotHash test(5);
-            test.ApplyInput({ 3, 4, 1, 5 });
+			SimpleKnotHash test(5);
+            HashProcessValues hpv;
+            test.ApplyInput({ 3, 4, 1, 5 }, hpv);
 			Assert::AreEqual(12, test.GetCheckSum());
 		}
 	};

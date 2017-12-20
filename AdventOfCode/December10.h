@@ -52,13 +52,19 @@
 namespace AdventOfCode {
 namespace December10 {
 
-	class KnotHash
+    struct HashProcessValues
+    {
+        int pos = 0;
+        int skipSize = 0;
+    };
+
+	class SimpleKnotHash
         : protected AdventOfCodeBase
 	{
 	public:
-		KnotHash(int hashSize = 256);
-        KnotHash(const std::string& fileName, int hashSize = 256);
-        ~KnotHash() = default;
+		SimpleKnotHash(int hashSize = 256);
+        SimpleKnotHash(const std::string& fileName, int hashSize = 256);
+        ~SimpleKnotHash() = default;
 
 
     public:
@@ -68,11 +74,11 @@ namespace December10 {
         // ~AdventOfCodeBase
 
     public:
-        void ApplyInput(const std::vector<int>& input);
+        virtual void ApplyInput(const std::vector<int>& input, HashProcessValues& hpv);
         static bool InvertSubList(std::vector<int>& list, int id, int length);
 		int GetCheckSum() const;
 
-    private:
+    protected:
         std::vector<int> m_list;
 	};
 

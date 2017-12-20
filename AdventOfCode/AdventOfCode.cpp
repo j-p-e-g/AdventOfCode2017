@@ -12,7 +12,7 @@
 #include "December07b.h"
 #include "December08b.h"
 #include "December09b.h"
-#include "December10.h"
+#include "December10b.h"
 #include "December11.h"
 #include "December12.h"
 
@@ -73,8 +73,10 @@ int main()
         testb.OutputResultToConsole();
     }
     {
-        AdventOfCode::December10::KnotHash test("InputFiles/input10.txt");
-        test.OutputResultToConsole();
+        AdventOfCode::December10::SimpleKnotHash testa("InputFiles/input10.txt");
+        testa.OutputResultToConsole();
+        AdventOfCode::December10::ComplexKnotHash testb("InputFiles/input10.txt");
+        testb.OutputResultToConsole();
     }
     {
         AdventOfCode::December11::InfiniteHexGrid test("InputFiles/input11.txt");
