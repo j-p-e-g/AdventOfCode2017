@@ -1,8 +1,15 @@
 #include "stdafx.h"
+
+#include <iostream>
+#include <regex>
+
 #include "December13.h"
 
-using namespace December13;
+using namespace AdventOfCode::December13;
 
+// ---------------------------
+// Guard
+// ---------------------------
 Guard::Guard(int range, int startIndex, Direction dir)
     : m_range(range)
     , m_startingIndex(startIndex)
@@ -53,41 +60,62 @@ int Guard::GetIndexAtTime(int t) const
         }
     }
 
-    /*
-    example: 0..2, up
-    0: 0
-    1: 1
-    2: 2, down
-    3: 1
-    4: 0, up
-    5: 1
-    6: 2, down
-
-    n: range (0..n)
-    k: initial index (0 <= k < n)
-    d: dir
-    t: time
-
-    if dir == up:
-        if t < n-k:
-            return k + t
-    else:
-        if t <= k:
-            return k - t
-    */
     return curr;
 }
+
+// ----------------------------
+// Firewall
+// ----------------------------
+
+Firewall::Firewall(const std::string& fileName)
+{
+    ReadFile(fileName);
+}
+
+bool Firewall::ParseLine(const std::string& inputLine)
+{
+    std::regex regex("\\s*(\\d+)\\s*:\\s*(\\d+)\\s*");
+    std::smatch match;
+    if (!std::regex_match(inputLine, match, regex))
+    {
+        return false;
+    }
+
+    if (match.size() < 3)
+    {
+        return false;
+    }
+
+    if (!match[1].matched || !match[2].matched)
+    {
+        return false;
+    }
+
+    int id = atoi(match[1].str().c_str());
+    int range = atoi(match[2].str().c_str());
+
+    std::shared_ptr<Guard> guard = std::make_shared<Guard>(range, 0);
+    if (!guard->IsValid())
+    {
+        return false;
+    }
+
+    AddGuard(id, guard);
+    return true;
+}
+
+void Firewall::OutputResultToConsole() const
+{
+    std::cout << "December 13: result = " << GetSecurityScore(0, 0) << std::endl;
+}
+
 
 void Firewall::AddGuard(int index, std::shared_ptr<Guard> guard)
 {
     m_guards.emplace(index, guard);
 }
 
-void Firewall::Tick()
-{
-}
-
-void Firewall::GetIntruderCaughtLocations(int enterTime, std::vector<int>& caughtIndices)
+void Firewall::GetIntruderCaughtLocations(int enterTime, std::vector<int>& caughtIndices) const
 {
     caughtIndices.clear();
 
@@ -104,7 +132,7 @@ void Firewall::GetIntruderCaughtLocations(int enterTime, std::vector<int>& caugh
     }
 }
 
-int Firewall::GetSecurityScore(int intruderEnterTime, int startingPenalty)
+int Firewall::GetSecurityScore(int intruderEnterTime, int startingPenalty) const
 {
     std::vector<int> caughtIndices;
     GetIntruderCaughtLocations(intruderEnterTime, caughtIndices);

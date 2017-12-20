@@ -2,15 +2,17 @@
 #include "CppUnitTest.h"
 #include "../AdventOfCode/December13.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-using namespace December13;
-
 namespace AdventOfCodeTest
 {
+    using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+    using namespace AdventOfCode::December13;
+
     TEST_CLASS(Test_December13)
     {
     public:
+        // -----------------------------
+        // Guard: GetIndexAtTime
+        // -----------------------------
         /*
         guard without specified range
         */
@@ -94,6 +96,93 @@ namespace AdventOfCodeTest
             Assert::AreEqual(2, test.GetIndexAtTime(5));
         }
 
+        // -----------------------------
+        // Firewall: ParseLine
+        // -----------------------------
+        /*
+        empty line
+        */
+        TEST_METHOD(December13_ParseLine_empty)
+        {
+            Firewall firewall;
+            Assert::AreEqual(false, firewall.ParseLine(""));
+        }
+
+        /*
+        missing colon
+        */
+        TEST_METHOD(December13_ParseLine_noColon)
+        {
+            Firewall firewall;
+            Assert::AreEqual(false, firewall.ParseLine("17 53"));
+        }
+
+        /*
+        missing index
+        */
+        TEST_METHOD(December13_ParseLine_missingIndex)
+        {
+            Firewall firewall;
+            Assert::AreEqual(false, firewall.ParseLine(": 2"));
+        }
+
+        /*
+        missing index
+        */
+        TEST_METHOD(December13_ParseLine_missingRange)
+        {
+            Firewall firewall;
+            Assert::AreEqual(false, firewall.ParseLine("33 :"));
+        }
+
+        /*
+        negative index
+        */
+        TEST_METHOD(December13_ParseLine_negativeIndex)
+        {
+            Firewall firewall;
+            Assert::AreEqual(false, firewall.ParseLine("-3:7"));
+        }
+
+        /*
+        negative range
+        */
+        TEST_METHOD(December13_ParseLine_negativeRange)
+        {
+            Firewall firewall;
+            Assert::AreEqual(false, firewall.ParseLine("18 : -92"));
+        }
+
+        /*
+        unexpected extra numbers
+        */
+        TEST_METHOD(December13_ParseLine_extraNumbers)
+        {
+            Firewall firewall;
+            Assert::AreEqual(false, firewall.ParseLine("97 : 2 : 31"));
+        }
+
+        /*
+        valid format
+        */
+        TEST_METHOD(December13_ParseLine_valid)
+        {
+            Firewall firewall;
+            Assert::AreEqual(true, firewall.ParseLine("8:21"));
+        }
+
+        /*
+        valid format containing lots of spaces
+        */
+        TEST_METHOD(December13_ParseLine_validWithSpaces)
+        {
+            Firewall firewall;
+            Assert::AreEqual(true, firewall.ParseLine(" 95 : 250 "));
+        }
+
+        // -----------------------------
+        // Firewall: GetIntruderCaughtLocations
+        // -----------------------------
         /*
         no guards -> nobody gets caught
         */

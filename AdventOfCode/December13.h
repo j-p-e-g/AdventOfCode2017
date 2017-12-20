@@ -4,172 +4,179 @@
 #include <memory>
 #include <vector>
 
+#include "AdventOfCodeBase.h"
+
 /*
-https://adventofcode.com/2017/day/13
-You need to cross a vast firewall. The firewall consists of several layers, each with a security scanner that moves back and forth across the layer. To succeed, you must not be detected by a scanner.
+    https://adventofcode.com/2017/day/13
 
-By studying the firewall briefly, you are able to record (in your puzzle input) the depth of each layer and the range of the scanning area for the scanner within it, written as depth: range. Each layer has a thickness of exactly 1. A layer at depth 0 begins immediately inside the firewall; a layer at depth 1 would start immediately after that.
+    Part 1:
 
-For example, suppose you've recorded the following:
+    You need to cross a vast firewall. The firewall consists of several layers, each with a security scanner that moves back and forth across the layer. To succeed, you must not be detected by a scanner.
 
-0: 3
-1: 2
-4: 4
-6: 4
+    By studying the firewall briefly, you are able to record (in your puzzle input) the depth of each layer and the range of the scanning area for the scanner within it, written as depth: range. Each layer has a thickness of exactly 1. A layer at depth 0 begins immediately inside the firewall; a layer at depth 1 would start immediately after that.
 
-This means that there is a layer immediately inside the firewall (with range 3), a second layer immediately after that (with range 2), a third layer which begins at depth 4 (with range 4), and a fourth layer which begins at depth 6 (also with range 4). Visually, it might look like this:
+    For example, suppose you've recorded the following:
 
-0   1   2   3   4   5   6
-[ ] [ ] ... ... [ ] ... [ ]
-[ ] [ ]         [ ]     [ ]
-[ ]             [ ]     [ ]
-[ ]     [ ]
+        0: 3
+        1: 2
+        4: 4
+        6: 4
 
-Within each layer, a security scanner moves back and forth within its range. Each security scanner starts at the top and moves down until it reaches the bottom, then moves up until it reaches the top, and repeats. A security scanner takes one picosecond to move one step. Drawing scanners as S, the first few picoseconds look like this:
+    This means that there is a layer immediately inside the firewall (with range 3), a second layer immediately after that (with range 2), a third layer which begins at depth 4 (with range 4), and a fourth layer which begins at depth 6 (also with range 4). Visually, it might look like this:
 
+         0   1   2   3   4   5   6
+        [ ] [ ] ... ... [ ] ... [ ]
+        [ ] [ ]         [ ]     [ ]
+        [ ]             [ ]     [ ]
+        [ ]             [ ]
 
-Picosecond 0:
-0   1   2   3   4   5   6
-[S] [S] ... ... [S] ... [S]
-[ ] [ ]         [ ]     [ ]
-[ ]             [ ]     [ ]
-[ ]     [ ]
-
-Picosecond 1:
-0   1   2   3   4   5   6
-[ ] [ ] ... ... [ ] ... [ ]
-[S] [S]         [S]     [S]
-[ ]             [ ]     [ ]
-[ ]     [ ]
-
-Picosecond 2:
-0   1   2   3   4   5   6
-[ ] [S] ... ... [ ] ... [ ]
-[ ] [ ]         [ ]     [ ]
-[S]             [S]     [S]
-[ ]     [ ]
-
-Picosecond 3:
-0   1   2   3   4   5   6
-[ ] [ ] ... ... [ ] ... [ ]
-[S] [S]         [ ]     [ ]
-[ ]             [ ]     [ ]
-[S]     [S]
-
-Your plan is to hitch a ride on a packet about to move through the firewall. The packet will travel along the top of each layer, and it moves at one layer per picosecond. Each picosecond, the packet moves one layer forward (its first move takes it into layer 0), and then the scanners move one step. If there is a scanner at the top of the layer as your packet enters it, you are caught. (If a scanner moves into the top of its layer while you are there, you are not caught: it doesn't have time to notice you before you leave.) If you were to do this in the configuration above, marking your current position with parentheses, your passage through the firewall would look like this:
-
-Initial state:
-0   1   2   3   4   5   6
-[S] [S] ... ... [S] ... [S]
-[ ] [ ]         [ ]     [ ]
-[ ]             [ ]     [ ]
-[ ]             [ ]
-
-Picosecond 0:
-0   1   2   3   4   5   6
-(S) [S] ... ... [S] ... [S]
-[ ] [ ]         [ ]     [ ]
-[ ]             [ ]     [ ]
-[ ]             [ ]
-
-0   1   2   3   4   5   6
-( ) [ ] ... ... [ ] ... [ ]
-[S] [S]         [S]     [S]
-[ ]             [ ]     [ ]
-[ ]             [ ]
+    Within each layer, a security scanner moves back and forth within its range. Each security scanner starts at the top and moves down until it reaches the bottom, then moves up until it reaches the top, and repeats. A security scanner takes one picosecond to move one step. Drawing scanners as S, the first few picoseconds look like this:
 
 
-Picosecond 1:
-0   1   2   3   4   5   6
-[ ] ( ) ... ... [ ] ... [ ]
-[S] [S]         [S]     [S]
-[ ]             [ ]     [ ]
-[ ]             [ ]
+        Picosecond 0:
+         0   1   2   3   4   5   6
+        [S] [S] ... ... [S] ... [S]
+        [ ] [ ]         [ ]     [ ]
+        [ ]             [ ]     [ ]
+        [ ]             [ ]
 
-0   1   2   3   4   5   6
-[ ] (S) ... ... [ ] ... [ ]
-[ ] [ ]         [ ]     [ ]
-[S]             [S]     [S]
-[ ]             [ ]
+        Picosecond 1:
+         0   1   2   3   4   5   6
+        [ ] [ ] ... ... [ ] ... [ ]
+        [S] [S]         [S]     [S]
+        [ ]             [ ]     [ ]
+        [ ]              [ ]
 
+        Picosecond 2:
+         0   1   2   3   4   5   6
+        [ ] [S] ... ... [ ] ... [ ]
+        [ ] [ ]         [ ]     [ ]
+        [S]             [S]     [S]
+        [ ]             [ ]
 
-Picosecond 2:
-0   1   2   3   4   5   6
-[ ] [S] (.) ... [ ] ... [ ]
-[ ] [ ]         [ ]     [ ]
-[S]             [S]     [S]
-[ ]             [ ]
+        Picosecond 3:
+         0   1   2   3   4   5   6
+        [ ] [ ] ... ... [ ] ... [ ]
+        [S] [S]         [ ]     [ ]
+        [ ]             [ ]     [ ]
+        [S]             [S]
 
-0   1   2   3   4   5   6
-[ ] [ ] (.) ... [ ] ... [ ]
-[S] [S]         [ ]     [ ]
-[ ]             [ ]     [ ]
-[S]             [S]
+    Your plan is to hitch a ride on a packet about to move through the firewall. The packet will travel along the top of each layer, and it moves at one layer per picosecond. Each picosecond, the packet moves one layer forward (its first move takes it into layer 0), and then the scanners move one step. If there is a scanner at the top of the layer as your packet enters it, you are caught. (If a scanner moves into the top of its layer while you are there, you are not caught: it doesn't have time to notice you before you leave.) If you were to do this in the configuration above, marking your current position with parentheses, your passage through the firewall would look like this:
 
+        Initial state:
+         0   1   2   3   4   5   6
+        [S] [S] ... ... [S] ... [S]
+        [ ] [ ]         [ ]     [ ]
+        [ ]             [ ]     [ ]
+        [ ]             [ ]
 
-Picosecond 3:
-0   1   2   3   4   5   6
-[ ] [ ] ... (.) [ ] ... [ ]
-[S] [S]         [ ]     [ ]
-[ ]             [ ]     [ ]
-[S]             [S]
+        Picosecond 0:
+         0   1   2   3   4   5   6
+        (S) [S] ... ... [S] ... [S]
+        [ ] [ ]         [ ]     [ ]
+        [ ]             [ ]     [ ]
+        [ ]             [ ]
 
-0   1   2   3   4   5   6
-[S] [S] ... (.) [ ] ... [ ]
-[ ] [ ]         [ ]     [ ]
-[ ]             [S]     [S]
-[ ]             [ ]
-
-
-Picosecond 4:
-0   1   2   3   4   5   6
-[S] [S] ... ... ( ) ... [ ]
-[ ] [ ]         [ ]     [ ]
-[ ]             [S]     [S]
-[ ]             [ ]
-
-0   1   2   3   4   5   6
-[ ] [ ] ... ... ( ) ... [ ]
-[S] [S]         [S]     [S]
-[ ]             [ ]     [ ]
-[ ]             [ ]
+         0   1   2   3   4   5   6
+        ( ) [ ] ... ... [ ] ... [ ]
+        [S] [S]         [S]     [S]
+        [ ]             [ ]     [ ]
+        [ ]             [ ]
 
 
-Picosecond 5:
-0   1   2   3   4   5   6
-[ ] [ ] ... ... [ ] (.) [ ]
-[S] [S]         [S]     [S]
-[ ]             [ ]     [ ]
-[ ]             [ ]
+        Picosecond 1:
+         0   1   2   3   4   5   6
+        [ ] ( ) ... ... [ ] ... [ ]
+        [S] [S]         [S]     [S]
+        [ ]             [ ]     [ ]
+        [ ]             [ ]
 
-0   1   2   3   4   5   6
-[ ] [S] ... ... [S] (.) [S]
-[ ] [ ]         [ ]     [ ]
-[S]             [ ]     [ ]
-[ ]             [ ]
+         0   1   2   3   4   5   6
+        [ ] (S) ... ... [ ] ... [ ]
+        [ ] [ ]         [ ]     [ ]
+        [S]             [S]     [S]
+        [ ]             [ ]
 
 
-Picosecond 6:
-0   1   2   3   4   5   6
-[ ] [S] ... ... [S] ... (S)
-[ ] [ ]         [ ]     [ ]
-[S]             [ ]     [ ]
-[ ]             [ ]
+        Picosecond 2:
+         0   1   2   3   4   5   6
+        [ ] [S] (.) ... [ ] ... [ ]
+        [ ] [ ]         [ ]     [ ]
+        [S]             [S]     [S]
+        [ ]             [ ]
 
-0   1   2   3   4   5   6
-[ ] [ ] ... ... [ ] ... ( )
-[S] [S]         [S]     [S]
-[ ]             [ ]     [ ]
-[ ]             [ ]
+         0   1   2   3   4   5   6
+        [ ] [ ] (.) ... [ ] ... [ ]
+        [S] [S]         [ ]     [ ]
+        [ ]             [ ]     [ ]
+        [S]             [S]
 
-In this situation, you are caught in layers 0 and 6, because your packet entered the layer when its scanner was at the top when you entered it. You are not caught in layer 1, since the scanner moved into the top of the layer once you were already there.
 
-The severity of getting caught on a layer is equal to its depth multiplied by its range. (Ignore layers in which you do not get caught.) The severity of the whole trip is the sum of these values. In the example above, the trip severity is 0*3 + 6*4 = 24.
+        Picosecond 3:
+         0   1   2   3   4   5   6
+        [ ] [ ] ... (.) [ ] ... [ ]
+        [S] [S]         [ ]     [ ]
+        [ ]             [ ]     [ ]
+        [S]             [S]
 
-Given the details of the firewall you've recorded, if you leave immediately, what is the severity of your whole trip?
+         0   1   2   3   4   5   6
+        [S] [S] ... (.) [ ] ... [ ]
+        [ ] [ ]         [ ]     [ ]
+        [ ]             [S]     [S]
+        [ ]             [ ]
+
+
+        Picosecond 4:
+         0   1   2   3   4   5   6
+        [S] [S] ... ... ( ) ... [ ]
+        [ ] [ ]         [ ]     [ ]
+        [ ]             [S]     [S]
+        [ ]             [ ]
+
+         0   1   2   3   4   5   6
+        [ ] [ ] ... ... ( ) ... [ ]
+        [S] [S]         [S]     [S]
+        [ ]             [ ]     [ ]
+        [ ]             [ ]
+
+
+        Picosecond 5:
+         0   1   2   3   4   5   6
+        [ ] [ ] ... ... [ ] (.) [ ]
+        [S] [S]         [S]     [S]
+        [ ]             [ ]     [ ]
+        [ ]             [ ]
+
+         0   1   2   3   4   5   6
+        [ ] [S] ... ... [S] (.) [S]
+        [ ] [ ]         [ ]     [ ]
+        [S]             [ ]     [ ]
+        [ ]             [ ]
+
+
+        Picosecond 6:
+         0   1   2   3   4   5   6
+        [ ] [S] ... ... [S] ... (S)
+        [ ] [ ]         [ ]     [ ]
+        [S]             [ ]     [ ]
+        [ ]             [ ]
+
+         0   1   2   3   4   5   6
+        [ ] [ ] ... ... [ ] ... ( )
+        [S] [S]         [S]     [S]
+        [ ]             [ ]     [ ]
+        [ ]             [ ]
+
+        In this situation, you are caught in layers 0 and 6, because your packet entered the layer when its scanner was at the top when you entered it. You are not caught in layer 1, since the scanner moved into the top of the layer once you were already there.
+
+        The severity of getting caught on a layer is equal to its depth multiplied by its range. (Ignore layers in which you do not get caught.) The severity of the whole trip is the sum of these values. In the example above, the trip severity is 0*3 + 6*4 = 24.
+
+    Given the details of the firewall you've recorded, if you leave immediately, what is the severity of your whole trip?
 */
-namespace December13
-{
+
+namespace AdventOfCode {
+namespace December13 {
+
     enum Direction
     {
         DIR_Up = 1,
@@ -194,19 +201,27 @@ namespace December13
     };
 
     class Firewall
+        : protected AdventOfCodeBase
     {
     public:
         Firewall() {};
+        Firewall(const std::string& fileName);
         ~Firewall() = default;
 
     public:
+        // AdventOfCodeBase
+        virtual bool ParseLine(const std::string& inputLine) override;
+        virtual void OutputResultToConsole() const override;
+        // ~AdventOfCodeBase
+
+    public:
         void AddGuard(int index, std::shared_ptr<Guard> guard);
-        void GetIntruderCaughtLocations(int enterTime, std::vector<int>& caughtIndices);
-        int GetSecurityScore(int intruderEnterTime, int startingPenalty = 1);
-        void Tick();
+        void GetIntruderCaughtLocations(int enterTime, std::vector<int>& caughtIndices) const;
+        int GetSecurityScore(int intruderEnterTime, int startingPenalty = 1) const;
 
     private:
         std::map<int, std::shared_ptr<Guard>> m_guards;
         int m_intruderIndex = -1;
     };
-}
+
+}}

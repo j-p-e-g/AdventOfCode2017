@@ -15,6 +15,7 @@
 #include "December10b.h"
 #include "December11b.h"
 #include "December12b.h"
+#include "December13.h"
 
 int main()
 {
@@ -89,6 +90,10 @@ int main()
         testa.OutputResultToConsole();
         AdventOfCode::December12::ConnectionManagerB testb("InputFiles/input12.txt");
         testb.OutputResultToConsole();
+    }
+    {
+        AdventOfCode::December13::Firewall test("InputFiles/input13.txt");
+        test.OutputResultToConsole();
     }
 
     return 0;

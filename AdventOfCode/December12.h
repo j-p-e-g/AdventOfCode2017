@@ -55,8 +55,8 @@ namespace December12 {
 
     public:
         // AdventOfCodeBase
-        bool ParseLine(const std::string& inputLine) override;
-        void OutputResultToConsole() const override;
+        virtual bool ParseLine(const std::string& inputLine) override;
+        virtual void OutputResultToConsole() const override;
         // ~AdventOfCodeBase
 
     public:
