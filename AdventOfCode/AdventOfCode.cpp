@@ -72,9 +72,10 @@ int main()
         AdventOfCode::December09::StreamGarbageRemoval testb("InputFiles/input09.txt");
         testb.OutputResultToConsole();
     }
-
-    // December10
-
+    {
+        AdventOfCode::December10::KnotHash test("InputFiles/input10.txt");
+        test.OutputResultToConsole();
+    }
     {
         AdventOfCode::December11::InfiniteHexGrid test("InputFiles/input11.txt");
         test.OutputResultToConsole();
