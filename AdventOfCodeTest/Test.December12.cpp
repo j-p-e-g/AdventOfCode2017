@@ -227,13 +227,6 @@ namespace AdventOfCodeTest
             connections.emplace(8, std::set<int>({ 2, 5 }));
             ConnectionManager test(connections);
 
-            //std::set<int> connectedNodes;
-            //test.GetConnectedNodes(8, connectedNodes);
-            //Assert::AreEqual(false, connectedNodes.end() == connectedNodes.find(2));
-            //Assert::AreEqual(false, connectedNodes.end() == connectedNodes.find(3));
-            //Assert::AreEqual(false, connectedNodes.end() == connectedNodes.find(5));
-            //Assert::AreEqual(false, connectedNodes.end() == connectedNodes.find(7));
-            //Assert::AreEqual(false, connectedNodes.end() == connectedNodes.find(8));
             Assert::AreEqual(0, test.GetGroupSize(4));
         }
 

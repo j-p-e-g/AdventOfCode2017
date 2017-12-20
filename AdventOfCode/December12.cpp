@@ -77,17 +77,17 @@ bool ConnectionManager::ParseLine(const std::string& inputLine)
     return true;
 }
 
-void ConnectionManager::AddConnection(Connection connection)
+void ConnectionManager::AddConnection(const Connection& connection)
 {
     m_connections.emplace(connection.first, connection.second);
 }
 
 void ConnectionManager::OutputResultToConsole() const
 {
-    std::cout << "December12: result = " << GetGroupSize(0) << std::endl;
+    std::cout << "December12.a: result = " << GetGroupSize(0) << std::endl;
 }
 
-ConnectionManager::ConnectionManager(ConnectionMap map)
+ConnectionManager::ConnectionManager(const ConnectionMap& map)
     : m_connections(map)
 {
     ProcessConnections();
