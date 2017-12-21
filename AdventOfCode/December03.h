@@ -3,6 +3,7 @@
 #include <string>
 
 #include "AdventOfCodeBase.h"
+#include "CodeUtil.h"
 
 /*
     https://adventofcode.com/2017/day/3
@@ -34,72 +35,10 @@
 namespace AdventOfCode {
 namespace December03 {
 
-	struct Point
-	{
-	public:
-		Point(int _x, int _y)
-			: x(_x)
-			, y(_y)
-		{
-		}
-
-		bool IsValid()
-		{
-			return x >= 0 && y >= 0;
-		}
-
-        bool operator <(const Point& other) const
-        {
-            return x < other.x || x == other.x && y < other.y;
-        }
-
-        bool operator <=(const Point& other) const
-        {
-            return x < other.x || x == other.x && y <= other.y;
-        }
-
-        bool operator >(const Point& other) const
-        {
-            return !(*this <= other);
-        }
-
-        bool operator >=(const Point& other) const
-        {
-            return (*this == other) || (*this > other);
-        }
-
-        bool operator ==(const Point& other) const
-		{
-			return x == other.x && y == other.y;
-		}
-
-        void operator +=(const Point& other)
-        {
-            x += other.x;
-            y += other.y;
-        }
-
-		std::wstring ToWString() const
-		{
-			std::string str = "Point( " + std::to_string(x) + ", " + std::to_string(y) + " )";
-
-			std::wstring wstr;
-			wstr.assign(str.begin(), str.end());
-
-			return wstr;
-		}
-
-	public:
-		int x = 0;
-		int y = 0;
-	};
-
-	const Point InvalidCoord = Point(-1, -1);
-
-	const Point DirRight = Point(1, 0);
-	const Point DirUp = Point(0, -1);
-	const Point DirLeft = Point(-1, 0);
-	const Point DirDown = Point(0, 1);
+	const CodeUtils::Point DirRight = CodeUtils::Point(1, 0);
+	const CodeUtils::Point DirUp = CodeUtils::Point(0, -1);
+	const CodeUtils::Point DirLeft = CodeUtils::Point(-1, 0);
+	const CodeUtils::Point DirDown = CodeUtils::Point(0, 1);
 
 	class SpiralMemory
         : protected AdventOfCodeBase
@@ -116,11 +55,11 @@ namespace December03 {
         // ~AdventOfCodeBase
 
     public:
-		static Point FindCoord(int id);
+		static CodeUtils::Point FindCoord(int id);
 		static int GetManhattanDistance(int id);
 
     protected:
-		static bool GetNextDir(Point pos, Point& dir, int& diameter);
+		static bool GetNextDir(CodeUtils::Point pos, CodeUtils::Point& dir, int& diameter);
 
     protected:
         int m_number = -1;

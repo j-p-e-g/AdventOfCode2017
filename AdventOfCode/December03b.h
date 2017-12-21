@@ -49,11 +49,11 @@ namespace December03 {
         // computes the summed values along the spiral until a value greater than m_value is reached
         // then returns that value
         int ConstructMapUntilValuePassed(int value);
-        int GetSumOfAdjacentPoints(const Point& p) const;
+        int GetSumOfAdjacentPoints(const CodeUtils::Point& p) const;
 
     private:
         int m_greaterValue;
-        std::map<Point, int> m_pointMap;
+        std::map<CodeUtils::Point, int> m_pointMap;
     };
 
 }}

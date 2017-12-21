@@ -21,10 +21,10 @@ void SumSpiralMemory::OutputResultToConsole() const
 
 int SumSpiralMemory::ConstructMapUntilValuePassed(int value)
 {
-    Point pos = Point(0, 0);
+    CodeUtils::Point pos = CodeUtils::Point(0, 0);
     m_pointMap.emplace(pos, 1);
 
-    Point dir = DirRight;
+    CodeUtils::Point dir = DirRight;
     int diameter = 0;
 
     /*
@@ -60,7 +60,7 @@ int SumSpiralMemory::ConstructMapUntilValuePassed(int value)
     }
 }
 
-int SumSpiralMemory::GetSumOfAdjacentPoints(const Point & p) const
+int SumSpiralMemory::GetSumOfAdjacentPoints(const CodeUtils::Point & p) const
 {
     int sum = 0;
 
@@ -72,7 +72,7 @@ int SumSpiralMemory::GetSumOfAdjacentPoints(const Point & p) const
                 continue;
             }
 
-            Point curr = p;
+            CodeUtils::Point curr = p;
             curr.x += x;
             curr.y += y;
 

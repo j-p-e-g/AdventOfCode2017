@@ -3,10 +3,10 @@
 #include <iostream>
 #include <math.h>
 
-#include "CodeUtil.h"
 #include "December03.h"
 
 using namespace AdventOfCode::December03;
+using namespace CodeUtils;
 
 SpiralMemory::SpiralMemory(const std::string& fileName)
     : AdventOfCodeBase()
@@ -24,7 +24,7 @@ void SpiralMemory::OutputResultToConsole() const
     std::cout << "December03.a: result = " << GetManhattanDistance(m_number) << std::endl;
 }
 
-bool SpiralMemory::GetNextDir(Point pos, Point& dir, int& diameter)
+bool SpiralMemory::GetNextDir(CodeUtils::Point pos, CodeUtils::Point& dir, int& diameter)
 {
 	if (dir == DirRight)
 	{

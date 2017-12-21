@@ -17,7 +17,7 @@ namespace AdventOfCodeTest
         {
             SumSpiralMemory test;
             // no points ever added -> sum is zero
-            Assert::AreEqual(0, test.GetSumOfAdjacentPoints(Point(3, -4)));
+            Assert::AreEqual(0, test.GetSumOfAdjacentPoints(CodeUtils::Point(3, -4)));
         }
 
         TEST_METHOD(December03b_GetSumOfAdjacentPoints_test1)
@@ -25,9 +25,9 @@ namespace AdventOfCodeTest
             SumSpiralMemory test;
             test.ConstructMapUntilValuePassed(50);
             // after construction (all adjacent points in map) -> sum of all neighbours
-            Assert::AreEqual(81, test.GetSumOfAdjacentPoints(Point(0,0)));
+            Assert::AreEqual(81, test.GetSumOfAdjacentPoints(CodeUtils::Point(0,0)));
             // before construction (would have been the next point to be added to the map)
-            Assert::AreEqual(54, test.GetSumOfAdjacentPoints(Point(2,0)));
+            Assert::AreEqual(54, test.GetSumOfAdjacentPoints(CodeUtils::Point(2,0)));
         }
 
         // -------------------------------------
