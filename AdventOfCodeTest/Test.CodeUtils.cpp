@@ -184,6 +184,49 @@ namespace CodeUtilTest
         }
 
         // -----------------------------------------------
+        // ReadIntToString
+        // -----------------------------------------------
+        /*
+        zero
+        */
+        TEST_METHOD(CodeUtil_ReadIntToString_zero)
+        {
+            std::string result;
+            CodeUtil::ReadIntToString(0, result);
+            Assert::AreEqual("0", result.c_str());
+        }
+
+        /*
+        double digit number
+        */
+        TEST_METHOD(CodeUtil_ReadIntToString_doubleDigit)
+        {
+            std::string result;
+            CodeUtil::ReadIntToString(53, result);
+            Assert::AreEqual("53", result.c_str());
+        }
+
+        /*
+        negative number
+        */
+        TEST_METHOD(CodeUtil_ReadIntToString_negative)
+        {
+            std::string result;
+            CodeUtil::ReadIntToString(-72, result);
+            Assert::AreEqual("-72", result.c_str());
+        }
+
+        /*
+        large number
+        */
+        TEST_METHOD(CodeUtil_ReadIntToString_largeNumber)
+        {
+            std::string result;
+            CodeUtil::ReadIntToString(852955324, result);
+            Assert::AreEqual("852955324", result.c_str());
+        }
+
+        // -----------------------------------------------
         // ConvertStringVectorToIntVector
         // -----------------------------------------------
         /*

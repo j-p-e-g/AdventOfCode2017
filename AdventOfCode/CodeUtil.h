@@ -17,6 +17,7 @@ namespace CodeUtils
         static bool SplitStringByRegex(const std::string& input, std::vector<std::string>& output, std::regex regex);
         static bool ConvertStringVectorToIntVector(const std::vector<std::string>& input, std::vector<int>& result);
         static bool ReadStringToInt(const std::string& input, int& number, bool allowNegative);
+        static void ReadIntToString(const int input, std::string& result);
 
     private:
         static const int MaxRecursionDepth = 3;

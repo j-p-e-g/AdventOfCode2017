@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "CodeUtil.h"
 
+#include <iomanip>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 using namespace CodeUtils;
 
@@ -100,4 +102,18 @@ bool CodeUtil::ReadStringToInt(const std::string& input, int& number, bool allow
 
     number = atoi(match.str().c_str());
     return true;
+}
+
+void CodeUtil::ReadIntToString(const int input, std::string& result)
+{
+    //if (input < 0)
+    //{
+    //    return false;
+    //}
+
+    std::stringstream stream;
+    stream << std::dec;
+    stream << input;
+
+    result = stream.str();
 }
