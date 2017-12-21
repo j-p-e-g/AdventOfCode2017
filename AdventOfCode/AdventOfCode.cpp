@@ -15,7 +15,7 @@
 #include "December10b.h"
 #include "December11b.h"
 #include "December12b.h"
-#include "December13.h"
+#include "December13b.h"
 
 int main()
 {
@@ -92,8 +92,10 @@ int main()
         testb.OutputResultToConsole();
     }
     {
-        AdventOfCode::December13::Firewall test("InputFiles/input13.txt");
-        test.OutputResultToConsole();
+        AdventOfCode::December13::Firewall testa("InputFiles/input13.txt");
+        testa.OutputResultToConsole();
+        AdventOfCode::December13::FirewallB testb("InputFiles/input13.txt");
+        testb.OutputResultToConsole();
     }
 
     return 0;

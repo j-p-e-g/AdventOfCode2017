@@ -64,7 +64,7 @@ namespace AdventOfCodeTest
         }
 
         /*
-        GetIndexAtTime
+        invalid: negative time
         */
         TEST_METHOD(December13_Guard_GetIndexAtTime_negativeTime)
         {
@@ -94,6 +94,55 @@ namespace AdventOfCodeTest
         {
             Guard test(7, 3, DIR_Down);
             Assert::AreEqual(2, test.GetIndexAtTime(5));
+        }
+
+        // -----------------------------------------
+        // Guard: GetFirstTimeIndexIsReached
+        // -----------------------------------------
+        /*
+        starting at position 0
+        */
+        TEST_METHOD(December13_Guard_GetFirstTimeIndexIsReached_startAtZero)
+        {
+            Guard test(5, 0);
+            Assert::AreEqual(0, test.GetFirstTimeIndexIsReached(0));
+            Assert::AreEqual(3, test.GetFirstTimeIndexIsReached(3));
+        }
+
+        /*
+        moving up
+        */
+        TEST_METHOD(December13_Guard_GetFirstTimeIndexIsReached_up)
+        {
+            Guard test(3, 1, DIR_Up);
+            Assert::AreEqual(2, test.GetFirstTimeIndexIsReached(3));
+        }
+
+        /*
+        moving down
+        */
+        TEST_METHOD(December13_Guard_GetFirstTimeIndexIsReached_down)
+        {
+            Guard test(8, 6, DIR_Down);
+            Assert::AreEqual(6, test.GetFirstTimeIndexIsReached(0));
+        }
+
+        /*
+        moving up, but the target index is down
+        */
+        TEST_METHOD(December13_Guard_GetFirstTimeIndexIsReached_upNeedRotation)
+        {
+            Guard test(5, 3, DIR_Up);
+            Assert::AreEqual(4, test.GetFirstTimeIndexIsReached(1));
+        }
+
+        /*
+        moving down, but the target index is up
+        */
+        TEST_METHOD(December13_Guard_GetFirstTimeIndexIsReached_downNeedRotation)
+        {
+            Guard test(3, 1, DIR_Down);
+            Assert::AreEqual(3, test.GetFirstTimeIndexIsReached(2));
         }
 
         // -----------------------------

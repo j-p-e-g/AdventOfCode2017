@@ -63,6 +63,40 @@ int Guard::GetIndexAtTime(int t) const
     return curr;
 }
 
+int Guard::GetFirstTimeIndexIsReached(int index) const
+{
+    if (m_startingIndex == index)
+    {
+        return 0;
+    }
+
+    if (m_startingDir == DIR_Down)
+    {
+        if (index < m_startingIndex)
+        {
+            return m_startingIndex - index;
+        }
+        else
+        {
+            return m_startingIndex + index;
+        }
+    }
+
+    if (m_startingDir == DIR_Up)
+    {
+        if (index > m_startingIndex)
+        {
+            return index - m_startingIndex;
+        }
+        else
+        {
+            return 2 * (m_range - 1) - m_startingIndex - index;
+        }
+    }
+
+    return -1;
+}
+
 // ----------------------------
 // Firewall
 // ----------------------------
@@ -106,9 +140,8 @@ bool Firewall::ParseLine(const std::string& inputLine)
 
 void Firewall::OutputResultToConsole() const
 {
-    std::cout << "December 13: result = " << GetSecurityScore(0, 0) << std::endl;
+    std::cout << "December13.a: result = " << GetSecurityScore(0, 0) << std::endl;
 }
-
 
 void Firewall::AddGuard(int index, std::shared_ptr<Guard> guard)
 {

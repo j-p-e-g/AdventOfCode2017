@@ -193,6 +193,7 @@ namespace December13 {
         bool IsValid() const;
         int GetRange() const { return m_range; }
         int GetIndexAtTime(int t) const;
+        int GetFirstTimeIndexIsReached(int index) const;
 
     private:
         int m_range;
@@ -219,8 +220,10 @@ namespace December13 {
         void GetIntruderCaughtLocations(int enterTime, std::vector<int>& caughtIndices) const;
         int GetSecurityScore(int intruderEnterTime, int startingPenalty = 1) const;
 
-    private:
+    protected:
         std::map<int, std::shared_ptr<Guard>> m_guards;
+
+    private:
         int m_intruderIndex = -1;
     };
 
