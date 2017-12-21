@@ -1,8 +1,10 @@
 #pragma once
 
 #include "AdventOfCodeBase.h"
+#include "CodeUtil.h"
 
 #include <bitset>
+#include <map>
 #include <vector>
 
 /*
@@ -42,32 +44,32 @@ namespace AdventOfCode {
 namespace December14 {
 
     typedef std::bitset<32> BitElem;
-    typedef std::vector<BitElem> BitArray;
+    typedef std::vector<BitElem> BitRow;
 
     class BitField
     {
     public:
         BitField() {};
-        BitField(const BitArray& array) {};
+        BitField(const BitRow& array) {};
         void AddBitElement(const BitElem& bitElem);
-        BitElem At(int i) const { return m_bitArray[i]; }
-        BitArray GetVector() const { return m_bitArray; }
-        int GetSize() const { return static_cast<int>(m_bitArray.size()); }
+        int GetSize() const { return static_cast<int>(m_bitRow.size()); }
+        BitElem At(int i) const { return m_bitRow[i]; }
+        BitRow GetVector() const { return m_bitRow; }
         std::string ToString() const;
 
     private:
-        BitArray m_bitArray;
+        BitRow m_bitRow;
     };
 
-    typedef std::vector<BitField> BitGrid;
+    typedef std::map<CodeUtils::Point, bool> BitMap;
 
-    class DiskDefragmentor
+    class DiskDefragmenter
         : protected AdventOfCodeBase
     {
     public:
-        DiskDefragmentor() {};
-        DiskDefragmentor(const std::string& fileName);
-        ~DiskDefragmentor() = default;
+        DiskDefragmenter() {};
+        DiskDefragmenter(const std::string& fileName);
+        ~DiskDefragmenter() = default;
 
     public:
         // AdventOfCodeBase
@@ -78,11 +80,16 @@ namespace December14 {
     public:
         static bool ParseToBitfield(const std::string& input, BitField& bitfield);
         static bool ConvertHexStringToBitField(const std::string& hexString, BitField& bitfield);
-        void AddBitfield(const BitField& bitfield);
         int GetNumUsedSquaresInGrid() const;
 
-    private:
-        BitGrid m_grid;
+        void SetBit(const CodeUtils::Point& point, bool bit);
+        bool GetBit(const CodeUtils::Point& point) const;
+        std::string GetRowAsString(int rowId) const;
+
+    protected:
+        BitMap m_bitMap;
+        const int m_numRows = 128;
+        const int m_numColumns = 128;
     };
 
 }}

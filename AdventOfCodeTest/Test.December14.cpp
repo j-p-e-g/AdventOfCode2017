@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+
 #include "../AdventOfCode/December14.h"
+#include "../AdventOfCode/CodeUtil.h"
 
 namespace AdventOfCodeTest
 {
@@ -16,7 +18,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December14_ConvertHexStringToBitField_empty)
         {
             BitField bitfield;
-            Assert::AreEqual(true, DiskDefragmentor::ConvertHexStringToBitField("", bitfield));
+            Assert::AreEqual(true, DiskDefragmenter::ConvertHexStringToBitField("", bitfield));
             Assert::AreEqual(0, bitfield.GetSize());
         }
 
@@ -26,7 +28,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December14_ConvertHexStringToBitField_invalid)
         {
             BitField bitfield;
-            Assert::AreEqual(false, DiskDefragmentor::ConvertHexStringToBitField("kk", bitfield));
+            Assert::AreEqual(false, DiskDefragmenter::ConvertHexStringToBitField("kk", bitfield));
         }
 
         /*
@@ -35,7 +37,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December14_ConvertHexStringToBitField_singleChar_0)
         {
             BitField bitfield;
-            Assert::AreEqual(true, DiskDefragmentor::ConvertHexStringToBitField("0", bitfield));
+            Assert::AreEqual(true, DiskDefragmenter::ConvertHexStringToBitField("0", bitfield));
             Assert::AreEqual(1, bitfield.GetSize());
             Assert::AreEqual(0, static_cast<int>(bitfield.At(0).to_ulong()));
         }
@@ -46,7 +48,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December14_ConvertHexStringToBitField_singleChar_e)
         {
             BitField bitfield;
-            Assert::AreEqual(true, DiskDefragmentor::ConvertHexStringToBitField("e", bitfield));
+            Assert::AreEqual(true, DiskDefragmenter::ConvertHexStringToBitField("e", bitfield));
             Assert::AreEqual(1, bitfield.GetSize());
             Assert::AreEqual(14, static_cast<int>(bitfield.At(0).to_ulong()));
         }
@@ -58,7 +60,7 @@ namespace AdventOfCodeTest
         {
             BitField bitfield;
             // take into account that the bitfield is buffered to a length of 32 bits
-            Assert::AreEqual(true, DiskDefragmentor::ConvertHexStringToBitField("a0c20170", bitfield));
+            Assert::AreEqual(true, DiskDefragmenter::ConvertHexStringToBitField("a0c20170", bitfield));
             //1010 a
             //0000 0
             //1100 c
@@ -92,7 +94,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December14_ParseToBitfield_Aoc_test_0)
         {
             BitField bitfield;
-            Assert::AreEqual(true, DiskDefragmentor::ParseToBitfield("flqrgnkx-0", bitfield));
+            Assert::AreEqual(true, DiskDefragmenter::ParseToBitfield("flqrgnkx-0", bitfield));
             const std::string str = bitfield.ToString();
             Assert::AreEqual("11010100", str.substr(0, 8).c_str());
         }
@@ -104,7 +106,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December14_ParseToBitfield_Aoc_test_1)
         {
             BitField bitfield;
-            Assert::AreEqual(true, DiskDefragmentor::ParseToBitfield("flqrgnkx-1", bitfield));
+            Assert::AreEqual(true, DiskDefragmenter::ParseToBitfield("flqrgnkx-1", bitfield));
             const std::string str = bitfield.ToString();
             Assert::AreEqual("01010101", str.substr(0, 8).c_str());
         }
@@ -116,7 +118,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December14_ParseToBitfield_Aoc_test_2)
         {
             BitField bitfield;
-            Assert::AreEqual(true, DiskDefragmentor::ParseToBitfield("flqrgnkx-2", bitfield));
+            Assert::AreEqual(true, DiskDefragmenter::ParseToBitfield("flqrgnkx-2", bitfield));
 
             const std::string str = bitfield.ToString();
             Assert::AreEqual("00001010", str.substr(0, 8).c_str());
@@ -129,7 +131,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December14_ParseToBitfield_Aoc_test_3)
         {
             BitField bitfield;
-            Assert::AreEqual(true, DiskDefragmentor::ParseToBitfield("flqrgnkx-3", bitfield));
+            Assert::AreEqual(true, DiskDefragmenter::ParseToBitfield("flqrgnkx-3", bitfield));
 
             const std::string str = bitfield.ToString();
             Assert::AreEqual("10101101", str.substr(0, 8).c_str());
@@ -142,7 +144,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December14_ParseToBitfield_Aoc_test_4)
         {
             BitField bitfield;
-            Assert::AreEqual(true, DiskDefragmentor::ParseToBitfield("flqrgnkx-4", bitfield));
+            Assert::AreEqual(true, DiskDefragmenter::ParseToBitfield("flqrgnkx-4", bitfield));
 
             const std::string str = bitfield.ToString();
             Assert::AreEqual("01101000", str.substr(0, 8).c_str());
@@ -155,7 +157,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December14_ParseToBitfield_Aoc_test_5)
         {
             BitField bitfield;
-            Assert::AreEqual(true, DiskDefragmentor::ParseToBitfield("flqrgnkx-5", bitfield));
+            Assert::AreEqual(true, DiskDefragmenter::ParseToBitfield("flqrgnkx-5", bitfield));
 
             const std::string str = bitfield.ToString();
             Assert::AreEqual("11001001", str.substr(0, 8).c_str());
@@ -168,7 +170,7 @@ namespace AdventOfCodeTest
         TEST_METHOD(December14_ParseToBitfield_Aoc_test_6)
         {
             BitField bitfield;
-            Assert::AreEqual(true, DiskDefragmentor::ParseToBitfield("flqrgnkx-6", bitfield));
+            Assert::AreEqual(true, DiskDefragmenter::ParseToBitfield("flqrgnkx-6", bitfield));
 
             const std::string str = bitfield.ToString();
             Assert::AreEqual("01000100", str.substr(0, 8).c_str());
@@ -181,18 +183,46 @@ namespace AdventOfCodeTest
         TEST_METHOD(December14_ParseToBitfield_Aoc_test_7)
         {
             BitField bitfield;
-            Assert::AreEqual(true, DiskDefragmentor::ParseToBitfield("flqrgnkx-7", bitfield));
+            Assert::AreEqual(true, DiskDefragmenter::ParseToBitfield("flqrgnkx-7", bitfield));
 
             const std::string str = bitfield.ToString();
             Assert::AreEqual("11010110", str.substr(0, 8).c_str());
         }
 
+        // -------------------------------------
+        // GetBit
+        // -------------------------------------
+        /*
+        ##.#.#..-->
+        .#.#.#.#
+        ....#.#.
+        #.#.##.#
+        .##.#...
+        ##..#..#
+        .#...#..
+        ##.#.##.-->
+        |      |
+        V      V
+        */
+        TEST_METHOD(December14_GetBitAtPos_AoC_test)
+        {
+            DiskDefragmenter test;
+            test.ParseLine("flqrgnkx");
+            Assert::AreEqual(false, test.GetBit(CodeUtils::Point(0, 4)));
+            Assert::AreEqual(true, test.GetBit(CodeUtils::Point(1, 1)));
+            Assert::AreEqual(false, test.GetBit(CodeUtils::Point(2, 1)));
+            Assert::AreEqual(true, test.GetBit(CodeUtils::Point(5, 7)));
+        }
+
+        // -------------------------------------
+        // GetNumUsedSquaresInGrid
+        // -------------------------------------
         /*
         In this example, 8108 squares are used across the entire 128x128 grid.  
         */
         TEST_METHOD(December14_GetNumUsedSquaresInGrid_AoC_test)
         {
-            DiskDefragmentor test;
+            DiskDefragmenter test;
             test.ParseLine("flqrgnkx");
             Assert::AreEqual(8108, test.GetNumUsedSquaresInGrid());
         }

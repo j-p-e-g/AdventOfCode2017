@@ -16,7 +16,7 @@
 #include "December11b.h"
 #include "December12b.h"
 #include "December13b.h"
-#include "December14.h"
+#include "December14b.h"
 
 int main()
 {
@@ -99,9 +99,12 @@ int main()
         testb.OutputResultToConsole();
     }
     {
-        AdventOfCode::December14::DiskDefragmentor test("InputFiles/input14.txt");
-        test.OutputResultToConsole();
+        AdventOfCode::December14::DiskDefragmenter testa("InputFiles/input14.txt");
+        testa.OutputResultToConsole();
+        AdventOfCode::December14::DiskDefragmenterB testb("InputFiles/input14.txt");
+        testb.OutputResultToConsole();
     }
+
     return 0;
 }
 

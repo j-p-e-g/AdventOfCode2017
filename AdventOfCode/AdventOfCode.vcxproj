@@ -175,6 +175,7 @@
     <ClInclude Include="December13.h" />
     <ClInclude Include="December13b.h" />
     <ClInclude Include="December14.h" />
+    <ClInclude Include="December14b.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -209,6 +210,7 @@
     <ClCompile Include="December13.cpp" />
     <ClCompile Include="December13b.cpp" />
     <ClCompile Include="December14.cpp" />
+    <ClCompile Include="December14b.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

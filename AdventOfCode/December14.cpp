@@ -12,17 +12,17 @@
 using namespace AdventOfCode::December14;
 
 // ----------------------------
-// Bitfield
+// BitField
 // ----------------------------
 void BitField::AddBitElement(const BitElem& bitElem)
 {
-    m_bitArray.push_back(bitElem);
+    m_bitRow.push_back(bitElem);
 }
 
 std::string BitField::ToString() const
 {
     std::string result;
-    for (const auto& val : m_bitArray)
+    for (const auto& val : m_bitRow)
     {
         result += val.to_string();
     }
@@ -33,20 +33,20 @@ std::string BitField::ToString() const
 // -------------------------------
 // DiskDefragmentor
 // -------------------------------
-DiskDefragmentor::DiskDefragmentor(const std::string& fileName)
+DiskDefragmenter::DiskDefragmenter(const std::string& fileName)
     : AdventOfCodeBase()
 {
     ReadFile(fileName);
 }
 
-bool DiskDefragmentor::ParseLine(const std::string& inputLine)
+bool DiskDefragmenter::ParseLine(const std::string& inputLine)
 {
     // The hash inputs are a key string (your puzzle input), 
     // a dash, and a number from 0 to 127 corresponding to the row.
-    for (int k = 0; k < 128; k++)
+    for (int row = 0; row < m_numRows; row++)
     {
         std::string numString;
-        CodeUtils::CodeUtil::ReadIntToString(k, numString);
+        CodeUtils::CodeUtil::ReadIntToString(row, numString);
         const std::string input = inputLine + "-" + numString;
 
         BitField bitfield;
@@ -55,18 +55,22 @@ bool DiskDefragmentor::ParseLine(const std::string& inputLine)
             return false;
         }
 
-        AddBitfield(bitfield);
+        std::string bitString = bitfield.ToString();
+        for (unsigned int column = 0; column < bitString.length(); column++)
+        {
+            SetBit(CodeUtils::Point(row, column), bitString[column] == '1');
+        }
     }
 
     return true;
 }
 
-void DiskDefragmentor::OutputResultToConsole() const
+void DiskDefragmenter::OutputResultToConsole() const
 {
-    std::cout << "December14: result = " << GetNumUsedSquaresInGrid() << std::endl;
+    std::cout << "December14.a: result = " << GetNumUsedSquaresInGrid() << std::endl;
 }
 
-bool DiskDefragmentor::ParseToBitfield(const std::string& input, BitField& bitfield)
+bool DiskDefragmenter::ParseToBitfield(const std::string& input, BitField& bitfield)
 {
     AdventOfCode::December10::ComplexKnotHash knotHash;
     knotHash.ParseLine(input);
@@ -87,7 +91,7 @@ bool DiskDefragmentor::ParseToBitfield(const std::string& input, BitField& bitfi
     return true;
 }
 
-bool DiskDefragmentor::ConvertHexStringToBitField(const std::string& hexString, BitField& bitfield)
+bool DiskDefragmenter::ConvertHexStringToBitField(const std::string& hexString, BitField& bitfield)
 {
     for (const auto& c : hexString)
     {
@@ -115,20 +119,39 @@ bool DiskDefragmentor::ConvertHexStringToBitField(const std::string& hexString, 
     return true;
 }
 
-void DiskDefragmentor::AddBitfield(const BitField& bitfield)
+void DiskDefragmenter::SetBit(const CodeUtils::Point& point, bool bit)
 {
-    m_grid.push_back(bitfield);
+    m_bitMap.emplace(point, bit);
 }
 
-int DiskDefragmentor::GetNumUsedSquaresInGrid() const
+bool DiskDefragmenter::GetBit(const CodeUtils::Point& point) const
+{
+    const auto& found = m_bitMap.find(point);
+    if (found == m_bitMap.end())
+    {
+        return false;
+    }
+
+    return found->second;
+}
+
+std::string DiskDefragmenter::GetRowAsString(int rowId) const
+{
+    std::string str;
+    for (int c = 0; c < m_numColumns; c++)
+    {
+        str += GetBit(CodeUtils::Point(rowId, c)) ? "1" : "0";
+    }
+
+    return str;
+}
+
+int DiskDefragmenter::GetNumUsedSquaresInGrid() const
 {
     int sum = 0;
-    for (const auto& bitfield : m_grid)
+    for (const auto& point : m_bitMap)
     {
-        for (const auto& bitblock : bitfield.GetVector())
-        {
-            sum += static_cast<int>(bitblock.count());
-        }
+        sum += point.second ? 1 : 0;
     }
 
     return sum;
