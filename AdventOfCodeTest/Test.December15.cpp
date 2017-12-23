@@ -74,6 +74,7 @@ namespace AdventOfCodeTest
         }
 
         /*
+        Because of this one match, after processing these five pairs, the judge would have added only 1 to its total.
         */
         TEST_METHOD(December15_CountMatchingResults_AoC_test)
         {

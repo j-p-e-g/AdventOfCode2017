@@ -19,7 +19,7 @@
 #include "December12b.h"
 #include "December13b.h"
 #include "December14b.h"
-#include "December15.h"
+#include "December15b.h"
 
 int main()
 {
@@ -108,11 +108,18 @@ int main()
         testb.OutputResultToConsole();
     }
     {
+        using namespace AdventOfCode::December15;
+
         // no point in reading from input file
-        AdventOfCode::December15::DuelingGeneratorJudge judge;
-        judge.AddGenerator(std::make_shared<AdventOfCode::December15::Generator>(722, 16807, 2147483647));
-        judge.AddGenerator(std::make_shared<AdventOfCode::December15::Generator>(354, 48271, 2147483647));
-        judge.OutputResultToConsole();
+        DuelingGeneratorJudge testa;
+        testa.AddGenerator(std::make_shared<Generator>(722, 16807, 2147483647));
+        testa.AddGenerator(std::make_shared<Generator>(354, 48271, 2147483647));
+        testa.OutputResultToConsole();
+
+        DuelingGeneratorJudgeB testb;
+        testb.AddGenerator(std::shared_ptr<Generator>(new GeneratorB(722, 16807, 2147483647, 4)));
+        testb.AddGenerator(std::shared_ptr<Generator>(new GeneratorB(354, 48271, 2147483647, 8)));
+        testb.OutputResultToConsole();
     }
 
     return 0;

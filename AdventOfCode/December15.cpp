@@ -6,10 +6,10 @@
 
 using namespace AdventOfCode::December15;
 
-Generator::Generator(int startValue, int factor, int divisor)
+Generator::Generator(int startValue, int factor, int modValue)
     : m_currentValue(startValue)
     , m_factor(factor)
-    , m_modValue(divisor)
+    , m_modValue(modValue)
 {
 }
 
@@ -25,6 +25,9 @@ int Generator::CalculateNextNumber()
     return m_currentValue;
 }
 
+// -------------------------------------
+// 
+// -------------------------------------
 bool DuelingGeneratorJudge::ParseLine(const std::string& inputLine)
 {
     return true;
@@ -32,7 +35,8 @@ bool DuelingGeneratorJudge::ParseLine(const std::string& inputLine)
 
 void DuelingGeneratorJudge::OutputResultToConsole() const
 {
-    std::cout << "December15: result = " << CountMatchingResults(40000000) << std::endl;
+    // After 40 million pairs, what is the judge's final count?
+    std::cout << "December15.a: result = " << CountMatchingResults(40000000) << std::endl;
 }
 
 void DuelingGeneratorJudge::AddGenerator(std::shared_ptr<Generator> generator)

@@ -56,10 +56,10 @@ namespace December15 {
     class Generator
     {
     public:
-        Generator(int startValue, int factor, int divisor);
-        int CalculateNextNumber();
+        Generator(int startValue, int factor, int modValue);
+        virtual int CalculateNextNumber();
 
-    private:
+    protected:
         long m_currentValue;
         long m_factor;
         long m_modValue;
@@ -84,7 +84,7 @@ namespace December15 {
         bool CompareGeneratorOutcomes() const;
         int CountMatchingResults(long long amount) const;
 
-    private:
+    protected:
         std::vector<std::shared_ptr<Generator>> m_duelingGenerators;
     };
 
