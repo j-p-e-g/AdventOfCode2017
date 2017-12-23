@@ -114,6 +114,9 @@
     <ClInclude Include="December14b.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="December15.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -210,6 +213,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="December14b.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="December15.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
