@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "AdventOfCodeBase.h"
 
 /*
@@ -31,6 +33,65 @@
 namespace AdventOfCode {
 namespace December16 {
 
+    class DancingMove
+    {
+    public:
+        virtual bool IsValid() const;
+        virtual bool ApplyMove(std::string& formation) const;
+    };
+
+    class Spin 
+        : public DancingMove
+    {
+    public:
+        Spin(int _size)
+        {
+            m_size = _size;
+        }
+
+        bool IsValid() const override;
+        bool ApplyMove(std::string& formation) const override;
+
+    private:
+        int m_size;
+    };
+
+    class Exchange 
+        : public DancingMove
+    {
+    public:
+        Exchange(int _id1, int _id2)
+        {
+            m_id1 = _id1;
+            m_id2 = _id2;
+        }
+
+        bool IsValid() const override;
+        bool ApplyMove(std::string& formation) const override;
+
+    private:
+        int m_id1;
+        int m_id2;
+    };
+
+    class Partner 
+        : public DancingMove
+    {
+    public:
+        Partner(int _char1, int _char2)
+        {
+            m_char1 = _char1;
+            m_char2 = _char2;
+        }
+
+        bool IsValid() const override;
+        bool ApplyMove(std::string& formation) const override;
+
+    private:
+        int m_char1;
+        int m_char2;
+    };
+
     class ProgramDancingMaster
         : protected AdventOfCodeBase
     {
@@ -46,10 +107,8 @@ namespace December16 {
         // ~AdventOfCodeBase
 
     public:
-        bool ApplyDancingMove(const std::string& move);
-        bool ApplySpin(int length);
-        bool ApplyPartner(char char1, char char2);
-        bool ApplySwap(int id1, int id2);
+        bool ParseDancingMove(const std::string& input, std::shared_ptr<DancingMove>& move);
+        bool ApplyDancingMove(const std::shared_ptr<DancingMove>& move);
         std::string GetFinalFormation() const;
 
     private:
