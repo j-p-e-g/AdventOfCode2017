@@ -20,7 +20,7 @@
 #include "December13b.h"
 #include "December14b.h"
 #include "December15b.h"
-#include "December16.h"
+#include "December16b.h"
 
 int main()
 {
@@ -123,8 +123,10 @@ int main()
         testb.OutputResultToConsole();
     }
     {
-        AdventOfCode::December16::ProgramDancingMaster test("InputFiles/input16.txt");
-        test.OutputResultToConsole();
+        AdventOfCode::December16::ProgramDancingMaster testa("InputFiles/input16.txt");
+        testa.OutputResultToConsole();
+        AdventOfCode::December16::ProgramDancingMasterB testb("InputFiles/input16.txt", 16, 100);
+        testb.OutputResultToConsole();
     }
 
     return 0;

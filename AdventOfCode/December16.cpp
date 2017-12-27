@@ -50,7 +50,7 @@ bool ProgramDancingMaster::ParseLine(const std::string& inputLine)
 
 void ProgramDancingMaster::OutputResultToConsole() const
 {
-    std::cout << "December16: result = " << GetFinalFormation() << std::endl;
+    std::cout << "December16.a: result = " << GetFinalFormation() << std::endl;
 }
 
 bool ProgramDancingMaster::ApplyDancingMove(const std::string& move)
