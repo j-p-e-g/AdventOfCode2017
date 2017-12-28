@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <vector>
 
 #include "December16.h"
 
@@ -38,6 +39,12 @@ namespace December16 {
         virtual bool ParseLine(const std::string& inputLine) override;
         virtual void OutputResultToConsole() const override;
         // ~AdventOfCodeBase
+
+    public:
+        bool CreateMoves(std::vector<std::string>& commands, std::vector<std::shared_ptr<DancingMove>>& moves);
+        bool SimplifyMoves(std::vector<std::shared_ptr<DancingMove>>& moves);
+        void RemoveCanceledElements(std::vector<std::shared_ptr<DancingMove>>& moves);
+        bool HandleDance(const std::vector<std::shared_ptr<DancingMove>>& moves);
 
     private:
         long long m_numRepetitions;

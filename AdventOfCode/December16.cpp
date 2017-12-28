@@ -18,6 +18,16 @@ bool DancingMove::ApplyMove(std::string& formation) const
     return false;
 }
 
+std::string DancingMove::GetCommand() const
+{
+    return "";
+}
+
+bool DancingMove::CanUndo(std::shared_ptr<DancingMove> other) const
+{
+    return false;
+}
+
 bool Spin::IsValid() const
 {
     return m_size > 0;
@@ -52,6 +62,13 @@ bool Spin::ApplyMove(std::string& formation) const
     return true;
 }
 
+std::string Spin::GetCommand() const
+{
+    std::stringstream stream;
+    stream << "s" << m_size;
+    return stream.str();
+}
+
 bool Exchange::IsValid() const
 {
     return m_id1 >= 0 && m_id2 >= 0 && m_id1 != m_id2;
@@ -80,6 +97,45 @@ bool Exchange::ApplyMove(std::string& formation) const
     formation[m_id2] = temp;
 
     return true;
+}
+
+std::string Exchange::GetCommand() const
+{
+    std::stringstream stream;
+    stream << "x" << m_id1 << "/" << m_id2;
+    return stream.str();
+}
+
+bool Exchange::CanUndo(std::shared_ptr<DancingMove> other) const
+{
+    if (other->GetType() != m_type)
+    {
+        return false;
+    }
+
+    if (m_id1 == other->GetId1() && m_id2 == other->GetId2()
+        || m_id1 == other->GetId2() && m_id2 == other->GetId1())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Exchange::AffectsSameTarget(std::shared_ptr<DancingMove> other) const
+{
+    if (other->GetType() != m_type)
+    {
+        return false;
+    }
+
+    if (m_id1 == other->GetId1() || m_id1 == other->GetId2() 
+        || m_id2 == other->GetId1() || m_id2 == other->GetId2())
+    {
+        return true;
+    }
+
+    return false;
 }
 
 bool Partner::IsValid() const
@@ -127,6 +183,45 @@ bool Partner::ApplyMove(std::string& formation) const
     formation[id2] = temp;
 
     return true;
+}
+
+std::string Partner::GetCommand() const
+{
+    std::stringstream stream;
+    stream << "p" << (char)m_char1 << "/" << (char)m_char2;
+    return stream.str();
+}
+
+bool Partner::CanUndo(std::shared_ptr<DancingMove> other) const
+{
+    if (other->GetType() != m_type)
+    {
+        return false;
+    }
+
+    if (m_char1 == other->GetChar1() && m_char2 == other->GetChar2()
+        || m_char1 == other->GetChar2() && m_char2 == other->GetChar1())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Partner::AffectsSameTarget(std::shared_ptr<DancingMove> other) const
+{
+    if (other->GetType() != m_type)
+    {
+        return false;
+    }
+
+    if (m_char1 == other->GetChar1() || m_char1 == other->GetChar2() 
+        || m_char2 == other->GetChar1() || m_char2 == other->GetChar2())
+    {
+        return true;
+    }
+
+    return false;
 }
 
 // ---------------------------------

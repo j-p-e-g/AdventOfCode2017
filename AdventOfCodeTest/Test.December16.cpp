@@ -158,6 +158,38 @@ namespace AdventOfCodeTest
             Assert::AreEqual("abedc", formation.c_str());
         }
 
+        TEST_METHOD(December16_Exchange_CanUndo_true)
+        {
+            Exchange swapA(4, 7);
+            Exchange swapB(4, 7);
+            Exchange swapC(7, 4);
+
+            Assert::AreEqual(true, swapA.CanUndo(std::make_shared<Exchange>(swapB)));
+            Assert::AreEqual(true, swapC.CanUndo(std::make_shared<Exchange>(swapB)));
+        }
+
+        TEST_METHOD(December16_Exchange_CanUndo_false)
+        {
+            Exchange swapA(3, 1);
+            Exchange swapB(5, 1);
+            Exchange swapC(3, 2);
+
+            Assert::AreEqual(false, swapA.CanUndo(std::make_shared<Exchange>(swapB)));
+            Assert::AreEqual(false, swapA.CanUndo(std::make_shared<Exchange>(swapC)));
+        }
+
+        TEST_METHOD(December16_Exchange_AffectsSameTarget)
+        {
+            Exchange swapA(4, 7);
+            Exchange swapB(7, 6);
+            Exchange swapC(4, 14);
+            Exchange swapD(8, 3);
+
+            Assert::AreEqual(true, swapA.AffectsSameTarget(std::make_shared<Exchange>(swapB)));
+            Assert::AreEqual(true, swapA.AffectsSameTarget(std::make_shared<Exchange>(swapC)));
+            Assert::AreEqual(false, swapA.AffectsSameTarget(std::make_shared<Exchange>(swapD)));
+        }
+
         // ----------------------------------------
         // Parse Exchange command
         // ----------------------------------------
@@ -277,6 +309,38 @@ namespace AdventOfCodeTest
             Assert::AreEqual(true, move.IsValid());
             Assert::AreEqual(true, move.ApplyMove(formation));
             Assert::AreEqual("abcedfgh", formation.c_str());
+        }
+
+        TEST_METHOD(December16_Partner_CanUndo_true)
+        {
+            Partner moveA('c', 'd');
+            Partner moveB('c', 'd');
+            Partner moveC('d', 'c');
+
+            Assert::AreEqual(true, moveA.CanUndo(std::make_shared<Partner>(moveB)));
+            Assert::AreEqual(true, moveC.CanUndo(std::make_shared<Partner>(moveA)));
+        }
+
+        TEST_METHOD(December16_Partner_CanUndo_false)
+        {
+            Partner moveA('b', 'f');
+            Partner moveB('b', 'g');
+            Partner moveC('a', 'f');
+
+            Assert::AreEqual(false, moveA.CanUndo(std::make_shared<Partner>(moveB)));
+            Assert::AreEqual(false, moveA.CanUndo(std::make_shared<Partner>(moveC)));
+        }
+
+        TEST_METHOD(December16_Partner_AffectsSameTarget)
+        {
+            Partner moveA('b', 'f');
+            Partner moveB('g', 'f');
+            Partner moveC('g', 'b');
+            Partner moveD('e', 'c');
+
+            Assert::AreEqual(true, moveA.AffectsSameTarget(std::make_shared<Partner>(moveB)));
+            Assert::AreEqual(true, moveA.AffectsSameTarget(std::make_shared<Partner>(moveC)));
+            Assert::AreEqual(false, moveA.AffectsSameTarget(std::make_shared<Partner>(moveD)));
         }
 
         // ----------------------------------------

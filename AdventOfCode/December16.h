@@ -38,6 +38,18 @@ namespace December16 {
     public:
         virtual bool IsValid() const;
         virtual bool ApplyMove(std::string& formation) const;
+        virtual std::string GetCommand() const;
+        virtual bool CanUndo(std::shared_ptr<DancingMove> other) const;
+        virtual bool AffectsSameTarget(std::shared_ptr<DancingMove> other) const { return false; };
+        std::string GetType() const { return m_type; }
+        virtual int GetSize() const { return -1; }
+        virtual int GetId1() const { return -1; }
+        virtual int GetId2() const { return -1; }
+        virtual char GetChar1() const { return '-'; }
+        virtual char GetChar2() const { return '-'; }
+
+    protected:
+        std::string m_type = "";
     };
 
     class Spin 
@@ -47,10 +59,13 @@ namespace December16 {
         Spin(int _size)
         {
             m_size = _size;
+            m_type = "Spin";
         }
 
         bool IsValid() const override;
         bool ApplyMove(std::string& formation) const override;
+        std::string GetCommand() const override;
+        virtual int GetSize() const override { return m_size; }
 
     private:
         int m_size;
@@ -64,10 +79,16 @@ namespace December16 {
         {
             m_id1 = _id1;
             m_id2 = _id2;
+            m_type = "Exchange";
         }
 
         bool IsValid() const override;
         bool ApplyMove(std::string& formation) const override;
+        std::string GetCommand() const override;
+        bool CanUndo(std::shared_ptr<DancingMove> other) const override;
+        bool AffectsSameTarget(std::shared_ptr<DancingMove> other) const override;
+        int GetId1() const override { return m_id1; }
+        int GetId2() const override { return m_id2; }
 
     private:
         int m_id1;
@@ -82,10 +103,16 @@ namespace December16 {
         {
             m_char1 = _char1;
             m_char2 = _char2;
+            m_type = "Partner";
         }
 
         bool IsValid() const override;
         bool ApplyMove(std::string& formation) const override;
+        std::string GetCommand() const override;
+        bool CanUndo(std::shared_ptr<DancingMove> other) const override;
+        bool AffectsSameTarget(std::shared_ptr<DancingMove> other) const override;
+        char GetChar1() const override { return m_char1; }
+        char GetChar2() const override { return m_char2; }
 
     private:
         int m_char1;
@@ -111,7 +138,7 @@ namespace December16 {
         bool ApplyDancingMove(const std::shared_ptr<DancingMove>& move);
         std::string GetFinalFormation() const;
 
-    private:
+    protected:
         std::string m_dancingFormation;
     };
 
