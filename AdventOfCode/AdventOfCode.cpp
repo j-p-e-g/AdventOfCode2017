@@ -21,6 +21,7 @@
 #include "December14b.h"
 #include "December15b.h"
 #include "December16b.h"
+#include "December17.h"
 
 int main()
 {
@@ -127,6 +128,10 @@ int main()
         testa.OutputResultToConsole();
         AdventOfCode::December16::ProgramDancingMasterB testb("InputFiles/input16.txt", 16, 100);
         testb.OutputResultToConsole();
+    }
+    {
+        AdventOfCode::December17::Spinlock test("InputFiles/input17.txt");
+        test.OutputResultToConsole();
     }
 
     return 0;
