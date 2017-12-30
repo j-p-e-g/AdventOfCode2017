@@ -93,7 +93,7 @@ bool Spinlock::ParseLine(const std::string& inputLine)
 
 void Spinlock::OutputResultToConsole() const
 {
-    std::cout << "December17: result = " << GetNextValue() << std::endl;
+    std::cout << "December17.a: result = " << GetNextValue() << std::endl;
 }
 
 void Spinlock::StartSpinlock(int stepSize, int repeats)
