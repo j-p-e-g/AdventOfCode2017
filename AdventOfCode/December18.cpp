@@ -35,13 +35,13 @@ CharOrNumber::CharOrNumber(const std::string& str)
 // -------------------------
 // RegisterCommand(s)
 // -------------------------
-bool RegisterCommand::Apply(RegisterDuet& rd)
+bool RegisterCommand::Apply(RegisterSolo& rd)
 {
     rd.SetCurrentIndex(rd.GetCurrentIndex() + 1);
     return true;
 }
 
-bool RegisterSnd::Apply(RegisterDuet& rd)
+bool RegisterSnd::Apply(RegisterSolo& rd)
 {
     const long long frequency = param.isChar ? rd.GetRegisterValue(param.id) : param.value;
     rd.SetFrequency(frequency);
@@ -50,7 +50,7 @@ bool RegisterSnd::Apply(RegisterDuet& rd)
     return true;
 }
 
-bool RegisterRcv::Apply(RegisterDuet& rd)
+bool RegisterRcv::Apply(RegisterSolo& rd)
 {
     const long long value = param.isChar ? rd.GetRegisterValue(param.id) : param.value;
     if (value != 0)
@@ -62,7 +62,7 @@ bool RegisterRcv::Apply(RegisterDuet& rd)
     return true;
 }
 
-bool RegisterSet::Apply(RegisterDuet& rd)
+bool RegisterSet::Apply(RegisterSolo& rd)
 {
     const long long value = param2.isChar ? rd.GetRegisterValue(param2.id) : param2.value;
     rd.SetRegisterValue(param1.id, value);
@@ -71,7 +71,7 @@ bool RegisterSet::Apply(RegisterDuet& rd)
     return true;
 }
 
-bool RegisterAdd::Apply(RegisterDuet& rd)
+bool RegisterAdd::Apply(RegisterSolo& rd)
 {
     const long long prevValue = rd.GetRegisterValue(param1.id);
     const long long bonus = param2.isChar ? rd.GetRegisterValue(param2.id) : param2.value;
@@ -81,7 +81,7 @@ bool RegisterAdd::Apply(RegisterDuet& rd)
     return true;
 }
 
-bool RegisterMul::Apply(RegisterDuet& rd)
+bool RegisterMul::Apply(RegisterSolo& rd)
 {
     const long long prevValue = rd.GetRegisterValue(param1.id);
     const long long multiplier = param2.isChar ? rd.GetRegisterValue(param2.id) : param2.value;
@@ -91,7 +91,7 @@ bool RegisterMul::Apply(RegisterDuet& rd)
     return true;
 }
 
-bool RegisterMod::Apply(RegisterDuet& rd)
+bool RegisterMod::Apply(RegisterSolo& rd)
 {
     const long long prevValue = rd.GetRegisterValue(param1.id);
     const long long modValue  = param2.isChar ? rd.GetRegisterValue(param2.id) : param2.value;
@@ -107,7 +107,7 @@ bool RegisterMod::Apply(RegisterDuet& rd)
     return true;
 }
 
-bool RegisterJgz::Apply(RegisterDuet& rd)
+bool RegisterJgz::Apply(RegisterSolo& rd)
 {
     const long long value = param1.isChar ? rd.GetRegisterValue(param1.id) : param1.value;
 
@@ -127,14 +127,14 @@ bool RegisterJgz::Apply(RegisterDuet& rd)
 // ----------------------------------
 // RegisterDuet
 // ----------------------------------
-RegisterDuet::RegisterDuet(const std::string& fileName)
+RegisterSolo::RegisterSolo(const std::string& fileName)
     : AdventOfCodeBase()
 {
     ReadFile(fileName);
     ExecuteCommands();
 }
 
-bool RegisterDuet::ParseLine(const std::string& inputLine)
+bool RegisterSolo::ParseLine(const std::string& inputLine)
 {
     const std::vector<std::string> elements = CodeUtils::CodeUtil::SplitStringBySpace(inputLine);
 
@@ -150,7 +150,7 @@ bool RegisterDuet::ParseLine(const std::string& inputLine)
     return ParseCommand(command, CharOrNumber(paramStr1), CharOrNumber(paramStr2));
 }
 
-bool RegisterDuet::ParseCommand(const std::string& command, const CharOrNumber& param1, const CharOrNumber& param2)
+bool RegisterSolo::ParseCommand(const std::string& command, const CharOrNumber& param1, const CharOrNumber& param2)
 {
     if (command == "snd")
     {
@@ -224,17 +224,17 @@ bool RegisterDuet::ParseCommand(const std::string& command, const CharOrNumber& 
     return true;
 }
 
-void RegisterDuet::OutputResultToConsole() const
+void RegisterSolo::OutputResultToConsole() const
 {
-    std::cout << "December18: result = " << GetRecoveredFrequency() << std::endl;
+    std::cout << "December18.a: result = " << GetRecoveredFrequency() << std::endl;
 }
 
-bool RegisterDuet::ExecuteCommands()
+bool RegisterSolo::ExecuteCommands()
 {
     m_currentIndex = 0;
     while (m_currentIndex >= 0 && m_currentIndex < m_commands.size())
     {
-        if (!m_commands[m_currentIndex]->Apply(*this))
+        if (!ExecuteNextCommand())
         {
             return false;
         }
@@ -249,7 +249,18 @@ bool RegisterDuet::ExecuteCommands()
     return true;
 }
 
-void RegisterDuet::SetRegisterValue(char id, long long value)
+bool RegisterSolo::ExecuteNextCommand()
+{
+    if (m_currentIndex < 0 || m_currentIndex >= m_commands.size())
+    {
+        return false;
+    }
+
+    // may also affect m_currentIndex
+    return (m_commands[m_currentIndex]->Apply(*this));
+}
+
+void RegisterSolo::SetRegisterValue(char id, long long value)
 {
     auto& found = m_registers.find(id);
     if (found == m_registers.end())
@@ -262,7 +273,7 @@ void RegisterDuet::SetRegisterValue(char id, long long value)
     }
 }
 
-long long RegisterDuet::GetRegisterValue(char id) const
+long long RegisterSolo::GetRegisterValue(char id) const
 {
     const auto& found = m_registers.find(id);
     if (found == m_registers.end())

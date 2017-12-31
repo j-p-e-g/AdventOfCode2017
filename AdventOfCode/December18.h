@@ -64,7 +64,7 @@ namespace December18 {
         bool isChar = false;
     };
 
-    class RegisterDuet;
+    class RegisterSolo;
 
     class RegisterCommand
     {
@@ -75,7 +75,7 @@ namespace December18 {
         }
 
     public:
-        virtual bool Apply(RegisterDuet& rd);
+        virtual bool Apply(RegisterSolo& rd);
 
     protected:
         std::string command;
@@ -122,7 +122,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterDuet& rd) override;
+        bool Apply(RegisterSolo& rd) override;
     };
 
     class RegisterRcv
@@ -135,7 +135,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterDuet& rd) override;
+        bool Apply(RegisterSolo& rd) override;
     };
 
     // double-param commands
@@ -149,7 +149,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterDuet& rd) override;
+        bool Apply(RegisterSolo& rd) override;
     };
 
     class RegisterAdd
@@ -162,7 +162,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterDuet& rd) override;
+        bool Apply(RegisterSolo& rd) override;
     };
 
     class RegisterMul
@@ -175,7 +175,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterDuet& rd) override;
+        bool Apply(RegisterSolo& rd) override;
     };
 
     class RegisterMod
@@ -188,7 +188,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterDuet& rd) override;
+        bool Apply(RegisterSolo& rd) override;
     };
 
     class RegisterJgz
@@ -201,18 +201,18 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterDuet& rd) override;
+        bool Apply(RegisterSolo& rd) override;
     };
 
 
     // main class
-    class RegisterDuet
-        : protected AdventOfCodeBase
+    class RegisterSolo
+        : public AdventOfCodeBase
     {
     public:
-        RegisterDuet() {};
-        RegisterDuet(const std::string& fileName);
-        ~RegisterDuet() = default;
+        RegisterSolo() {};
+        RegisterSolo(const std::string& fileName);
+        ~RegisterSolo() = default;
 
     public:
         // AdventOfCodeBase
@@ -221,22 +221,31 @@ namespace December18 {
         // ~AdventOfCodeBase
 
     public:
-        bool ParseCommand(const std::string& command, const CharOrNumber& param1, const CharOrNumber& param2);
-        bool ExecuteCommands();
+        virtual bool ParseCommand(const std::string& command, const CharOrNumber& param1, const CharOrNumber& param2);
+        virtual bool ExecuteCommands();
+        virtual bool ExecuteNextCommand();
+        virtual void Send(long long val) {};
+        virtual bool SetQueuedValue(char id) { return false; };
+
+    public:
         void SetCurrentIndex(int index) { m_currentIndex = index; }
         int GetCurrentIndex() const { return m_currentIndex; }
-        void SetFrequency(long long freq) { m_lastFrequency = freq; }
-        long long GetFrequency() const { return m_lastFrequency; }
         void SetRegisterValue(char id, long long value);
         long long GetRegisterValue(char id) const;
+
+    public:
+        void SetFrequency(long long freq) { m_lastFrequency = freq; }
+        long long GetFrequency() const { return m_lastFrequency; }
         void SetRecoveredFrequency(long long freq) { m_lastRecoveredFrequency = freq; }
         long long GetRecoveredFrequency() const { return m_lastRecoveredFrequency; }
 
-    private:
+    protected:
         std::vector<std::shared_ptr<RegisterCommand>> m_commands;
         std::map<char, long long> m_registers;
-        long long m_lastFrequency = -1;
         int m_currentIndex = -1;
+
+    private:
+        long long m_lastFrequency = -1;
         long long m_lastRecoveredFrequency = -1;
     };
 

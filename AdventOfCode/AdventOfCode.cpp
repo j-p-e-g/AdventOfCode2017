@@ -23,7 +23,7 @@
 #include "December16b.h"
 #include "December17.h"
 #include "December17b.h"
-#include "December18.h"
+#include "December18b.h"
 
 int main()
 {
@@ -138,8 +138,22 @@ int main()
         testb.OutputResultToConsole();
     }
     {
-        AdventOfCode::December18::RegisterDuet test("InputFiles/input18.txt");
-        test.OutputResultToConsole();
+        using namespace AdventOfCode::December18;
+
+        RegisterSolo testa("InputFiles/input18.txt");
+        testa.OutputResultToConsole();
+
+        // this time, the setup is a bit more complicated
+        // as I can only parse the file after the solo elements have been registered
+        std::shared_ptr<RegisterDuet> testb = std::make_shared<RegisterDuet>();
+        std::shared_ptr<RegisterSoloB> solo1 = std::make_shared<RegisterSoloB>(0, testb);
+        std::shared_ptr<RegisterSoloB> solo2 = std::make_shared<RegisterSoloB>(1, testb);
+        testb->RegisterProgram(solo1);
+        testb->RegisterProgram(solo2);
+        testb->ReadFile("InputFiles/input18.txt");
+
+        testb->ExecuteCommands();
+        testb->OutputResultToConsole();
     }
 
     return 0;

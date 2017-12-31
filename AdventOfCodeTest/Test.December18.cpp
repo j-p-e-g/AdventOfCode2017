@@ -52,152 +52,152 @@ namespace AdventOfCodeTest
         }
 
         // ------------------------------
-        // RegisterDuet::ParseLine
+        // RegisterSolo::ParseLine
         // ------------------------------
         TEST_METHOD(December18_ParseLine_empty)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(false, test.ParseLine(""));
         }
 
         TEST_METHOD(December18_ParseLine_unknownCommand)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(false, test.ParseLine("foo c 8"));
         }
 
         TEST_METHOD(December18_ParseLine_multiCharRegister1)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(false, test.ParseLine("add xy 5"));
         }
 
         TEST_METHOD(December18_ParseLine_multiCharRegister2)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(false, test.ParseLine("set k rr"));
         }
 
         TEST_METHOD(December18_ParseLine_numberRegister)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(false, test.ParseLine("set 3 z"));
         }
 
         TEST_METHOD(December18_ParseLine_invalidSnd_2ndValue)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(false, test.ParseLine("snd k 5"));
         }
 
         TEST_METHOD(December18_ParseLine_validSndNumber)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("snd 28"));
         }
 
         TEST_METHOD(December18_ParseLine_validSndChar)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("snd y"));
         }
 
         TEST_METHOD(December18_ParseLine_invalidSet_3rdValue)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(false, test.ParseLine("set q 51 b"));
         }
 
         TEST_METHOD(December18_ParseLine_validSetNumber)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("set f 25"));
         }
 
         TEST_METHOD(December18_ParseLine_validSetChar)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("set b k"));
         }
 
         TEST_METHOD(December18_ParseLine_validAddNumber)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("add q -2"));
         }
 
         TEST_METHOD(December18_ParseLine_validAddChar)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("add z z"));
         }
 
         TEST_METHOD(December18_ParseLine_validMulNumber)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("mul d -1"));
         }
 
         TEST_METHOD(December18_ParseLine_validMulChar)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("mul c b"));
         }
 
         TEST_METHOD(December18_ParseLine_invalidMod_zero)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(false, test.ParseLine("mod g 0"));
         }
 
         TEST_METHOD(December18_ParseLine_invalidMod_negative)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(false, test.ParseLine("mod t -4"));
         }
 
         TEST_METHOD(December18_ParseLine_validModNumber)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("mod r 93"));
         }
 
         TEST_METHOD(December18_ParseLine_validModChar)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("mod k a"));
         }
 
         TEST_METHOD(December18_ParseLine_validJgzNumber)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("jgz d -5"));
         }
 
         TEST_METHOD(December18_ParseLine_validJgzChar)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("jgz e r"));
         }
 
         TEST_METHOD(December18_ParseLine_validRcvNumber)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("rcv 0"));
         }
 
         TEST_METHOD(December18_ParseLine_validRcvChar)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(true, test.ParseLine("rcv d"));
         }
 
         // ------------------------------------------
         // Apply commands: general
         // ------------------------------------------
-        TEST_METHOD(December18_RegisterDuet_noCommands)
+        TEST_METHOD(December18_RegisterSolo_noCommands)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             Assert::AreEqual(-1, test.GetCurrentIndex());
             Assert::AreEqual(-1, static_cast<int>(test.GetFrequency()));
             Assert::AreEqual(-1, static_cast<int>(test.GetRecoveredFrequency()));
@@ -210,7 +210,7 @@ namespace AdventOfCodeTest
         // ------------------------------------------
         TEST_METHOD(December18_RegisterSet_Apply_nonExisting)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(5);
 
             RegisterSet command(CharOrNumber("a"), CharOrNumber("9765"));
@@ -224,7 +224,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_RegisterSet_Apply)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(1);
 
             test.SetRegisterValue('r', -3);
@@ -247,7 +247,7 @@ namespace AdventOfCodeTest
         // ------------------------------------------
         TEST_METHOD(December18_RegisterAdd_Apply_nonExisting)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(17);
 
             RegisterAdd command(CharOrNumber("z"), CharOrNumber("50"));
@@ -261,7 +261,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_RegisterAdd_Apply_negative)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetRegisterValue('q', 13);
             test.SetCurrentIndex(32);
 
@@ -276,7 +276,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_RegisterAdd_Apply_self)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetRegisterValue('b', 73);
             test.SetCurrentIndex(4);
 
@@ -294,7 +294,7 @@ namespace AdventOfCodeTest
         // ------------------------------------------
         TEST_METHOD(December18_RegisterMul_Apply_nonExisting)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(3000);
 
             RegisterMul command(CharOrNumber("g"), CharOrNumber("723"));
@@ -309,7 +309,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_RegisterMul_Apply_self)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetRegisterValue('f', 5);
             test.SetCurrentIndex(2);
 
@@ -325,7 +325,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_RegisterMul_Apply_negative)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetRegisterValue('s', -27);
             test.SetRegisterValue('t', 10);
             test.SetCurrentIndex(99);
@@ -345,7 +345,7 @@ namespace AdventOfCodeTest
         // ------------------------------------------
         TEST_METHOD(December18_RegisterMod_Apply_nonExisting)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(21);
 
             RegisterMod command(CharOrNumber("x"), CharOrNumber("70"));
@@ -360,7 +360,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_RegisterMod_Apply)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(3);
             test.SetRegisterValue('u', 98);
 
@@ -378,7 +378,7 @@ namespace AdventOfCodeTest
         // ------------------------------------------
         TEST_METHOD(December18_RegisterSnd_Apply)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(0);
             test.SetFrequency(25);
             test.SetRecoveredFrequency(25);
@@ -394,7 +394,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_RegisterSnd_Apply_nonExisting)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(25);
 
             RegisterSnd command(CharOrNumber("i"));
@@ -410,7 +410,7 @@ namespace AdventOfCodeTest
         // ------------------------------------------
         TEST_METHOD(December18_RegisterRcv_Apply_noSound)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(8);
 
             RegisterRcv command(CharOrNumber("2"));
@@ -423,7 +423,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_RegisterRcv_Apply)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(71);
             test.SetRegisterValue('a', -9);
 
@@ -441,7 +441,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_RegisterRcv_Apply_skip)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(402);
 
             RegisterSnd snd(CharOrNumber("27"));
@@ -458,7 +458,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_RegisterRcv_Apply_repeat)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(67);
             test.SetRecoveredFrequency(93);
 
@@ -480,7 +480,7 @@ namespace AdventOfCodeTest
         // ------------------------------------------
         TEST_METHOD(December18_RegisterJgz_Apply_skipNonExisting)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(123);
 
             RegisterJgz command(CharOrNumber("b"), CharOrNumber("98"));
@@ -493,7 +493,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_RegisterJgz_Apply_skipNegative)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(53);
             test.SetRegisterValue('q', -2);
 
@@ -507,7 +507,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_RegisterJgz_Apply)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.SetCurrentIndex(12);
 
             RegisterJgz command(CharOrNumber("17"), CharOrNumber("-3"));
@@ -519,18 +519,18 @@ namespace AdventOfCodeTest
         }
 
         // ------------------------------------------
-        // RegisterDuet::GetRecoveredFrequency
+        // RegisterSolo::GetRecoveredFrequency
         // ------------------------------------------
         TEST_METHOD(December18_GetRecoveredFrequency_empty)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.ExecuteCommands();
             Assert::AreEqual(-1, static_cast<int>(test.GetRecoveredFrequency()));
         }
 
         TEST_METHOD(December18_GetRecoveredFrequency_invalid_immediate)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             // skipped, c is zero
             test.ParseLine("rcv c");
             test.ExecuteCommands();
@@ -540,7 +540,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_GetRecoveredFrequency_invalid_valueZero)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.ParseLine("snd 15");
             // skipped, d is zero
             test.ParseLine("rcv d");
@@ -552,7 +552,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_GetRecoveredFrequency_invalid_noSound)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.ParseLine("set x 5");
             // not skipped, x is non-zero
             test.ParseLine("rcv x");
@@ -564,7 +564,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_GetRecoveredFrequency_valid_zero)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             // f is zero
             test.ParseLine("snd f");
             test.ParseLine("add f 3");
@@ -578,7 +578,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_GetRecoveredFrequency_valid_nonZero)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.ParseLine("set k 743");
             test.ParseLine("snd 16");
             // not skipped, k is non-zero
@@ -590,7 +590,7 @@ namespace AdventOfCodeTest
 
         TEST_METHOD(December18_GetRecoveredFrequency_multipleRecoveries)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.ParseLine("set a 2");
             test.ParseLine("snd a");
             // skipped, b is zero
@@ -622,7 +622,7 @@ namespace AdventOfCodeTest
         */
         TEST_METHOD(December18_GetRecoveredFrequency_AoC_test)
         {
-            RegisterDuet test;
+            RegisterSolo test;
             test.ParseLine("set a 1");
             test.ParseLine("add a 2");
             test.ParseLine("mul a a");
