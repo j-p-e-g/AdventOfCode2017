@@ -24,7 +24,7 @@
 #include "December17.h"
 #include "December17b.h"
 #include "December18b.h"
-#include "December19.h"
+#include "December19b.h"
 
 int main()
 {
@@ -159,6 +159,8 @@ int main()
     {
         AdventOfCode::December19::NetworkDiagram testa("InputFiles/input19.txt");
         testa.OutputResultToConsole();
+        AdventOfCode::December19::NetworkDiagramB testb("InputFiles/input19.txt");
+        testb.OutputResultToConsole();
     }
 
     return 0;

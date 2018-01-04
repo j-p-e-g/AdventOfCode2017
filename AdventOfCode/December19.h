@@ -80,6 +80,7 @@ namespace December19 {
 
     public:
         bool ProcessDiagram();
+        virtual bool ProcessDiagramStep();
         bool IsValidDiagram() const;
         std::string GetPacketPath() const;
         bool GetNewDirection(const CodeUtils::Point& pos, CodeUtils::Point& dir) const;

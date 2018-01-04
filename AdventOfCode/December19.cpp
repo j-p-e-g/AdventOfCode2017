@@ -101,7 +101,7 @@ void NetworkDiagram::OutputResultToConsole() const
         return;
     }
 
-    std::cout << "December19: result = " << GetPacketPath() << std::endl;
+    std::cout << "December19.a: result = " << GetPacketPath() << std::endl;
 }
 
 bool NetworkDiagram::ProcessDiagram()
@@ -117,8 +117,7 @@ bool NetworkDiagram::ProcessDiagram()
     // follow the path
     while (true)
     {
-        m_currentPos += m_currentDir;
-        if (!GetNewDirection(m_currentPos, m_currentDir))
+        if (!ProcessDiagramStep())
         {
             return false;
         }
@@ -127,12 +126,23 @@ bool NetworkDiagram::ProcessDiagram()
         {
             break;
         }
+    }
 
-        const char symbol = m_diagram->Get(m_currentPos.x, m_currentPos.y);
-        if (CodeUtils::CodeUtil::CharIsUppercaseLetter(symbol))
-        {
-            m_lettersOnPath.push_back(symbol);
-        }
+    return true;
+}
+
+bool NetworkDiagram::ProcessDiagramStep()
+{
+    m_currentPos += m_currentDir;
+    if (!GetNewDirection(m_currentPos, m_currentDir))
+    {
+        return false;
+    }
+
+    const char symbol = m_diagram->Get(m_currentPos.x, m_currentPos.y);
+    if (CodeUtils::CodeUtil::CharIsUppercaseLetter(symbol))
+    {
+        m_lettersOnPath.push_back(symbol);
     }
 
     return true;
