@@ -18,9 +18,19 @@ namespace CodeUtils
         {
         }
 
+        Point()
+            : Point(-1, -1)
+        {}
+
         bool IsValid()
         {
             return x >= 0 && y >= 0;
+        }
+
+        void operator =(const Point& other)
+        {
+            x = other.x;
+            y = other.y;
         }
 
         bool operator <(const Point& other) const
@@ -80,6 +90,8 @@ namespace CodeUtils
         static bool ConvertStringVectorToIntVector(const std::vector<std::string>& input, std::vector<int>& result);
         static bool ReadStringToInt(const std::string& input, int& number, bool allowNegative);
         static void ReadIntToString(const int input, std::string& result);
+        static bool CharIsUppercaseLetter(const char c);
+        static bool CharIsLowercaseLetter(const char c);
 
     private:
         static const int MaxRecursionDepth = 3;

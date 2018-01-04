@@ -24,6 +24,7 @@
 #include "December17.h"
 #include "December17b.h"
 #include "December18b.h"
+#include "December19.h"
 
 int main()
 {
@@ -154,6 +155,10 @@ int main()
 
         testb->ExecuteCommands();
         testb->OutputResultToConsole();
+    }
+    {
+        AdventOfCode::December19::NetworkDiagram testa("InputFiles/input19.txt");
+        testa.OutputResultToConsole();
     }
 
     return 0;

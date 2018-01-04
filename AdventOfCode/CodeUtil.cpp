@@ -112,3 +112,13 @@ void CodeUtil::ReadIntToString(const int input, std::string& result)
 
     result = stream.str();
 }
+
+bool CodeUtil::CharIsUppercaseLetter(const char c)
+{
+    return c >= 'A' && c <= 'Z';
+}
+
+bool CodeUtil::CharIsLowercaseLetter(const char c)
+{
+    return c >= 'a' && c <= 'z';
+}

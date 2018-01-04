@@ -184,6 +184,7 @@
     <ClInclude Include="December17b.h" />
     <ClInclude Include="December18.h" />
     <ClInclude Include="December18b.h" />
+    <ClInclude Include="December19.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -227,6 +228,7 @@
     <ClCompile Include="December17b.cpp" />
     <ClCompile Include="December18.cpp" />
     <ClCompile Include="December18b.cpp" />
+    <ClCompile Include="December19.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

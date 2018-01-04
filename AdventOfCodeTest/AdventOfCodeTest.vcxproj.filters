@@ -257,5 +257,11 @@
     <ClCompile Include="..\AdventOfCode\December18b.cpp">
       <Filter>Source Files\Linked</Filter>
     </ClCompile>
+    <ClCompile Include="..\AdventOfCode\December19.cpp">
+      <Filter>Source Files\Linked</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.December19.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
