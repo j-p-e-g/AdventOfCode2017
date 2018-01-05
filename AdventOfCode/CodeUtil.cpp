@@ -122,3 +122,16 @@ bool CodeUtil::CharIsLowercaseLetter(const char c)
 {
     return c >= 'a' && c <= 'z';
 }
+
+int CodeUtil::GetSign(int val)
+{
+    if (val < 0)
+    {
+        return -1;
+    }
+    else if (val > 0)
+    {
+        return 1;
+    }
+    return 0;
+}

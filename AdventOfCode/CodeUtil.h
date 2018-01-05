@@ -92,6 +92,7 @@ namespace CodeUtils
         static void ReadIntToString(const int input, std::string& result);
         static bool CharIsUppercaseLetter(const char c);
         static bool CharIsLowercaseLetter(const char c);
+        static int GetSign(int val);
 
     private:
         static const int MaxRecursionDepth = 3;

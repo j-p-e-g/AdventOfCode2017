@@ -25,6 +25,7 @@
 #include "December17b.h"
 #include "December18b.h"
 #include "December19b.h"
+#include "December20.h"
 
 int main()
 {
@@ -161,6 +162,10 @@ int main()
         testa.OutputResultToConsole();
         AdventOfCode::December19::NetworkDiagramB testb("InputFiles/input19.txt");
         testb.OutputResultToConsole();
+    }
+    {
+        AdventOfCode::December20::ParticleManager testa("InputFiles/input20.txt");
+        testa.OutputResultToConsole();
     }
 
     return 0;
