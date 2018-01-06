@@ -75,6 +75,61 @@ int Particle::GetDistanceSquared(const Vector3D& position) const
     return diff.GetDistanceSquared();
 }
 
+bool Particle::CheckHasDifferentSigns() const
+{
+    int vX = CodeUtils::CodeUtil::GetSign(GetVelocity().GetX());
+    int aX = CodeUtils::CodeUtil::GetSign(GetAcceleration().GetX());
+    int pX = CodeUtils::CodeUtil::GetSign(GetPosition().GetX());
+
+    int vY = CodeUtils::CodeUtil::GetSign(GetVelocity().GetY());
+    int aY = CodeUtils::CodeUtil::GetSign(GetAcceleration().GetY());
+    int pY = CodeUtils::CodeUtil::GetSign(GetPosition().GetY());
+
+    int vZ = CodeUtils::CodeUtil::GetSign(GetVelocity().GetZ());
+    int aZ = CodeUtils::CodeUtil::GetSign(GetAcceleration().GetZ());
+    int pZ = CodeUtils::CodeUtil::GetSign(GetPosition().GetZ());
+
+    // p 1 v 1 a 1
+    // p 1 v 1 a 0
+    // p 1 v 1 a -1  -> p 1 v 0 a -1 -> p 0 v -1 a -1
+    // p 1 v 0 a 1
+    // p 1 v 0 a 0
+    // p 1 v 0 a -1 -> p 0 v -1 a -1
+    // p 1 v -1 a 1 -> p 1 v 0 a 1
+    // p 1 v -1 a 0 -> p 0 v -1 a 0
+    // p 1 v -1 a -1 -> p -1 v -2 a -1
+
+    // p 0 v 1 a 1
+    // p 0 v 1 a 0
+    // p 0 v 1 a -1 -> p 0 v 0 a -1
+    // p 0 v 0 a 1
+    // p 0 v 0 a 0
+    // p 0 v 0 a -1 -> p -1 v -1 a -1
+    // p 0 v -1 a 1 -> p 0 v 0 a 1
+    // p 0 v -1 a 0
+    // p 0 v -1 a -1
+
+    // p -1 v 1 a 1 -> p 1 v 2 a 1
+    // p -1 v 1 a 0 -> p 0 v 1 a 0
+    // p -1 v 1 a -1 -> p -1 v 0 a -1
+    // p -1 v 0 a 1 -> p 0 v 1 a 1
+    // p -1 v 0 a 0
+    // p -1 v 0 a -1
+    // p -1 v -1 a 1 -> p -1 v 0 a 1 -> p 0 v 1 a 1
+    // p -1 v -1 a 0
+    // p -1 v -1 a -1
+
+    // correct if all signs are the same or zero
+    if ((aX > 0 || vX > 0 || pX > 0) && (aX < 0 || vX < 0 || pX < 0)
+        || (aY > 0 || vY > 0 || pY > 0) && (aY < 0 || vY < 0 || pY < 0)
+        || (aZ > 0 || vZ > 0 || pZ > 0) && (aZ < 0 || vZ < 0 || pZ < 0))
+    {
+        return true;
+    }
+
+    return false;
+}
+
 // ------------------------------
 // ParticleManager
 // ------------------------------
@@ -98,7 +153,7 @@ bool ParticleManager::ParseLine(const std::string& inputLine)
 
 void ParticleManager::OutputResultToConsole() const
 {
-    std::cout << "December20: result = " << GetParticleIdLongtermClosestToOrigin() << std::endl;
+    std::cout << "December20.a: result = " << GetParticleIdLongtermClosestToOrigin() << std::endl;
 }
 
 void ParticleManager::Tick()
@@ -179,52 +234,7 @@ int ParticleManager::GetParticleIdLongtermClosestToOrigin() const
                 continue;
             }
 
-            int vX = CodeUtils::CodeUtil::GetSign(c.second->GetVelocity().GetX());
-            int aX = CodeUtils::CodeUtil::GetSign(c.second->GetAcceleration().GetX());
-            int pX = CodeUtils::CodeUtil::GetSign(c.second->GetPosition().GetX());
-
-            int vY = CodeUtils::CodeUtil::GetSign(c.second->GetVelocity().GetY());
-            int aY = CodeUtils::CodeUtil::GetSign(c.second->GetAcceleration().GetY());
-            int pY = CodeUtils::CodeUtil::GetSign(c.second->GetPosition().GetY());
-
-            int vZ = CodeUtils::CodeUtil::GetSign(c.second->GetVelocity().GetZ());
-            int aZ = CodeUtils::CodeUtil::GetSign(c.second->GetAcceleration().GetZ());
-            int pZ = CodeUtils::CodeUtil::GetSign(c.second->GetPosition().GetZ());
-
-            // p 1 v 1 a 1
-            // p 1 v 1 a 0
-            // p 1 v 1 a -1  -> p 1 v 0 a -1 -> p 0 v -1 a -1
-            // p 1 v 0 a 1
-            // p 1 v 0 a 0
-            // p 1 v 0 a -1 -> p 0 v -1 a -1
-            // p 1 v -1 a 1 -> p 1 v 0 a 1
-            // p 1 v -1 a 0 -> p 0 v -1 a 0
-            // p 1 v -1 a -1 -> p -1 v -2 a -1
-
-            // p 0 v 1 a 1
-            // p 0 v 1 a 0
-            // p 0 v 1 a -1 -> p 0 v 0 a -1
-            // p 0 v 0 a 1
-            // p 0 v 0 a 0
-            // p 0 v 0 a -1 -> p -1 v -1 a -1
-            // p 0 v -1 a 1 -> p 0 v 0 a 1
-            // p 0 v -1 a 0
-            // p 0 v -1 a -1
-
-            // p -1 v 1 a 1 -> p 1 v 2 a 1
-            // p -1 v 1 a 0 -> p 0 v 1 a 0
-            // p -1 v 1 a -1 -> p -1 v 0 a -1
-            // p -1 v 0 a 1 -> p 0 v 1 a 1
-            // p -1 v 0 a 0
-            // p -1 v 0 a -1
-            // p -1 v -1 a 1 -> p -1 v 0 a 1 -> p 0 v 1 a 1
-            // p -1 v -1 a 0
-            // p -1 v -1 a -1
-
-            // correct if all signs are the same or zero
-            if ((aX > 0 || vX > 0 || pX > 0) && (aX < 0 || vX < 0 || pX < 0)
-                || (aY > 0 || vY > 0 || pY > 0) && (aY < 0 || vY < 0 || pY < 0)
-                || (aZ > 0 || vZ > 0 || pZ > 0) && (aZ < 0 || vZ < 0 || pZ < 0))
+            if (c.second->CheckHasDifferentSigns())
             {
                 differentSigns = true;
             }

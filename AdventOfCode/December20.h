@@ -89,6 +89,11 @@ namespace December20 {
             return x == other.x && y == other.y && z == other.z;
         }
 
+        bool operator <(const Vector3D& other) const
+        {
+            return x < other.x || x == other.x && (y < other.y || y == other.y &&  z < other.z);
+        }
+
         int GetDistanceSquared() const
         {
             return x*x + y*y + z*z;
@@ -116,6 +121,7 @@ namespace December20 {
         Vector3D GetAcceleration() const { return m_acceleration; }
         void Tick();
         int GetDistanceSquared(const Vector3D& position) const;
+        bool CheckHasDifferentSigns() const;
 
     private:
         Vector3D m_position;
@@ -142,7 +148,7 @@ namespace December20 {
         int GetNumParticles() const { return static_cast<int>(m_particles.size()); }
         int GetParticleIdLongtermClosestToOrigin() const;
 
-    private:
+    protected:
         std::vector<std::shared_ptr<Particle>> m_particles;
     };
 

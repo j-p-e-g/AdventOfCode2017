@@ -25,7 +25,7 @@
 #include "December17b.h"
 #include "December18b.h"
 #include "December19b.h"
-#include "December20.h"
+#include "December20b.h"
 
 int main()
 {
@@ -166,6 +166,8 @@ int main()
     {
         AdventOfCode::December20::ParticleManager testa("InputFiles/input20.txt");
         testa.OutputResultToConsole();
+        AdventOfCode::December20::ParticleManagerB testb("InputFiles/input20.txt");
+        testb.OutputResultToConsole();
     }
 
     return 0;
