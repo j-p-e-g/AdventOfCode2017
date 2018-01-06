@@ -7,61 +7,17 @@
 using namespace AdventOfCode::December19;
 
 // -------------------------------------
-// Matrix
-// -------------------------------------
-void Matrix::Set(int x, int y, char value)
-{
-    if (x < 0 || y < 0)
-    {
-        return;
-    }
-
-    while (y >= m_matrix.size())
-    {
-        m_matrix.push_back(Row());
-    }
-
-    if (x >= m_matrix[y].size())
-    {
-        for (auto& row : m_matrix)
-        {
-            while (x >= row.size())
-            {
-                row.push_back(' ');
-            }
-        }
-    }
-
-    SetValue(x, y, value);
-}
-
-void Matrix::SetValue(int x, int y, char value)
-{
-    m_matrix[y][x] = value;
-}
-
-char Matrix::Get(int x, int y) const
-{
-    if (x < 0 || y < 0 || y >= m_matrix.size() || x >= m_matrix[y].size())
-    {
-        return ' ';
-    }
-
-    return m_matrix[y][x];
-}
-
-// -------------------------------------
 // NetworkDiagram
 // -------------------------------------
 NetworkDiagram::NetworkDiagram()
     : AdventOfCodeBase()
 {
-    m_diagram = std::make_shared<Matrix>();
+    m_diagram = std::make_shared<Matrix::CharMatrix>();
 }
 
-NetworkDiagram::NetworkDiagram(const Matrix& matrix)
+NetworkDiagram::NetworkDiagram(const Matrix::CharMatrix& matrix)
 {
-    m_diagram = std::make_shared<Matrix>(matrix);
+    m_diagram = std::make_shared<Matrix::CharMatrix>(matrix);
 }
 
 NetworkDiagram::NetworkDiagram(const std::string& fileName)

@@ -11,46 +11,6 @@ namespace AdventOfCodeTest
     {
     public:
         // -------------------------------------
-        // Matrix
-        // -------------------------------------
-        TEST_METHOD(December19_Matrix_Get_invalid)
-        {
-            Matrix matrix;
-            Assert::AreEqual(' ', matrix.Get(-3, -6));
-        }
-
-        TEST_METHOD(December19_Matrix_Get_empty)
-        {
-            Matrix matrix;
-            Assert::AreEqual(' ', matrix.Get(15, 37));
-        }
-
-        TEST_METHOD(December19_Matrix_Set_empty)
-        {
-            Matrix matrix;
-            matrix.Set(3, 5, 'a');
-
-            Assert::AreEqual('a', matrix.Get(3, 5));
-            // everything else is auto-entered as space
-            Assert::AreEqual(' ', matrix.Get(2, 1));
-            Assert::AreEqual(6, matrix.GetHeight());
-            Assert::AreEqual(4, matrix.GetWidth());
-        }
-
-        TEST_METHOD(December19_Matrix_Set_overwrite)
-        {
-            Matrix matrix;
-            matrix.Set(4, 1, 'x');
-
-            Assert::AreEqual('x', matrix.Get(4, 1));
-            Assert::AreEqual(2, matrix.GetHeight());
-            Assert::AreEqual(5, matrix.GetWidth());
-
-            matrix.Set(4, 1, 'z');
-            Assert::AreEqual('z', matrix.Get(4, 1));
-        }
-
-        // -------------------------------------
         // NetworkDiagram
         // -------------------------------------
         TEST_METHOD(December19_ParseLine_empty)
@@ -138,7 +98,7 @@ namespace AdventOfCodeTest
         */
         TEST_METHOD(December19_GetNewDirection_Stop)
         {
-            Matrix matrix;
+            Matrix::CharMatrix matrix;
             matrix.Set(4, 5, '|');
             matrix.Set(7, 5, 'F');
             matrix.Set(10, 5, '-');
@@ -229,7 +189,7 @@ namespace AdventOfCodeTest
         */
         TEST_METHOD(December19_GetNewDirection_UpDown_simple)
         {
-            Matrix matrix;
+            Matrix::CharMatrix matrix;
             matrix.Set(1, 1, '|');
             matrix.Set(1, 2, 'A');
             matrix.Set(1, 3, '-');
@@ -264,7 +224,7 @@ namespace AdventOfCodeTest
         */
         TEST_METHOD(December19_GetNewDirection_LeftRight_simple)
         {
-            Matrix matrix;
+            Matrix::CharMatrix matrix;
             matrix.Set(7, 4, '-');
             matrix.Set(8, 4, 'F');
             matrix.Set(9, 4, '|');
@@ -301,7 +261,7 @@ namespace AdventOfCodeTest
         */
         TEST_METHOD(December19_GetNewDirection_Corner_plain)
         {
-            Matrix matrix;
+            Matrix::CharMatrix matrix;
 
             matrix.Set(1, 1, '+');
             matrix.Set(2, 1, '-');
@@ -352,7 +312,7 @@ namespace AdventOfCodeTest
         */
         TEST_METHOD(December19_GetNewDirection_Corner_letters)
         {
-            Matrix matrix;
+            Matrix::CharMatrix matrix;
 
             matrix.Set(4, 4, '+');
             matrix.Set(5, 4, 'D');
@@ -403,7 +363,7 @@ namespace AdventOfCodeTest
         */
         TEST_METHOD(December19_GetNewDirection_Corner_crossing)
         {
-            Matrix matrix;
+            Matrix::CharMatrix matrix;
 
             matrix.Set(10, 10, '+');
             matrix.Set(11, 10, '|');
@@ -454,7 +414,7 @@ namespace AdventOfCodeTest
         */
         TEST_METHOD(December19_GetNewDirection_Corners_only)
         {
-            Matrix matrix;
+            Matrix::CharMatrix matrix;
 
             matrix.Set(2, 2, '+');
             matrix.Set(3, 2, '+');
@@ -501,7 +461,7 @@ namespace AdventOfCodeTest
         */
         TEST_METHOD(December19_GetNewDirection)
         {
-            Matrix matrix;
+            Matrix::CharMatrix matrix;
             // start
             matrix.Set(3, 0, '|');
             // down

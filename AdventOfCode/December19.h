@@ -5,6 +5,7 @@
 
 #include "AdventOfCodeBase.h"
 #include "CodeUtil.h"
+#include "Matrix.h"
 
 /*
     https://adventofcode.com/2017/day/19
@@ -39,24 +40,6 @@
 namespace AdventOfCode {
 namespace December19 {
 
-    typedef std::vector<char> Row;
-
-    class Matrix
-    {
-    public:
-        void Set(int x, int y, char value);
-        char Get(int x, int y) const;
-
-        int GetHeight() const { return static_cast<int>(m_matrix.size()); }
-        int GetWidth() const { return m_matrix.empty() ? 0 : static_cast<int>(m_matrix[0].size()); }
-
-    private:
-        void SetValue(int x, int y, char value);
-
-    private:
-        std::vector<Row> m_matrix;
-    };
-
     const CodeUtils::Point Stop(0, 0);
     const CodeUtils::Point Up(0, -1);
     const CodeUtils::Point Down(0, 1);
@@ -68,7 +51,7 @@ namespace December19 {
     {
     public:
         NetworkDiagram();
-        NetworkDiagram(const Matrix& matrix);
+        NetworkDiagram(const Matrix::CharMatrix& matrix);
         NetworkDiagram(const std::string& fileName);
         ~NetworkDiagram() = default;
 
@@ -88,7 +71,7 @@ namespace December19 {
         CodeUtils::Point GetStartPosition() const;
 
     private:
-        std::shared_ptr<Matrix> m_diagram;
+        std::shared_ptr<Matrix::CharMatrix> m_diagram;
         CodeUtils::Point m_currentPos;
         CodeUtils::Point m_currentDir;
         std::string m_lettersOnPath;

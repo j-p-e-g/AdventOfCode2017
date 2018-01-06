@@ -247,7 +247,7 @@ namespace CodeUtilTest
         */
         TEST_METHOD(CodeUtil_ConvertStringVectorToIntVector_positiveNumber)
         {
-            const std::vector<std::string> input = {"9786"};
+            const std::vector<std::string> input = { "9786" };
             std::vector<int> output;
             bool success = CodeUtil::ConvertStringVectorToIntVector(input, output);
 

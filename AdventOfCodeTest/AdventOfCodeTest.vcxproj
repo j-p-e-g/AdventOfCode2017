@@ -244,6 +244,7 @@
     <ClCompile Include="Test.December19b.cpp" />
     <ClCompile Include="Test.December20.cpp" />
     <ClCompile Include="Test.December20b.cpp" />
+    <ClCompile Include="Test.Matrix.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AdventOfCode\AdventOfCode.vcxproj">
