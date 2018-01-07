@@ -26,6 +26,7 @@
 #include "December18b.h"
 #include "December19b.h"
 #include "December20b.h"
+#include "December21.h"
 
 int main()
 {
@@ -168,6 +169,12 @@ int main()
         testa.OutputResultToConsole();
         AdventOfCode::December20::ParticleManagerB testb("InputFiles/input20.txt");
         testb.OutputResultToConsole();
+    }
+    {
+        AdventOfCode::December21::PixelPattern testa("InputFiles/input21.txt");
+        // 5 iterations
+        testa.ProcessRules(5);
+        testa.OutputResultToConsole();
     }
 
     return 0;
