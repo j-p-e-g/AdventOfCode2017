@@ -24,6 +24,7 @@ PixelPattern::PixelPattern(const std::string& fileName)
 bool PixelPattern::ParseLine(const std::string& inputLine)
 {
     std::regex regex("([.#/]+)\\s=>\\s");
+
     std::vector<std::string> pattern;
     if (!CodeUtils::CodeUtil::SplitStringByRegex(inputLine, pattern, regex)
         || pattern.size() != 2)
@@ -31,31 +32,14 @@ bool PixelPattern::ParseLine(const std::string& inputLine)
         return false;
     }
 
-    // already defined
-    if (m_rules.find(pattern[0]) != m_rules.end())
-    {
-        return false;
-    }
-
     std::shared_ptr<Matrix::CharMatrix> inputMatrix = std::make_shared<Matrix::CharMatrix>();
     std::shared_ptr<Matrix::CharMatrix> outputMatrix = std::make_shared<Matrix::CharMatrix>();
 
-    // invalid pattern
-    if (!CreateMatrix(pattern[0], inputMatrix))
+    if (!CreateAndValidatePatternMatrix(pattern[0], inputMatrix))
     {
         return false;
     }
-    if (!CreateMatrix(pattern[1], outputMatrix))
-    {
-        return false;
-    }
-
-    // not a square
-    if (inputMatrix->GetWidth() != inputMatrix->GetHeight())
-    {
-        return false;
-    }
-    if (outputMatrix->GetWidth() != outputMatrix->GetHeight())
+    if (!CreateAndValidatePatternMatrix(pattern[1], outputMatrix))
     {
         return false;
     }
@@ -66,7 +50,38 @@ bool PixelPattern::ParseLine(const std::string& inputLine)
         return false;
     }
 
-    m_rules.emplace(pattern[0], pattern[1]);
+    // add to rules in all flips and rotations of the input pattern
+    std::set<std::string> allRotations;
+    GatherAllDescriptions(inputMatrix, allRotations);
+
+    for (const auto& p : allRotations)
+    {
+        // already defined, potentially ambiguous
+        if (m_rules.find(p) != m_rules.end())
+        {
+            return false;
+        }
+
+        m_rules.emplace(p, pattern[1]);
+    }
+
+    return true;
+}
+
+bool PixelPattern::CreateAndValidatePatternMatrix(const std::string& pattern, std::shared_ptr<Matrix::CharMatrix>& matrix)
+{
+    // invalid pattern
+    if (!CreateMatrix(pattern, matrix))
+    {
+        return false;
+    }
+
+    // not a square
+    if (matrix->GetWidth() != matrix->GetHeight())
+    {
+        return false;
+    }
+
     return true;
 }
 
@@ -108,6 +123,105 @@ bool PixelPattern::CreateMatrix(const std::string& input, std::shared_ptr<Matrix
     }
 
     return true;
+}
+
+void PixelPattern::GatherAllDescriptions(std::shared_ptr<Matrix::CharMatrix>& matrix, std::set<std::string>& descriptions)
+{
+    descriptions.clear();
+
+    // base pattern:
+    // abc
+    // def
+    // ghi
+    descriptions.emplace(DescribeMatrix(matrix));
+
+    // if the entire matrix consists of a single value, rotations are pointless
+    if (matrix->CountValue(matrix->Get(0, 0)) == matrix->GetHeight() * matrix->GetWidth())
+    {
+        return;
+    }
+
+    // The most efficient way (no duplicates!) to handle flips and rotation appear to be
+    // 1. do all flips for the base pattern -> horizontal -> vertical -> horizontal
+    // 2. swap x and y values in the final pattern 
+    //    this is easier to do and the result is a flipped rotation, so it's fine
+    // 3. do all flips for the rotated pattern
+
+    // abc    cba    ihg    ghi
+    // def -> fed -> fed -> def -> swap x and y values
+    // ghi    ihg    cba    abc
+    //
+    // gda    adg    cfi    ifc
+    // heb -> beh -> beh -> heb
+    // ifc    cfi    adg    gda
+
+    // horizontal flip:
+    // cba
+    // fed
+    // ihg
+    matrix->DoHorizontalMirrorFlip();
+    descriptions.emplace(DescribeMatrix(matrix));
+
+    // vertical flip:
+    // ihg
+    // fed
+    // cba
+    matrix->DoVerticalMirrorFlip();
+    descriptions.emplace(DescribeMatrix(matrix));
+
+    // another horizontal flip:
+    // ghi
+    // def
+    // abc
+    matrix->DoHorizontalMirrorFlip();
+    descriptions.emplace(DescribeMatrix(matrix));
+
+    // swap x and y values
+    // gda
+    // heb
+    // ifc
+    matrix->SwapXAndY();
+    descriptions.emplace(DescribeMatrix(matrix));
+
+    // yet another horizontal flip:
+    // adg
+    // beh
+    // cfi
+    matrix->DoHorizontalMirrorFlip();
+    descriptions.emplace(DescribeMatrix(matrix));
+
+    // yet another vertical flip:
+    // cfi
+    // beh
+    // adg
+    matrix->DoVerticalMirrorFlip();
+    descriptions.emplace(DescribeMatrix(matrix));
+
+    // and finally another horizontal flip:
+    // ifc
+    // heb
+    // gda
+    matrix->DoHorizontalMirrorFlip();
+    descriptions.emplace(DescribeMatrix(matrix));
+}
+
+std::string PixelPattern::DescribeMatrix(const std::shared_ptr<Matrix::CharMatrix>& matrix)
+{
+    std::string desc;
+    for (int y = 0; y < matrix->GetHeight(); y++)
+    {
+        for (int x = 0; x < matrix->GetWidth(); x++)
+        {
+            desc += matrix->Get(x, y);
+        }
+
+        if (y < matrix->GetHeight() - 1)
+        {
+            desc += "/";
+        }
+    }
+
+    return desc;
 }
 
 bool PixelPattern::ProcessRules(int numIterations)
@@ -175,159 +289,22 @@ bool PixelPattern::SplitMatrix(const std::shared_ptr<Matrix::CharMatrix>& matrix
 
 bool PixelPattern::ApplyRulesToSubMatrix(std::shared_ptr<Matrix::CharMatrix>& subMatrix)
 {
-    std::shared_ptr<Matrix::CharMatrix> temp = std::make_shared<Matrix::CharMatrix>();
+    const std::string desc = DescribeMatrix(subMatrix);
 
-    for (const auto& rule : m_rules)
+    const auto& found = m_rules.find(desc);
+    if (found == m_rules.end())
     {
-        // skip rules that don't match the size
-        if (subMatrix->GetWidth() == 2 && rule.first.length() != 5)
-        {
-            continue;
-        }
-        if (subMatrix->GetWidth() == 3 && rule.first.length() != 11)
-        {
-            continue;
-        }
-
-        temp->Clear();
-
-        if (!CreateMatrix(rule.first, temp))
-        {
-            return false;
-        }
-
-        // check the base pattern:
-        // abc
-        // def
-        // ghi
-        bool matchesPattern = false;
-        if (subMatrix->Equals(*temp))
-        {
-            matchesPattern = true;
-        }
-
-        // The most efficient way (no duplicates!) to handle flips and rotation appear to be
-        // 1. do all flips for the base pattern -> horizontal -> vertical -> horizontal
-        // 2. swap x and y values in the final pattern 
-        //    this is easier to do and the result is a flipped rotation, so it's fine
-        // 3. do all flips for the rotated pattern
-
-        // abc    cba    ihg    ghi
-        // def -> fed -> fed -> def -> swap x and y values
-        // ghi    ihg    cba    abc
-        //
-        // gda    adg    cfi    ifc
-        // heb -> beh -> beh -> heb
-        // ifc    cfi    adg    gda
-
-        // horizontal flip:
-        // cba
-        // fed
-        // ihg
-        if (!matchesPattern)
-        {
-            temp->DoHorizontalMirrorFlip();
-            if (subMatrix->Equals(*temp))
-            {
-                matchesPattern = true;
-            }
-        }
-
-        // vertical flip:
-        // ihg
-        // fed
-        // cba
-        if (!matchesPattern)
-        {
-            temp->DoVerticalMirrorFlip();
-            if (subMatrix->Equals(*temp))
-            {
-                matchesPattern = true;
-            }
-        }
-
-        // another horizontal flip:
-        // ghi
-        // def
-        // abc
-        if (!matchesPattern)
-        {
-            temp->DoHorizontalMirrorFlip();
-            if (subMatrix->Equals(*temp))
-            {
-                matchesPattern = true;
-            }
-        }
-
-        // swap x and y values
-        // gda
-        // heb
-        // ifc
-        if (!matchesPattern)
-        {
-            temp->SwapXAndY();
-            if (subMatrix->Equals(*temp))
-            {
-                matchesPattern = true;
-            }
-        }
-
-        // yet another horizontal flip:
-        // adg
-        // beh
-        // cfi
-        if (!matchesPattern)
-        {
-            temp->DoHorizontalMirrorFlip();
-            if (subMatrix->Equals(*temp))
-            {
-                matchesPattern = true;
-            }
-        }
-
-        // yet another vertical flip:
-        // cfi
-        // beh
-        // adg
-        if (!matchesPattern)
-        {
-            temp->DoVerticalMirrorFlip();
-            if (subMatrix->Equals(*temp))
-            {
-                matchesPattern = true;
-            }
-        }
-
-        // and finally another horizontal flip:
-        // ifc
-        // heb
-        // gda
-        if (!matchesPattern)
-        {
-            temp->DoHorizontalMirrorFlip();
-            if (subMatrix->Equals(*temp))
-            {
-                matchesPattern = true;
-            }
-        }
-
-        // did any of these match?
-        if (matchesPattern)
-        {
-            subMatrix->Clear();
-            if (!CreateMatrix(rule.second, subMatrix))
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        // otherwise, try the next rule
+        return false;
     }
 
-    // no rule found matching the current matrix
-    return false;
+    // replace matrix with output pattern
+    subMatrix->Clear();
+    if (!CreateMatrix(found->second, subMatrix))
+    {
+        return false;
+    }
+
+    return true;
 }
 
 bool PixelPattern::CombineMatrices(const std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>>& subMatrices, std::shared_ptr<Matrix::CharMatrix>& matrix)
@@ -350,12 +327,6 @@ bool PixelPattern::CombineMatrices(const std::map<CodeUtils::Point, std::shared_
     }
 
     int size = subMatrices.begin()->second->GetWidth();
-
-    // expected size is 3 or 4
-    if (size < 3 || size > 4)
-    {
-        return false;
-    }
 
     matrix->Clear();
     for (const auto& m : subMatrices)

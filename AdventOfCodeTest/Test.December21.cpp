@@ -500,6 +500,101 @@ namespace AdventOfCodeTest
             Assert::AreEqual(true, expectedMatrix->Equals(*combinedMatrix));
         }
 
+        // ---------------------------
+        // PixelPattern::DescribeMatrix
+        // ---------------------------
+        TEST_METHOD(December21_DescribeMatrix_empty)
+        {
+            std::shared_ptr<Matrix::CharMatrix> matrix = std::make_shared<Matrix::CharMatrix>();
+            Assert::AreEqual("", PixelPattern::DescribeMatrix(matrix).c_str());
+        }
+
+        TEST_METHOD(December21_DescribeMatrix2x2)
+        {
+            std::shared_ptr<Matrix::CharMatrix> matrix = std::make_shared<Matrix::CharMatrix>();
+            matrix->Set(1, 0, 'a');
+            matrix->Set(0, 1, 'b');
+
+            Assert::AreEqual(" a/b ", PixelPattern::DescribeMatrix(matrix).c_str());
+        }
+
+        TEST_METHOD(December21_DescribeMatrix3x3)
+        {
+            std::shared_ptr<Matrix::CharMatrix> matrix = std::make_shared<Matrix::CharMatrix>();
+            matrix->Set(0, 0, 'a');
+            matrix->Set(0, 1, 'b');
+            matrix->Set(1, 1, 'c');
+            matrix->Set(2, 1, 'd');
+            matrix->Set(1, 2, 'e');
+
+            Assert::AreEqual("a  /bcd/ e ", PixelPattern::DescribeMatrix(matrix).c_str());
+        }
+
+        // ---------------------------
+        // PixelPattern::GatherAllDescriptions
+        // ---------------------------
+        TEST_METHOD(December21_GatherAllDescriptions_unique)
+        {
+            std::shared_ptr<Matrix::CharMatrix> matrix = std::make_shared<Matrix::CharMatrix>();
+            matrix->Set(0, 0, 'p');
+            matrix->Set(1, 0, 'q');
+            matrix->Set(0, 1, 'r');
+            matrix->Set(1, 1, 's');
+
+            std::set<std::string> patterns;
+            PixelPattern::GatherAllDescriptions(matrix, patterns);
+
+            // all rotations are unique
+            Assert::AreEqual(8, static_cast<int>(patterns.size()));
+            Assert::AreEqual(false, patterns.find("pq/rs") == patterns.end());
+            // flips
+            Assert::AreEqual(false, patterns.find("qp/sr") == patterns.end());
+            Assert::AreEqual(false, patterns.find("rs/pq") == patterns.end());
+            Assert::AreEqual(false, patterns.find("sr/qp") == patterns.end());
+            // rotation and rotated flips
+            Assert::AreEqual(false, patterns.find("pr/qs") == patterns.end());
+            Assert::AreEqual(false, patterns.find("rp/sq") == patterns.end());
+            Assert::AreEqual(false, patterns.find("qs/pr") == patterns.end());
+            Assert::AreEqual(false, patterns.find("sq/rp") == patterns.end());
+        }
+
+        TEST_METHOD(December21_GatherAllDescriptions_duplicates)
+        {
+            std::shared_ptr<Matrix::CharMatrix> matrix = std::make_shared<Matrix::CharMatrix>();
+            matrix->Set(0, 0, 'x');
+            matrix->Set(1, 0, 'x');
+            matrix->Set(0, 1, 'y');
+            matrix->Set(1, 1, 'y');
+
+            std::set<std::string> patterns;
+            PixelPattern::GatherAllDescriptions(matrix, patterns);
+
+            // only 4 unique rotations
+            Assert::AreEqual(4, static_cast<int>(patterns.size()));
+            Assert::AreEqual(false, patterns.find("xx/yy") == patterns.end());
+            // single flip (the rest are duplicates)
+            Assert::AreEqual(false, patterns.find("yy/xx") == patterns.end());
+            // rotation and rotated flip (the rest are duplicates)
+            Assert::AreEqual(false, patterns.find("xy/xy") == patterns.end());
+            Assert::AreEqual(false, patterns.find("yx/yx") == patterns.end());
+        }
+
+        TEST_METHOD(December21_GatherAllDescriptions_identical)
+        {
+            std::shared_ptr<Matrix::CharMatrix> matrix = std::make_shared<Matrix::CharMatrix>();
+            matrix->Set(0, 0, 'f');
+            matrix->Set(1, 0, 'f');
+            matrix->Set(0, 1, 'f');
+            matrix->Set(1, 1, 'f');
+
+            std::set<std::string> patterns;
+            PixelPattern::GatherAllDescriptions(matrix, patterns);
+
+            // a single matrix pattern
+            Assert::AreEqual(1, static_cast<int>(patterns.size()));
+            Assert::AreEqual(false, patterns.find("ff/ff") == patterns.end());
+        }
+
         // ----------------------------------
         // PixelPattern::CountActivePixels
         // ----------------------------------

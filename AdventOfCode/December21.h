@@ -2,6 +2,7 @@
 
 #include <map>
 #include <memory>
+#include <set>
 
 #include "AdventOfCodeBase.h"
 #include "CodeUtil.h"
@@ -120,6 +121,12 @@ namespace December21 {
         static bool CreateMatrix(const std::string& input, std::shared_ptr<Matrix::CharMatrix>& matrix);
         static bool SplitMatrix(const std::shared_ptr<Matrix::CharMatrix>& matrix, int size, std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>>& subMatrices);
         static bool CombineMatrices(const std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>>& subMatrices, std::shared_ptr<Matrix::CharMatrix>& matrix);
+
+        static bool CreateAndValidatePatternMatrix(const std::string& pattern, std::shared_ptr<Matrix::CharMatrix>& matrix);
+
+        static std::string DescribeMatrix(const std::shared_ptr<Matrix::CharMatrix>& matrix);
+        // gather matrix descriptions for all flips and rotations
+        static void GatherAllDescriptions(std::shared_ptr<Matrix::CharMatrix>& matrix, std::set<std::string>& descriptions);
 
         bool ProcessRules(int numIterations);
         bool ApplyRulesToSubMatrix(std::shared_ptr<Matrix::CharMatrix>& subMatrix);
