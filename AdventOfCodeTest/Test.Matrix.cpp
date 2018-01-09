@@ -93,6 +93,35 @@ namespace AdventOfCodeTest
             Assert::AreEqual(13, matrix.CountValue(' '));
         }
 
+        TEST_METHOD(CharMatrix_GetMatrixCenter_empty)
+        {
+            CharMatrix matrix;
+
+            const Coord::Point matrixCenter = matrix.GetMatrixCenter();
+            Assert::AreEqual(0, matrixCenter.x);
+            Assert::AreEqual(0, matrixCenter.y);
+        }
+
+        TEST_METHOD(CharMatrix_GetMatrixCenter_evenSizedSides)
+        {
+            CharMatrix matrix;
+            matrix.Set(1, 3, 'x');
+
+            const Coord::Point matrixCenter = matrix.GetMatrixCenter();
+            Assert::AreEqual(0, matrixCenter.x);
+            Assert::AreEqual(1, matrixCenter.y);
+        }
+
+        TEST_METHOD(CharMatrix_GetMatrixCenter_oddSizedSides)
+        {
+            CharMatrix matrix;
+            matrix.Set(8, 6, 'w');
+
+            const Coord::Point matrixCenter = matrix.GetMatrixCenter();
+            Assert::AreEqual(4, matrixCenter.x);
+            Assert::AreEqual(3, matrixCenter.y);
+        }
+
         TEST_METHOD(CharMatrix_DoHorizontalMirrorFlip_2x2)
         {
             CharMatrix matrix;

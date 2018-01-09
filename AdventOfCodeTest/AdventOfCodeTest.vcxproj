@@ -198,6 +198,7 @@
     <ClCompile Include="..\AdventOfCode\December20.cpp" />
     <ClCompile Include="..\AdventOfCode\December20b.cpp" />
     <ClCompile Include="..\AdventOfCode\December21.cpp" />
+    <ClCompile Include="..\AdventOfCode\December22.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -246,6 +247,7 @@
     <ClCompile Include="Test.December20.cpp" />
     <ClCompile Include="Test.December20b.cpp" />
     <ClCompile Include="Test.December21.cpp" />
+    <ClCompile Include="Test.December22.cpp" />
     <ClCompile Include="Test.Matrix.cpp" />
   </ItemGroup>
   <ItemGroup>

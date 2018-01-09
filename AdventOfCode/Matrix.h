@@ -73,6 +73,14 @@ namespace Matrix
             return static_cast<int>(m_matrix.size());
         }
 
+        Coord::Point GetMatrixCenter() const
+        {
+            int centerX = m_upperLeft.x + (GetWidth() - 1) / 2;
+            int centerY = m_upperLeft.y + (GetHeight() - 1) / 2;
+
+            return Coord::Point(centerX, centerY);
+        }
+
         int CountValue(T value) const
         {
             int count = 0;
@@ -213,6 +221,11 @@ namespace Matrix
     class CharMatrix
         : public Matrix<char>
     {
-        char GetDefaultEntry() const { return ' '; };
+    public:
+        char GetDefaultEntry() const { return m_defaultEntry; };
+        void SetDefaultEntry(char def) { m_defaultEntry = def; }
+
+    private:
+        char m_defaultEntry = ' ';
     };
 }

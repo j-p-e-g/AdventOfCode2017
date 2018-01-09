@@ -27,6 +27,7 @@
 #include "December19b.h"
 #include "December20b.h"
 #include "December21.h"
+#include "December22.h"
 
 int main()
 {
@@ -174,6 +175,12 @@ int main()
         AdventOfCode::December21::PixelPattern testa("InputFiles/input21.txt");
         // 5 iterations
         testa.ProcessRules(5);
+        testa.OutputResultToConsole();
+    }
+    {
+        AdventOfCode::December22::InfectedGrid testa("InputFiles/input22.txt");
+        // 10000 iterations
+        testa.HandleBursts(10000);
         testa.OutputResultToConsole();
     }
 

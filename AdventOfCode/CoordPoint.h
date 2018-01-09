@@ -82,6 +82,16 @@ namespace Coord
         int y = 0;
     };
 
+    const Point Up   = Point(0, -1);
+    const Point Down = Point(0, 1);
+    const Point Left = Point(-1, 0);
+    const Point Right   = Point(1, 0);
+
+    const Point North = Up;
+    const Point South = Down;
+    const Point West  = Left;
+    const Point East  = Right;
+
     // only true in finite maps!
     const Point InvalidCoord = Point(-1, -1);
 }
