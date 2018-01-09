@@ -32,7 +32,7 @@ namespace AdventOfCodeTest
             matrix.Set(3, 5, 'a');
 
             Assert::AreEqual('a', matrix.Get(3, 5));
-            // everything else is auto-entered as space
+            // everything else is treated as space
             Assert::AreEqual(' ', matrix.Get(2, 1));
             Assert::AreEqual(' ', matrix.Get(7, 9));
             Assert::AreEqual(6, matrix.GetHeight());

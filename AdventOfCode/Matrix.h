@@ -1,6 +1,8 @@
 #pragma once
 
-#include <vector>
+#include <map>
+
+#include "CodeUtil.h"
 
 namespace Matrix
 {
@@ -10,73 +12,94 @@ namespace Matrix
     public:
         void Clear()
         {
-            for (auto& row : m_matrix)
-            {
-                row.clear();
-            }
-
             m_matrix.clear();
         }
 
         void Set(int x, int y, T value)
         {
-            if (x < 0 || y < 0)
+            Set(CodeUtils::Point(x, y), value);
+        }
+
+        void Set(CodeUtils::Point& p, T value)
+        {
+            auto& found = m_matrix.find(p);
+            if (found != m_matrix.end())
             {
+                found->second = value;
                 return;
             }
 
-            while (y >= m_matrix.size())
-            {
-                m_matrix.push_back(std::vector<T>());
-            }
+            m_matrix.emplace(p, value);
 
-            if (x >= m_matrix[y].size())
-            {
-                for (auto& row : m_matrix)
-                {
-                    while (x >= row.size())
-                    {
-                        row.push_back(GetDefaultEntry());
-                    }
-                }
-            }
+            // update ranges
+            m_upperLeft.x  = std::min(p.x, m_upperLeft.x);
+            m_upperLeft.y  = std::min(p.y, m_upperLeft.y);
+            m_lowerRight.x = std::max(p.x, m_lowerRight.x);
+            m_lowerRight.y = std::max(p.y, m_lowerRight.y);
 
-            SetValue(x, y, value);
+            m_width  = m_lowerRight.x - m_upperLeft.x + 1;
+            m_height = m_lowerRight.y - m_upperLeft.y + 1;
         }
 
         T Get(int x, int y) const
         {
-            if (x < 0 || y < 0 || y >= m_matrix.size() || x >= m_matrix[y].size())
-            {
-                return GetDefaultEntry();
-            }
-
-            return m_matrix[y][x];
+            return Get(CodeUtils::Point(x, y));
         }
 
-        int GetHeight() const { return static_cast<int>(m_matrix.size()); }
-        int GetWidth() const { return m_matrix.empty() ? 0 : static_cast<int>(m_matrix[0].size()); }
+        T Get(const CodeUtils::Point& p) const
+        {
+            const auto& found = m_matrix.find(p);
+            if (found != m_matrix.end())
+            {
+                return found->second;
+            }
+
+            return GetDefaultEntry();
+        }
+
+        int GetWidth() const
+        {
+            return m_width;
+        }
+
+        int GetHeight() const
+        {
+            return m_height;
+        }
+
+        int GetNumCells() const
+        {
+            return static_cast<int>(m_matrix.size());
+        }
 
         int CountValue(T value) const
         {
             int count = 0;
 
-            for (const auto& row : m_matrix)
+            for (const auto& cell : m_matrix)
             {
-                for (const auto& cell : row)
+                if (cell.second == value)
                 {
-                    if (cell == value)
-                    {
-                        count++;
-                    }
+                    count++;
                 }
+            }
+
+            if (value == GetDefaultEntry())
+            {
+                // also add all empty cells
+                int size = GetWidth() * GetHeight();
+                count += size - static_cast<int>(m_matrix.size());
             }
 
             return count;
         }
 
-        bool Equals(const Matrix<T>& other)
+        bool Equals(const Matrix<T>& other) const
         {
+            if (GetNumCells() != other.GetNumCells())
+            {
+                return false;
+            }
             if (GetHeight() != other.GetHeight())
             {
                 return false;
@@ -86,14 +109,11 @@ namespace Matrix
                 return false;
             }
 
-            for (int x = 0; x < GetWidth(); x++)
+            for (const auto& cell : m_matrix)
             {
-                for (int y = 0; y < GetHeight(); y++)
+                if (Get(cell.first) != other.Get(cell.first))
                 {
-                    if (Get(x, y) != other.Get(x, y))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 
@@ -105,18 +125,21 @@ namespace Matrix
             // abc    cba
             // def -> fed
             // ghi    ihg
-            for (int x = 0; x < GetWidth() / 2; x++)
+
+            // only iterate over left half of the matrix
+            int halfPointX = m_lowerRight.x - GetWidth() / 2 + 1;
+            for (int x = m_upperLeft.x; x < halfPointX; x++)
             {
-                for (int y = 0; y < GetHeight(); y++)
+                for (int y = m_upperLeft.y; y <= m_lowerRight.y; y++)
                 {
-                    if (x == GetWidth() - x - 1)
+                    if (x == halfPointX - x)
                     {
                         continue;
                     }
 
                     T copy = Get(x, y);
-                    Set(x, y, Get(GetWidth() - x - 1, y));
-                    Set(GetWidth() - x - 1, y, copy);
+                    Set(x, y, Get(halfPointX - x, y));
+                    Set(halfPointX - x, y, copy);
                 }
             }
         }
@@ -126,18 +149,21 @@ namespace Matrix
             // abc    ghi
             // def -> def
             // ghi    abc
-            for (int x = 0; x < GetWidth(); x++)
+
+            // only iterate over upper half of the matrix
+            int halfPointY = m_lowerRight.y - GetHeight() / 2 + 1;
+            for (int x = m_upperLeft.x; x <= m_lowerRight.x; x++)
             {
-                for (int y = 0; y < GetHeight() / 2; y++)
+                for (int y = m_upperLeft.y; y < halfPointY; y++)
                 {
-                    if (y == GetHeight() - y - 1)
+                    if (y == halfPointY - y)
                     {
                         continue;
                     }
 
                     T copy = Get(x, y);
-                    Set(x, y, Get(x, GetHeight() - y - 1));
-                    Set(x, GetHeight() - y - 1, copy);
+                    Set(x, y, Get(x, halfPointY - y));
+                    Set(x, halfPointY - y, copy);
                 }
             }
         }
@@ -153,9 +179,9 @@ namespace Matrix
             // abc    adg
             // def -> beh
             // ghi    cfi
-            for (int x = 0; x < GetWidth(); x++)
+            for (int x = m_upperLeft.x; x <= m_lowerRight.x; x++)
             {
-                for (int y = 0; y < x; y++)
+                for (int y = m_upperLeft.y; y < x; y++)
                 {
                     if (x == y)
                     {
@@ -175,13 +201,12 @@ namespace Matrix
         virtual T GetDefaultEntry() const = 0;
 
     private:
-        void SetValue(int x, int y, T value)
-        {
-            m_matrix[y][x] = value;
-        }
+        std::map<CodeUtils::Point, T> m_matrix;
 
-    private:
-        std::vector<std::vector<T>> m_matrix;
+        int m_width = 0;
+        int m_height = 0;
+        CodeUtils::Point m_upperLeft  = CodeUtils::Point(0, 0);
+        CodeUtils::Point m_lowerRight = CodeUtils::Point(0, 0);
     };
 
     class CharMatrix
