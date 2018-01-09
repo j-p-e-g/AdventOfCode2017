@@ -208,10 +208,10 @@ namespace AdventOfCodeTest
         {
             DiskDefragmenter test;
             test.ParseLine("flqrgnkx");
-            Assert::AreEqual(false, test.GetBit(CodeUtils::Point(0, 4)));
-            Assert::AreEqual(true, test.GetBit(CodeUtils::Point(1, 1)));
-            Assert::AreEqual(false, test.GetBit(CodeUtils::Point(2, 1)));
-            Assert::AreEqual(true, test.GetBit(CodeUtils::Point(5, 7)));
+            Assert::AreEqual(false, test.GetBit(Coord::Point(0, 4)));
+            Assert::AreEqual(true, test.GetBit(Coord::Point(1, 1)));
+            Assert::AreEqual(false, test.GetBit(Coord::Point(2, 1)));
+            Assert::AreEqual(true, test.GetBit(Coord::Point(5, 7)));
         }
 
         // -------------------------------------

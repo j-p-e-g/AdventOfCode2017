@@ -3,7 +3,7 @@
 #include <string>
 
 #include "AdventOfCodeBase.h"
-#include "CodeUtil.h"
+#include "CoordPoint.h"
 
 /*
     https://adventofcode.com/2017/day/3
@@ -35,10 +35,10 @@
 namespace AdventOfCode {
 namespace December03 {
 
-	const CodeUtils::Point DirRight = CodeUtils::Point(1, 0);
-	const CodeUtils::Point DirUp = CodeUtils::Point(0, -1);
-	const CodeUtils::Point DirLeft = CodeUtils::Point(-1, 0);
-	const CodeUtils::Point DirDown = CodeUtils::Point(0, 1);
+	const Coord::Point DirRight = Coord::Point(1, 0);
+	const Coord::Point DirUp = Coord::Point(0, -1);
+	const Coord::Point DirLeft = Coord::Point(-1, 0);
+	const Coord::Point DirDown = Coord::Point(0, 1);
 
 	class SpiralMemory
         : protected AdventOfCodeBase
@@ -55,11 +55,11 @@ namespace December03 {
         // ~AdventOfCodeBase
 
     public:
-		static CodeUtils::Point FindCoord(int id);
+		static Coord::Point FindCoord(int id);
 		static int GetManhattanDistance(int id);
 
     protected:
-		static bool GetNextDir(CodeUtils::Point pos, CodeUtils::Point& dir, int& diameter);
+		static bool GetNextDir(Coord::Point pos, Coord::Point& dir, int& diameter);
 
     protected:
         int m_number = -1;

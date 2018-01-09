@@ -17,7 +17,7 @@ void DiskDefragmenterB::OutputResultToConsole() const
     std::cout << "December14.b: result = " << GetNumRegions() << std::endl;
 }
 
-bool DiskDefragmenterB::FindPointsInRegion(const CodeUtils::Point& p, std::vector<CodeUtils::Point>& connected) const
+bool DiskDefragmenterB::FindPointsInRegion(const Coord::Point& p, std::vector<Coord::Point>& connected) const
 {
     if (p.x < 0 || p.x >= m_numRows)
     {
@@ -29,14 +29,14 @@ bool DiskDefragmenterB::FindPointsInRegion(const CodeUtils::Point& p, std::vecto
         return false;
     }
 
-    std::vector<CodeUtils::Point> visited;
-    std::vector<CodeUtils::Point> candidates;
+    std::vector<Coord::Point> visited;
+    std::vector<Coord::Point> candidates;
 
     candidates.push_back(p);
 
     while (!candidates.empty())
     {
-        CodeUtils::Point q = candidates[0];
+        Coord::Point q = candidates[0];
         visited.push_back(q);
         candidates.erase(candidates.begin());
 
@@ -58,7 +58,7 @@ bool DiskDefragmenterB::FindPointsInRegion(const CodeUtils::Point& p, std::vecto
                         continue;
                     }
 
-                    CodeUtils::Point adj = CodeUtils::Point(q.x + x, q.y + y);
+                    Coord::Point adj = Coord::Point(q.x + x, q.y + y);
 
                     if (adj.x < 0 || adj.x >= m_numRows || adj.y < 0 || adj.y >= m_numColumns)
                     {
@@ -79,7 +79,7 @@ bool DiskDefragmenterB::FindPointsInRegion(const CodeUtils::Point& p, std::vecto
 
 int DiskDefragmenterB::GetNumRegions() const
 {
-    std::vector<CodeUtils::Point> candidates;
+    std::vector<Coord::Point> candidates;
     for (const auto& point : m_bitMap)
     {
         if (point.second)
@@ -88,13 +88,13 @@ int DiskDefragmenterB::GetNumRegions() const
         }
     }
 
-    std::map<int, CodeUtils::Point> regionCount;
+    std::map<int, Coord::Point> regionCount;
 
     while (!candidates.empty())
     {
-        const CodeUtils::Point curr = candidates[0];
+        const Coord::Point curr = candidates[0];
 
-        std::vector<CodeUtils::Point> connected;
+        std::vector<Coord::Point> connected;
         if (FindPointsInRegion(curr, connected))
         {
             regionCount.emplace(static_cast<int>(regionCount.size()), curr);

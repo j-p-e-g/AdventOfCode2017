@@ -226,7 +226,7 @@ std::string PixelPattern::DescribeMatrix(const std::shared_ptr<Matrix::CharMatri
 
 bool PixelPattern::ProcessRules(int numIterations)
 {
-    std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
+    std::map<Coord::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
 
     for (int count = 0; count < numIterations; count++)
     {
@@ -257,7 +257,7 @@ bool PixelPattern::ProcessRules(int numIterations)
     return true;
 }
 
-bool PixelPattern::SplitMatrix(const std::shared_ptr<Matrix::CharMatrix>& matrix, int size, std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>>& subMatrices)
+bool PixelPattern::SplitMatrix(const std::shared_ptr<Matrix::CharMatrix>& matrix, int size, std::map<Coord::Point, std::shared_ptr<Matrix::CharMatrix>>& subMatrices)
 {
     if (matrix->GetWidth() % size != 0 || matrix->GetHeight() % size != 0)
     {
@@ -280,7 +280,7 @@ bool PixelPattern::SplitMatrix(const std::shared_ptr<Matrix::CharMatrix>& matrix
                 }
             }
 
-            subMatrices.emplace(CodeUtils::Point(i, j), newMatrix);
+            subMatrices.emplace(Coord::Point(i, j), newMatrix);
         }
     }
 
@@ -307,7 +307,7 @@ bool PixelPattern::ApplyRulesToSubMatrix(std::shared_ptr<Matrix::CharMatrix>& su
     return true;
 }
 
-bool PixelPattern::CombineMatrices(const std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>>& subMatrices, std::shared_ptr<Matrix::CharMatrix>& matrix)
+bool PixelPattern::CombineMatrices(const std::map<Coord::Point, std::shared_ptr<Matrix::CharMatrix>>& subMatrices, std::shared_ptr<Matrix::CharMatrix>& matrix)
 {
     if (subMatrices.empty())
     {

@@ -124,7 +124,7 @@ namespace AdventOfCodeTest
             PixelPattern::CreateMatrix("../##", matrix);
 
             // wrong size
-            std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
+            std::map<Coord::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
             Assert::AreEqual(false, PixelPattern::SplitMatrix(matrix, 3, subMatrices));
         }
 
@@ -133,12 +133,12 @@ namespace AdventOfCodeTest
             std::shared_ptr<Matrix::CharMatrix> matrix = std::make_shared<Matrix::CharMatrix>();
             PixelPattern::CreateMatrix("../##", matrix);
 
-            std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
+            std::map<Coord::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
             Assert::AreEqual(true, PixelPattern::SplitMatrix(matrix, 2, subMatrices));
 
             // equal to the initial matrix
             Assert::AreEqual(1, static_cast<int>(subMatrices.size()));
-            Assert::AreEqual(true, subMatrices.begin()->first == CodeUtils::Point(0,0));
+            Assert::AreEqual(true, subMatrices.begin()->first == Coord::Point(0,0));
 
             Assert::AreEqual(2, subMatrices.begin()->second->GetWidth());
             Assert::AreEqual(2, subMatrices.begin()->second->GetHeight());
@@ -155,7 +155,7 @@ namespace AdventOfCodeTest
             PixelPattern::CreateMatrix(".#./.##/..#", matrix);
 
             // wrong size
-            std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
+            std::map<Coord::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
             Assert::AreEqual(false, PixelPattern::SplitMatrix(matrix, 2, subMatrices));
         }
 
@@ -164,7 +164,7 @@ namespace AdventOfCodeTest
             std::shared_ptr<Matrix::CharMatrix> matrix = std::make_shared<Matrix::CharMatrix>();
             PixelPattern::CreateMatrix(".#./.##/..#", matrix);
 
-            std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
+            std::map<Coord::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
             Assert::AreEqual(true, PixelPattern::SplitMatrix(matrix, 3, subMatrices));
 
             // equal to the initial matrix
@@ -196,16 +196,16 @@ namespace AdventOfCodeTest
             std::shared_ptr<Matrix::CharMatrix> matrix = std::make_shared<Matrix::CharMatrix>();
             PixelPattern::CreateMatrix("..##/..##/#..#/#..#", matrix);
 
-            std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
+            std::map<Coord::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
             Assert::AreEqual(true, PixelPattern::SplitMatrix(matrix, 2, subMatrices));
 
             // split into 4 matrices
             Assert::AreEqual(4, static_cast<int>(subMatrices.size()));
 
-            const auto found00 = subMatrices.find(CodeUtils::Point(0, 0));
-            const auto found10 = subMatrices.find(CodeUtils::Point(1, 0));
-            const auto found01 = subMatrices.find(CodeUtils::Point(0, 1));
-            const auto found11 = subMatrices.find(CodeUtils::Point(1, 1));
+            const auto found00 = subMatrices.find(Coord::Point(0, 0));
+            const auto found10 = subMatrices.find(Coord::Point(1, 0));
+            const auto found01 = subMatrices.find(Coord::Point(0, 1));
+            const auto found11 = subMatrices.find(Coord::Point(1, 1));
             Assert::AreEqual(false, found00 == subMatrices.end());
             Assert::AreEqual(false, found10 == subMatrices.end());
             Assert::AreEqual(false, found01 == subMatrices.end());
@@ -255,20 +255,20 @@ namespace AdventOfCodeTest
             std::shared_ptr<Matrix::CharMatrix> matrix = std::make_shared<Matrix::CharMatrix>();
             PixelPattern::CreateMatrix("..##../..#..#/#....#/###..#/#.###./##...#", matrix);
 
-            std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
+            std::map<Coord::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
             Assert::AreEqual(true, PixelPattern::SplitMatrix(matrix, 2, subMatrices));
 
             // split into 9 matrices
             Assert::AreEqual(9, static_cast<int>(subMatrices.size()));
-            const auto found00 = subMatrices.find(CodeUtils::Point(0, 0));
-            const auto found10 = subMatrices.find(CodeUtils::Point(1, 0));
-            const auto found20 = subMatrices.find(CodeUtils::Point(2, 0));
-            const auto found01 = subMatrices.find(CodeUtils::Point(0, 1));
-            const auto found11 = subMatrices.find(CodeUtils::Point(1, 1));
-            const auto found21 = subMatrices.find(CodeUtils::Point(2, 1));
-            const auto found02 = subMatrices.find(CodeUtils::Point(0, 2));
-            const auto found12 = subMatrices.find(CodeUtils::Point(1, 2));
-            const auto found22 = subMatrices.find(CodeUtils::Point(2, 2));
+            const auto found00 = subMatrices.find(Coord::Point(0, 0));
+            const auto found10 = subMatrices.find(Coord::Point(1, 0));
+            const auto found20 = subMatrices.find(Coord::Point(2, 0));
+            const auto found01 = subMatrices.find(Coord::Point(0, 1));
+            const auto found11 = subMatrices.find(Coord::Point(1, 1));
+            const auto found21 = subMatrices.find(Coord::Point(2, 1));
+            const auto found02 = subMatrices.find(Coord::Point(0, 2));
+            const auto found12 = subMatrices.find(Coord::Point(1, 2));
+            const auto found22 = subMatrices.find(Coord::Point(2, 2));
 
             Assert::AreEqual(false, found00 == subMatrices.end());
             Assert::AreEqual(false, found10 == subMatrices.end());
@@ -449,11 +449,11 @@ namespace AdventOfCodeTest
             PixelPattern::CreateMatrix("#./.#", matrix3);
             PixelPattern::CreateMatrix(".#/#.", matrix4);
 
-            std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
-            subMatrices.emplace(CodeUtils::Point(0, 0), matrix1);
-            subMatrices.emplace(CodeUtils::Point(1, 0), matrix2);
-            subMatrices.emplace(CodeUtils::Point(0, 1), matrix3);
-            subMatrices.emplace(CodeUtils::Point(1, 1), matrix4);
+            std::map<Coord::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
+            subMatrices.emplace(Coord::Point(0, 0), matrix1);
+            subMatrices.emplace(Coord::Point(1, 0), matrix2);
+            subMatrices.emplace(Coord::Point(0, 1), matrix3);
+            subMatrices.emplace(Coord::Point(1, 1), matrix4);
 
             std::shared_ptr<Matrix::CharMatrix> combinedMatrix = std::make_shared<Matrix::CharMatrix>();
             Assert::AreEqual(true, PixelPattern::CombineMatrices(subMatrices, combinedMatrix));
@@ -484,16 +484,16 @@ namespace AdventOfCodeTest
             PixelPattern::CreateMatrix("#./##", matrix8);
             PixelPattern::CreateMatrix("##/##", matrix9);
 
-            std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
-            subMatrices.emplace(CodeUtils::Point(0, 0), matrix1);
-            subMatrices.emplace(CodeUtils::Point(1, 0), matrix2);
-            subMatrices.emplace(CodeUtils::Point(2, 0), matrix3);
-            subMatrices.emplace(CodeUtils::Point(0, 1), matrix4);
-            subMatrices.emplace(CodeUtils::Point(1, 1), matrix5);
-            subMatrices.emplace(CodeUtils::Point(2, 1), matrix6);
-            subMatrices.emplace(CodeUtils::Point(0, 2), matrix7);
-            subMatrices.emplace(CodeUtils::Point(1, 2), matrix8);
-            subMatrices.emplace(CodeUtils::Point(2, 2), matrix9);
+            std::map<Coord::Point, std::shared_ptr<Matrix::CharMatrix>> subMatrices;
+            subMatrices.emplace(Coord::Point(0, 0), matrix1);
+            subMatrices.emplace(Coord::Point(1, 0), matrix2);
+            subMatrices.emplace(Coord::Point(2, 0), matrix3);
+            subMatrices.emplace(Coord::Point(0, 1), matrix4);
+            subMatrices.emplace(Coord::Point(1, 1), matrix5);
+            subMatrices.emplace(Coord::Point(2, 1), matrix6);
+            subMatrices.emplace(Coord::Point(0, 2), matrix7);
+            subMatrices.emplace(Coord::Point(1, 2), matrix8);
+            subMatrices.emplace(Coord::Point(2, 2), matrix9);
 
             std::shared_ptr<Matrix::CharMatrix> combinedMatrix = std::make_shared<Matrix::CharMatrix>();
             Assert::AreEqual(true, PixelPattern::CombineMatrices(subMatrices, combinedMatrix));

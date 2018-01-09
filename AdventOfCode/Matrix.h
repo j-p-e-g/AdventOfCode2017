@@ -1,8 +1,9 @@
 #pragma once
 
+#include <algorithm>
 #include <map>
 
-#include "CodeUtil.h"
+#include "CoordPoint.h"
 
 namespace Matrix
 {
@@ -17,10 +18,10 @@ namespace Matrix
 
         void Set(int x, int y, T value)
         {
-            Set(CodeUtils::Point(x, y), value);
+            Set(Coord::Point(x, y), value);
         }
 
-        void Set(CodeUtils::Point& p, T value)
+        void Set(Coord::Point& p, T value)
         {
             auto& found = m_matrix.find(p);
             if (found != m_matrix.end())
@@ -43,10 +44,10 @@ namespace Matrix
 
         T Get(int x, int y) const
         {
-            return Get(CodeUtils::Point(x, y));
+            return Get(Coord::Point(x, y));
         }
 
-        T Get(const CodeUtils::Point& p) const
+        T Get(const Coord::Point& p) const
         {
             const auto& found = m_matrix.find(p);
             if (found != m_matrix.end())
@@ -201,12 +202,12 @@ namespace Matrix
         virtual T GetDefaultEntry() const = 0;
 
     private:
-        std::map<CodeUtils::Point, T> m_matrix;
+        std::map<Coord::Point, T> m_matrix;
 
         int m_width = 0;
         int m_height = 0;
-        CodeUtils::Point m_upperLeft  = CodeUtils::Point(0, 0);
-        CodeUtils::Point m_lowerRight = CodeUtils::Point(0, 0);
+        Coord::Point m_upperLeft  = Coord::Point(0, 0);
+        Coord::Point m_lowerRight = Coord::Point(0, 0);
     };
 
     class CharMatrix

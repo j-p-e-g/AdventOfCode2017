@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "CodeUtil.h"
 #include "December19.h"
 
 using namespace AdventOfCode::December19;
@@ -104,7 +105,7 @@ bool NetworkDiagram::ProcessDiagramStep()
     return true;
 }
 
-bool NetworkDiagram::GetNewDirection(const CodeUtils::Point& pos, CodeUtils::Point& dir) const
+bool NetworkDiagram::GetNewDirection(const Coord::Point& pos, Coord::Point& dir) const
 {
     const char symbol = m_diagram->Get(pos.x, pos.y);
     if (symbol == ' ')
@@ -187,7 +188,7 @@ bool NetworkDiagram::GetNewDirection(const CodeUtils::Point& pos, CodeUtils::Poi
     }
 }
 
-bool NetworkDiagram::CheckIsValidDirectionSymbol(const char symbol, const CodeUtils::Point& dir) const
+bool NetworkDiagram::CheckIsValidDirectionSymbol(const char symbol, const Coord::Point& dir) const
 {
     switch (symbol)
     {
@@ -241,9 +242,9 @@ bool NetworkDiagram::IsValidDiagram() const
     return true;
 }
 
-CodeUtils::Point NetworkDiagram::GetStartPosition() const
+Coord::Point NetworkDiagram::GetStartPosition() const
 {
-    CodeUtils::Point pos(-1, -1);
+    Coord::Point pos(-1, -1);
 
     // Starting at the only line touching the top of the diagram
     if (!IsValidDiagram())
@@ -256,7 +257,7 @@ CodeUtils::Point NetworkDiagram::GetStartPosition() const
     {
         if (m_diagram->Get(x, 0) == '|')
         {
-            pos = CodeUtils::Point(x, 0);
+            pos = Coord::Point(x, 0);
             break;
         }
     }

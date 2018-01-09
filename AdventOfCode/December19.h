@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "AdventOfCodeBase.h"
-#include "CodeUtil.h"
 #include "Matrix.h"
 
 /*
@@ -40,11 +39,11 @@
 namespace AdventOfCode {
 namespace December19 {
 
-    const CodeUtils::Point Stop(0, 0);
-    const CodeUtils::Point Up(0, -1);
-    const CodeUtils::Point Down(0, 1);
-    const CodeUtils::Point Left(-1, 0);
-    const CodeUtils::Point Right(1, 0);
+    const Coord::Point Stop(0, 0);
+    const Coord::Point Up(0, -1);
+    const Coord::Point Down(0, 1);
+    const Coord::Point Left(-1, 0);
+    const Coord::Point Right(1, 0);
 
     class NetworkDiagram
         : protected AdventOfCodeBase
@@ -66,14 +65,14 @@ namespace December19 {
         virtual bool ProcessDiagramStep();
         bool IsValidDiagram() const;
         std::string GetPacketPath() const;
-        bool GetNewDirection(const CodeUtils::Point& pos, CodeUtils::Point& dir) const;
-        bool CheckIsValidDirectionSymbol(const char symbol, const CodeUtils::Point& dir) const;
-        CodeUtils::Point GetStartPosition() const;
+        bool GetNewDirection(const Coord::Point& pos, Coord::Point& dir) const;
+        bool CheckIsValidDirectionSymbol(const char symbol, const Coord::Point& dir) const;
+        Coord::Point GetStartPosition() const;
 
     private:
         std::shared_ptr<Matrix::CharMatrix> m_diagram;
-        CodeUtils::Point m_currentPos;
-        CodeUtils::Point m_currentDir;
+        Coord::Point m_currentPos;
+        Coord::Point m_currentDir;
         std::string m_lettersOnPath;
     };
 

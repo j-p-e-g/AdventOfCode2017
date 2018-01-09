@@ -1,11 +1,11 @@
 #pragma once
 
-#include "AdventOfCodeBase.h"
-#include "CodeUtil.h"
-
 #include <bitset>
 #include <map>
 #include <vector>
+
+#include "AdventOfCodeBase.h"
+#include "CoordPoint.h"
 
 /*
     https://adventofcode.com/2017/day/14
@@ -61,7 +61,7 @@ namespace December14 {
         BitRow m_bitRow;
     };
 
-    typedef std::map<CodeUtils::Point, bool> BitMap;
+    typedef std::map<Coord::Point, bool> BitMap;
 
     class DiskDefragmenter
         : protected AdventOfCodeBase
@@ -82,8 +82,8 @@ namespace December14 {
         static bool ConvertHexStringToBitField(const std::string& hexString, BitField& bitfield);
         int GetNumUsedSquaresInGrid() const;
 
-        void SetBit(const CodeUtils::Point& point, bool bit);
-        bool GetBit(const CodeUtils::Point& point) const;
+        void SetBit(const Coord::Point& point, bool bit);
+        bool GetBit(const Coord::Point& point) const;
         std::string GetRowAsString(int rowId) const;
 
     protected:

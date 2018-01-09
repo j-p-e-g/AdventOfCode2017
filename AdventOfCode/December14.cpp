@@ -58,7 +58,7 @@ bool DiskDefragmenter::ParseLine(const std::string& inputLine)
         std::string bitString = bitfield.ToString();
         for (unsigned int column = 0; column < bitString.length(); column++)
         {
-            SetBit(CodeUtils::Point(row, column), bitString[column] == '1');
+            SetBit(Coord::Point(row, column), bitString[column] == '1');
         }
     }
 
@@ -119,12 +119,12 @@ bool DiskDefragmenter::ConvertHexStringToBitField(const std::string& hexString, 
     return true;
 }
 
-void DiskDefragmenter::SetBit(const CodeUtils::Point& point, bool bit)
+void DiskDefragmenter::SetBit(const Coord::Point& point, bool bit)
 {
     m_bitMap.emplace(point, bit);
 }
 
-bool DiskDefragmenter::GetBit(const CodeUtils::Point& point) const
+bool DiskDefragmenter::GetBit(const Coord::Point& point) const
 {
     const auto& found = m_bitMap.find(point);
     if (found == m_bitMap.end())
@@ -140,7 +140,7 @@ std::string DiskDefragmenter::GetRowAsString(int rowId) const
     std::string str;
     for (int c = 0; c < m_numColumns; c++)
     {
-        str += GetBit(CodeUtils::Point(rowId, c)) ? "1" : "0";
+        str += GetBit(Coord::Point(rowId, c)) ? "1" : "0";
     }
 
     return str;

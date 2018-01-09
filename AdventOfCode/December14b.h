@@ -44,7 +44,7 @@ namespace December14 {
         // ~AdventOfCodeBase
 
     public:
-        bool FindPointsInRegion(const CodeUtils::Point& p, std::vector<CodeUtils::Point>& connected) const;
+        bool FindPointsInRegion(const Coord::Point& p, std::vector<Coord::Point>& connected) const;
         int GetNumRegions() const;
     };
 

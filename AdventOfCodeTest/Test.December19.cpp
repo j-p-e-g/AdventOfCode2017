@@ -78,13 +78,13 @@ namespace AdventOfCodeTest
         {
             NetworkDiagram test;
             test.ParseLine("     | ");
-            Assert::AreEqual(true, CodeUtils::Point(5,0) == test.GetStartPosition());
+            Assert::AreEqual(true, Coord::Point(5,0) == test.GetStartPosition());
         }
 
         TEST_METHOD(December19_GetStartPosition_invalid)
         {
             NetworkDiagram test;
-            Assert::AreEqual(true, CodeUtils::Point(-1, -1) == test.GetStartPosition());
+            Assert::AreEqual(true, Coord::Point(-1, -1) == test.GetStartPosition());
         }
 
         // ---------------------------------------
@@ -106,79 +106,79 @@ namespace AdventOfCodeTest
             NetworkDiagram test(matrix);
 
             // downwards
-            CodeUtils::Point dir = Down;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(4, 5), dir));
+            Coord::Point dir = Down;
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(4, 5), dir));
             Assert::AreEqual(true, Down == dir);
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(4, 6), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(4, 6), dir));
             Assert::AreEqual(true, Stop == dir);
 
             dir = Down;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(7, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(7, 5), dir));
             Assert::AreEqual(true, Down == dir);
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(7, 8), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(7, 8), dir));
             Assert::AreEqual(true, Stop == dir);
 
             dir = Down;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(10, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(10, 5), dir));
             Assert::AreEqual(true, Down == dir);
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(11, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(11, 5), dir));
             Assert::AreEqual(true, Stop == dir);
 
             // upwards
             dir = Up;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(4, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(4, 5), dir));
             Assert::AreEqual(true, Up == dir);
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(4, 4), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(4, 4), dir));
             Assert::AreEqual(true, Stop == dir);
 
             dir = Up;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(7, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(7, 5), dir));
             Assert::AreEqual(true, Up == dir);
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(7, 4), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(7, 4), dir));
             Assert::AreEqual(true, Stop == dir);
 
             dir = Up;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(10, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(10, 5), dir));
             Assert::AreEqual(true, Up == dir);
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(10, 4), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(10, 4), dir));
             Assert::AreEqual(true, Stop == dir);
 
             // leftwards
             dir = Left;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(4, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(4, 5), dir));
             Assert::AreEqual(true, Left == dir);
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(3, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(3, 5), dir));
             Assert::AreEqual(true, Stop == dir);
 
             dir = Left;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(7, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(7, 5), dir));
             Assert::AreEqual(true, Left == dir);
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(6, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(6, 5), dir));
             Assert::AreEqual(true, Stop == dir);
 
             dir = Left;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(10, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(10, 5), dir));
             Assert::AreEqual(true, Left == dir);
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(9, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(9, 5), dir));
             Assert::AreEqual(true, Stop == dir);
 
             // rightwards
             dir = Right;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(4, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(4, 5), dir));
             Assert::AreEqual(true, Right == dir);
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(5, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(5, 5), dir));
             Assert::AreEqual(true, Stop == dir);
 
             dir = Right;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(7, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(7, 5), dir));
             Assert::AreEqual(true, Right == dir);
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(8, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(8, 5), dir));
             Assert::AreEqual(true, Stop == dir);
 
             dir = Right;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(10, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(10, 5), dir));
             Assert::AreEqual(true, Right == dir);
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(11, 5), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(11, 5), dir));
             Assert::AreEqual(true, Stop == dir);
         }
 
@@ -195,27 +195,27 @@ namespace AdventOfCodeTest
             matrix.Set(1, 3, '-');
 
             NetworkDiagram test(matrix);
-            CodeUtils::Point dir = Down;
+            Coord::Point dir = Down;
 
             // downwards
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(1, 1), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(1, 1), dir));
             Assert::AreEqual(true, Down == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(1, 2), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(1, 2), dir));
             Assert::AreEqual(true, Down == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(1, 3), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(1, 3), dir));
             Assert::AreEqual(true, Down == dir);
 
             // upwards
             dir = Up;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(1, 3), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(1, 3), dir));
             Assert::AreEqual(true, Up == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(1, 2), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(1, 2), dir));
             Assert::AreEqual(true, Up == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(1, 1), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(1, 1), dir));
             Assert::AreEqual(true, Up == dir);
         }
 
@@ -230,27 +230,27 @@ namespace AdventOfCodeTest
             matrix.Set(9, 4, '|');
 
             NetworkDiagram test(matrix);
-            CodeUtils::Point dir = Right;
+            Coord::Point dir = Right;
 
             // rightwards
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(7, 4), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(7, 4), dir));
             Assert::AreEqual(true, Right == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(8, 4), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(8, 4), dir));
             Assert::AreEqual(true, Right == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(9, 4), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(9, 4), dir));
             Assert::AreEqual(true, Right == dir);
 
             // leftwards
             dir = Left;
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(9, 4), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(9, 4), dir));
             Assert::AreEqual(true, Left == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(8, 4), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(8, 4), dir));
             Assert::AreEqual(true, Left == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(7, 4), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(7, 4), dir));
             Assert::AreEqual(true, Left == dir);
         }
 
@@ -275,33 +275,33 @@ namespace AdventOfCodeTest
             NetworkDiagram test(matrix);
 
             // clockwise, starting in top right corner
-            CodeUtils::Point dir = Right;
+            Coord::Point dir = Right;
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(3, 1), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(3, 1), dir));
             Assert::AreEqual(true, Down == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(3, 3), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(3, 3), dir));
             Assert::AreEqual(true, Left == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(1, 3), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(1, 3), dir));
             Assert::AreEqual(true, Up == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(1, 1), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(1, 1), dir));
             Assert::AreEqual(true, Right == dir);
 
             // counter-clockwise, starting in top left corner
             dir = Left;
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(1, 1), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(1, 1), dir));
             Assert::AreEqual(true, Down == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(1, 3), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(1, 3), dir));
             Assert::AreEqual(true, Right == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(3, 3), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(3, 3), dir));
             Assert::AreEqual(true, Up == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(3, 1), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(3, 1), dir));
             Assert::AreEqual(true, Left == dir);
         }
 
@@ -326,33 +326,33 @@ namespace AdventOfCodeTest
             NetworkDiagram test(matrix);
 
             // clockwise, starting in top right corner
-            CodeUtils::Point dir = Right;
+            Coord::Point dir = Right;
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(6, 4), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(6, 4), dir));
             Assert::AreEqual(true, Down == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(6, 6), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(6, 6), dir));
             Assert::AreEqual(true, Left == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(4, 6), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(4, 6), dir));
             Assert::AreEqual(true, Up == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(4, 4), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(4, 4), dir));
             Assert::AreEqual(true, Right == dir);
 
             // counter-clockwise, starting in top left corner
             dir = Left;
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(4, 4), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(4, 4), dir));
             Assert::AreEqual(true, Down == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(4, 6), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(4, 6), dir));
             Assert::AreEqual(true, Right == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(6, 6), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(6, 6), dir));
             Assert::AreEqual(true, Up == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(6, 4), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(6, 4), dir));
             Assert::AreEqual(true, Left == dir);
         }
 
@@ -378,33 +378,33 @@ namespace AdventOfCodeTest
             NetworkDiagram test(matrix);
 
             // clockwise, starting in top right corner
-            CodeUtils::Point dir = Right;
+            Coord::Point dir = Right;
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(12, 10), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(12, 10), dir));
             Assert::AreEqual(true, Down == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(12, 12), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(12, 12), dir));
             Assert::AreEqual(true, Left == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(10, 12), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(10, 12), dir));
             Assert::AreEqual(true, Up == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(10, 10), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(10, 10), dir));
             Assert::AreEqual(true, Right == dir);
 
             // counter-clockwise, starting in top left corner
             dir = Left;
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(10, 10), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(10, 10), dir));
             Assert::AreEqual(true, Down == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(10, 12), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(10, 12), dir));
             Assert::AreEqual(true, Right == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(12, 12), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(12, 12), dir));
             Assert::AreEqual(true, Up == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(12, 10), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(12, 10), dir));
             Assert::AreEqual(true, Left == dir);
         }
 
@@ -424,33 +424,33 @@ namespace AdventOfCodeTest
             NetworkDiagram test(matrix);
 
             // clockwise, starting in top right corner
-            CodeUtils::Point dir = Right;
+            Coord::Point dir = Right;
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(3, 2), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(3, 2), dir));
             Assert::AreEqual(true, Down == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(3, 3), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(3, 3), dir));
             Assert::AreEqual(true, Left == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(2, 3), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(2, 3), dir));
             Assert::AreEqual(true, Up == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(2, 2), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(2, 2), dir));
             Assert::AreEqual(true, Right == dir);
 
             // counter-clockwise, starting in top left corner
             dir = Left;
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(2, 2), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(2, 2), dir));
             Assert::AreEqual(true, Down == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(2, 3), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(2, 3), dir));
             Assert::AreEqual(true, Right == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(3, 3), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(3, 3), dir));
             Assert::AreEqual(true, Up == dir);
 
-            Assert::AreEqual(true, test.GetNewDirection(CodeUtils::Point(3, 2), dir));
+            Assert::AreEqual(true, test.GetNewDirection(Coord::Point(3, 2), dir));
             Assert::AreEqual(true, Left == dir);
         }
 
@@ -477,30 +477,30 @@ namespace AdventOfCodeTest
             matrix.Set(5, 1, 'G');
 
             NetworkDiagram test(matrix);
-            CodeUtils::Point dir = Down;
+            Coord::Point dir = Down;
 
             // start -> down
-            test.GetNewDirection(CodeUtils::Point(3, 1), dir);
+            test.GetNewDirection(Coord::Point(3, 1), dir);
             Assert::AreEqual(true, Down == dir);
 
             // down -> right
-            test.GetNewDirection(CodeUtils::Point(3, 2), dir);
+            test.GetNewDirection(Coord::Point(3, 2), dir);
             Assert::AreEqual(true, Right == dir);
-            test.GetNewDirection(CodeUtils::Point(5, 2), dir);
+            test.GetNewDirection(Coord::Point(5, 2), dir);
             Assert::AreEqual(true, Right == dir);
 
             // right -> up
-            test.GetNewDirection(CodeUtils::Point(6, 2), dir);
+            test.GetNewDirection(Coord::Point(6, 2), dir);
             Assert::AreEqual(true, Up == dir);
 
             // up -> left
-            test.GetNewDirection(CodeUtils::Point(6, 1), dir);
+            test.GetNewDirection(Coord::Point(6, 1), dir);
             Assert::AreEqual(true, Left == dir);
-            test.GetNewDirection(CodeUtils::Point(5, 1), dir);
+            test.GetNewDirection(Coord::Point(5, 1), dir);
             Assert::AreEqual(true, Left == dir);
 
             // left -> stop
-            test.GetNewDirection(CodeUtils::Point(4, 1), dir);
+            test.GetNewDirection(Coord::Point(4, 1), dir);
             Assert::AreEqual(true, Stop == dir);
         }
 

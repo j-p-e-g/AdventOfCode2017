@@ -5,7 +5,6 @@
 #include <set>
 
 #include "AdventOfCodeBase.h"
-#include "CodeUtil.h"
 #include "Matrix.h"
 
 /*
@@ -119,8 +118,8 @@ namespace December21 {
 
     public:
         static bool CreateMatrix(const std::string& input, std::shared_ptr<Matrix::CharMatrix>& matrix);
-        static bool SplitMatrix(const std::shared_ptr<Matrix::CharMatrix>& matrix, int size, std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>>& subMatrices);
-        static bool CombineMatrices(const std::map<CodeUtils::Point, std::shared_ptr<Matrix::CharMatrix>>& subMatrices, std::shared_ptr<Matrix::CharMatrix>& matrix);
+        static bool SplitMatrix(const std::shared_ptr<Matrix::CharMatrix>& matrix, int size, std::map<Coord::Point, std::shared_ptr<Matrix::CharMatrix>>& subMatrices);
+        static bool CombineMatrices(const std::map<Coord::Point, std::shared_ptr<Matrix::CharMatrix>>& subMatrices, std::shared_ptr<Matrix::CharMatrix>& matrix);
 
         static bool CreateAndValidatePatternMatrix(const std::string& pattern, std::shared_ptr<Matrix::CharMatrix>& matrix);
 

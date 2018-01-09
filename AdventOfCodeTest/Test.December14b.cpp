@@ -20,8 +20,8 @@ namespace AdventOfCodeTest
         {
             DiskDefragmenterB test;
             test.ParseLine("flqrgnkx");
-            std::vector<CodeUtils::Point> connected;
-            Assert::AreEqual(false, test.FindPointsInRegion(CodeUtils::Point(129, 236), connected));
+            std::vector<Coord::Point> connected;
+            Assert::AreEqual(false, test.FindPointsInRegion(Coord::Point(129, 236), connected));
             Assert::AreEqual(true, connected.empty());
         }
 
@@ -32,8 +32,8 @@ namespace AdventOfCodeTest
         {
             DiskDefragmenterB test;
             test.ParseLine("flqrgnkx");
-            std::vector<CodeUtils::Point> connected;
-            Assert::AreEqual(true, test.FindPointsInRegion(CodeUtils::Point(2, 3), connected));
+            std::vector<Coord::Point> connected;
+            Assert::AreEqual(true, test.FindPointsInRegion(Coord::Point(2, 3), connected));
             Assert::AreEqual(true, connected.empty());
         }
 
@@ -57,23 +57,23 @@ namespace AdventOfCodeTest
         {
             DiskDefragmenterB test;
             test.ParseLine("flqrgnkx");
-            std::vector<CodeUtils::Point> connected;
-            Assert::AreEqual(true, test.FindPointsInRegion(CodeUtils::Point(0,1), connected));
+            std::vector<Coord::Point> connected;
+            Assert::AreEqual(true, test.FindPointsInRegion(Coord::Point(0,1), connected));
             // contains (0,0), (0,1) and (1,1)
             Assert::AreEqual(3, static_cast<int>(connected.size()));
-            Assert::AreEqual(false, std::find(connected.begin(), connected.end(), CodeUtils::Point(0,0)) == connected.end());
-            Assert::AreEqual(false, std::find(connected.begin(), connected.end(), CodeUtils::Point(0, 1)) == connected.end());
-            Assert::AreEqual(false, std::find(connected.begin(), connected.end(), CodeUtils::Point(1, 1)) == connected.end());
+            Assert::AreEqual(false, std::find(connected.begin(), connected.end(), Coord::Point(0,0)) == connected.end());
+            Assert::AreEqual(false, std::find(connected.begin(), connected.end(), Coord::Point(0, 1)) == connected.end());
+            Assert::AreEqual(false, std::find(connected.begin(), connected.end(), Coord::Point(1, 1)) == connected.end());
         }
 
         TEST_METHOD(December14b_FindPointsInRegion_AoC_single)
         {
             DiskDefragmenterB test;
             test.ParseLine("flqrgnkx");
-            std::vector<CodeUtils::Point> connected;
-            Assert::AreEqual(true, test.FindPointsInRegion(CodeUtils::Point(2, 6), connected));
+            std::vector<Coord::Point> connected;
+            Assert::AreEqual(true, test.FindPointsInRegion(Coord::Point(2, 6), connected));
             Assert::AreEqual(1, static_cast<int>(connected.size()));
-            Assert::AreEqual(true, CodeUtils::Point(2,6) == connected[0]);
+            Assert::AreEqual(true, Coord::Point(2,6) == connected[0]);
         }
 
         /*

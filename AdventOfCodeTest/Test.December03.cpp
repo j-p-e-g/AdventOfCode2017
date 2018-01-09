@@ -14,7 +14,7 @@ namespace Microsoft
 	{
 		namespace CppUnitTestFramework
 		{
-			template<> static std::wstring ToString<CodeUtils::Point>(const CodeUtils::Point& t) { return t.ToWString(); }
+			template<> static std::wstring ToString<Coord::Point>(const Coord::Point& t) { return t.ToWString(); }
 		}
 	}
 }
@@ -66,8 +66,8 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December03_FindCoord_Zero)
 		{
-			const CodeUtils::Point coord = SpiralMemory::FindCoord(0);
-			Assert::AreEqual(CodeUtils::InvalidCoord, coord);
+			const Coord::Point coord = SpiralMemory::FindCoord(0);
+			Assert::AreEqual(Coord::InvalidCoord, coord);
 		}
 
 		/*
@@ -75,17 +75,17 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December03_FindCoord_NegativeInput)
 		{
-            const CodeUtils::Point coord = SpiralMemory::FindCoord(-3);
-            Assert::AreEqual(CodeUtils::InvalidCoord, coord);
+            const Coord::Point coord = SpiralMemory::FindCoord(-3);
+            Assert::AreEqual(Coord::InvalidCoord, coord);
 		}
 
 		/*
-		starting CodeUtils::Point
+		starting Coord::Point
 		*/
 		TEST_METHOD(December03_FindCoord_1)
 		{
-            const CodeUtils::Point coord = SpiralMemory::FindCoord(1);
-            Assert::AreEqual(CodeUtils::Point(0,0), coord);
+            const Coord::Point coord = SpiralMemory::FindCoord(1);
+            Assert::AreEqual(Coord::Point(0,0), coord);
 		}
 
 		/*
@@ -93,8 +93,8 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December03_FindCoord_12)
 		{
-            const CodeUtils::Point coord = SpiralMemory::FindCoord(12);
-            Assert::AreEqual(CodeUtils::Point(2, -1), coord);
+            const Coord::Point coord = SpiralMemory::FindCoord(12);
+            Assert::AreEqual(Coord::Point(2, -1), coord);
 		}
 
 		/*
@@ -102,8 +102,8 @@ namespace AdventOfCodeTest
 		*/
 		TEST_METHOD(December03_FindCoord_23)
 		{
-            const CodeUtils::Point coord = SpiralMemory::FindCoord(23);
-			Assert::AreEqual(CodeUtils::Point(0, 2), coord);
+            const Coord::Point coord = SpiralMemory::FindCoord(23);
+			Assert::AreEqual(Coord::Point(0, 2), coord);
 		}
 
         //-----------------------------
