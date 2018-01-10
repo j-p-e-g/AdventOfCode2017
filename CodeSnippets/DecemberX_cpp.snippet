@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>  
+<CodeSnippets  
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">  
+    <CodeSnippet Format="1.0.0">  
+        <Header>  
+            <Title>AdventOfCode implementation</Title>  
+        </Header>  
+        <Snippet>  
+            <Code Language="Visual C++">  
+                <![CDATA[
+#include "stdafx.h"
+
+#include <iostream>
+
+#include "DecemberXX.h"
+
+using namespace AdventOfCode::DecemberXX;
+
+ClassName::ClassName(const std::string& fileName)
+    : AdventOfCodeBase()
+{
+    ReadFile(fileName);
+}
+
+bool ClassName::ParseLine(const std::string& inputLine)
+{
+    return false;
+}
+
+void ClassName::OutputResultToConsole() const
+{
+    std::cout << "DecemberXX: result = " << FunctionName() << std::endl;
+}
+
+int ClassName::FunctionName() const
+{
+    return 0;
+}
+]]>  
+            </Code>  
+        </Snippet>  
+    </CodeSnippet>  
+</CodeSnippets>
+

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>  
+<CodeSnippets  
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">  
+    <CodeSnippet Format="1.0.0">  
+        <Header>  
+            <Title>AdventOfCode test</Title>  
+        </Header>  
+        <Snippet>  
+            <Code Language="Visual C++">  
+                <![CDATA[
+#include "stdafx.h"
+#include "CppUnitTest.h"
+#include "../AdventOfCode/DecemberXX.h"
+
+namespace AdventOfCodeTest
+{
+    using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+    using namespace AdventOfCode::DecemberXX;
+
+    TEST_CLASS(Test_DecemberXX)
+    {
+    public:
+        /*
+        */
+        TEST_METHOD(DecemberXX_AoC_test)
+        {
+            ClassName test;
+            Assert::AreEqual(0, test.FunctionName());
+        }
+    };
+}
+]]>  
+            </Code>  
+        </Snippet>  
+    </CodeSnippet>  
+</CodeSnippets>
+
