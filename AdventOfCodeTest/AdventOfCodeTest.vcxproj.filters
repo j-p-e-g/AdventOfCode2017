@@ -302,5 +302,8 @@
     <ClCompile Include="..\AdventOfCode\December22b.cpp">
       <Filter>Source Files\Linked</Filter>
     </ClCompile>
+    <ClCompile Include="Test.CoordPoint.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
