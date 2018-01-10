@@ -24,7 +24,7 @@ bool InfectedGrid::ParseLine(const std::string& inputLine)
     int x = 0;
     for (const auto& c : inputLine)
     {
-        if (c != '#' && c != '.')
+        if (!IsValidCell(c))
         {
             return false;
         }
@@ -39,7 +39,12 @@ bool InfectedGrid::ParseLine(const std::string& inputLine)
 
 void InfectedGrid::OutputResultToConsole() const
 {
-    std::cout << "December22: result = " << GetNumInfectiousBursts() << std::endl;
+    std::cout << "December22.a: result = " << GetNumInfectiousBursts() << std::endl;
+}
+
+bool InfectedGrid::IsValidCell(char c)
+{
+    return (c == '.' || c == '#');
 }
 
 int InfectedGrid::GetNumInfectiousBursts() const
@@ -96,7 +101,7 @@ void InfectedGrid::HandleSingleBurst()
         // clean
         TurnLeft();
         m_matrix.Set(m_virusPosition, '#');
-        m_infectionCounter++;
+        IncreaseCounter();
         MoveForward();
     }
 }

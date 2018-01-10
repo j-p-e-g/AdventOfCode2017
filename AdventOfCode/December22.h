@@ -128,22 +128,27 @@ namespace December22 {
         Coord::Point GetDirection() const { return m_direction; }
 
         void HandleBursts(int amount);
-        void HandleSingleBurst();
+        virtual void HandleSingleBurst();
         int GetNumInfectiousBursts() const;
 
         void TurnLeft();
         void TurnRight();
         void MoveForward();
 
+    protected:
+        virtual bool IsValidCell(char c);
+        void IncreaseCounter() { m_infectionCounter++; }
+
     private:
         void UpdateDirection(int offset);
 
-    private:
+    protected:
         Matrix::CharMatrix m_matrix;
-        Coord::Point m_virusPosition = Coord::Point(0, 0);
         Coord::Point m_direction = Coord::Up;
-        int m_infectionCounter = 0;
 
+    private:
+        Coord::Point m_virusPosition = Coord::Point(0, 0);
+        int m_infectionCounter = 0;
         std::vector<Coord::Point> m_clockwiseDirections = { Coord::Up, Coord::Right, Coord::Down, Coord::Left };
     };
 

@@ -59,6 +59,12 @@ namespace Coord
             y += other.y;
         }
 
+        void operator *=(int k)
+        {
+            x *= k;
+            y *= k;
+        }
+
         Point operator + (const Point& other) const
         {
             Point temp;

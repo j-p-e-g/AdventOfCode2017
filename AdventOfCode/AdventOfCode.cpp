@@ -27,7 +27,7 @@
 #include "December19b.h"
 #include "December20b.h"
 #include "December21.h"
-#include "December22.h"
+#include "December22b.h"
 
 int main()
 {
@@ -182,6 +182,11 @@ int main()
         // 10000 iterations
         testa.HandleBursts(10000);
         testa.OutputResultToConsole();
+
+        AdventOfCode::December22::InfectedGridB testb("InputFiles/input22.txt");
+        // 10000000 iterations
+        testb.HandleBursts(10000000);
+        testb.OutputResultToConsole();
     }
 
     return 0;

@@ -191,6 +191,7 @@
     <ClInclude Include="December20b.h" />
     <ClInclude Include="December21.h" />
     <ClInclude Include="December22.h" />
+    <ClInclude Include="December22b.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="December20b.cpp" />
     <ClCompile Include="December21.cpp" />
     <ClCompile Include="December22.cpp" />
+    <ClCompile Include="December22b.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
