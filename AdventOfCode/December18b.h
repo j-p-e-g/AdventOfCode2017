@@ -50,7 +50,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterSolo& rd) override;
+        bool Apply(RegisterBase& rd) override;
     };
 
     class RegisterRcvB
@@ -63,7 +63,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterSolo& rd) override;
+        bool Apply(RegisterBase& rd) override;
     };
 
     class RegisterDuet;
@@ -126,7 +126,7 @@ namespace December18 {
 
         void ReadFile(const std::string& fileName);
         void RegisterProgram(std::shared_ptr<RegisterSoloB>& program);
-        void Send(int id, long long value);
+        void Send(int id, long long value) override;
 
     private:
         std::vector<std::shared_ptr<RegisterSoloB>> m_programs;

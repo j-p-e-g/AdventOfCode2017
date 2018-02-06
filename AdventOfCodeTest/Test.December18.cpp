@@ -536,6 +536,7 @@ namespace AdventOfCodeTest
             test.ExecuteCommands();
 
             Assert::AreEqual(-1, static_cast<int>(test.GetRecoveredFrequency()));
+            Assert::AreEqual(1, static_cast<int>(test.GetCommandCounter("rcv")));
         }
 
         TEST_METHOD(December18_GetRecoveredFrequency_invalid_valueZero)
@@ -548,6 +549,9 @@ namespace AdventOfCodeTest
 
             // we played a sound but d is zero
             Assert::AreEqual(-1, static_cast<int>(test.GetRecoveredFrequency()));
+
+            Assert::AreEqual(1, static_cast<int>(test.GetCommandCounter("snd")));
+            Assert::AreEqual(1, static_cast<int>(test.GetCommandCounter("rcv")));
         }
 
         TEST_METHOD(December18_GetRecoveredFrequency_invalid_noSound)
@@ -560,6 +564,10 @@ namespace AdventOfCodeTest
 
             // x is non-zero but there's nothing to recover
             Assert::AreEqual(-1, static_cast<int>(test.GetRecoveredFrequency()));
+
+            Assert::AreEqual(0, static_cast<int>(test.GetCommandCounter("snd")));
+            Assert::AreEqual(1, static_cast<int>(test.GetCommandCounter("set")));
+            Assert::AreEqual(1, static_cast<int>(test.GetCommandCounter("rcv")));
         }
 
         TEST_METHOD(December18_GetRecoveredFrequency_valid_zero)
@@ -574,6 +582,11 @@ namespace AdventOfCodeTest
 
             // the last sound was played with a frequency of 0
             Assert::AreEqual(0, static_cast<int>(test.GetRecoveredFrequency()));
+
+            Assert::AreEqual(1, static_cast<int>(test.GetCommandCounter("snd")));
+            Assert::AreEqual(1, static_cast<int>(test.GetCommandCounter("add")));
+            Assert::AreEqual(0, static_cast<int>(test.GetCommandCounter("set")));
+            Assert::AreEqual(1, static_cast<int>(test.GetCommandCounter("rcv")));
         }
 
         TEST_METHOD(December18_GetRecoveredFrequency_valid_nonZero)
@@ -629,13 +642,33 @@ namespace AdventOfCodeTest
             test.ParseLine("mod a 5");
             test.ParseLine("snd a");
             test.ParseLine("set a 0");
-            test.ParseLine("rcv a");
-            test.ParseLine("jgz a -1");
+            test.ParseLine("rcv a"); // skipped; a is zero; 2nd time: not skipped
+            test.ParseLine("jgz a -1"); // 1st time: not executed, 2nd time: executed
             test.ParseLine("set a 1");
-            test.ParseLine("jgz a -2");
+            test.ParseLine("jgz a -2"); // jump back to rcv
             test.ExecuteCommands();
 
             Assert::AreEqual(4, static_cast<int>(test.GetRecoveredFrequency()));
+        }
+
+        // GetCommandCounter
+        TEST_METHOD(December18_GetCommandCounter)
+        {
+            RegisterSolo test;
+            test.ParseLine("set f 4");
+            test.ParseLine("add b -3");
+            test.ParseLine("jgz b 2"); // skipped (b < 0)
+            test.ParseLine("add f 6");
+            test.ParseLine("mul f 3");
+            test.ParseLine("jgz f 2"); // not skipped; skip next action
+            test.ParseLine("mod g 1");
+            test.ExecuteCommands();
+
+            Assert::AreEqual(1, static_cast<int>(test.GetCommandCounter("set")));
+            Assert::AreEqual(2, static_cast<int>(test.GetCommandCounter("add")));
+            Assert::AreEqual(1, static_cast<int>(test.GetCommandCounter("mul")));
+            Assert::AreEqual(2, static_cast<int>(test.GetCommandCounter("jgz")));
+            Assert::AreEqual(0, static_cast<int>(test.GetCommandCounter("mod")));
         }
     };
 }

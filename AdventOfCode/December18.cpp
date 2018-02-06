@@ -35,13 +35,14 @@ CharOrNumber::CharOrNumber(const std::string& str)
 // -------------------------
 // RegisterCommand(s)
 // -------------------------
-bool RegisterCommand::Apply(RegisterSolo& rd)
+bool RegisterCommand::Apply(RegisterBase& rd)
 {
     rd.SetCurrentIndex(rd.GetCurrentIndex() + 1);
+    rd.IncreaseCounter(command);
     return true;
 }
 
-bool RegisterSnd::Apply(RegisterSolo& rd)
+bool RegisterSnd::Apply(RegisterBase& rd)
 {
     const long long frequency = param.isChar ? rd.GetRegisterValue(param.id) : param.value;
     rd.SetFrequency(frequency);
@@ -50,7 +51,7 @@ bool RegisterSnd::Apply(RegisterSolo& rd)
     return true;
 }
 
-bool RegisterRcv::Apply(RegisterSolo& rd)
+bool RegisterRcv::Apply(RegisterBase& rd)
 {
     const long long value = param.isChar ? rd.GetRegisterValue(param.id) : param.value;
     if (value != 0)
@@ -62,7 +63,7 @@ bool RegisterRcv::Apply(RegisterSolo& rd)
     return true;
 }
 
-bool RegisterSet::Apply(RegisterSolo& rd)
+bool RegisterSet::Apply(RegisterBase& rd)
 {
     const long long value = param2.isChar ? rd.GetRegisterValue(param2.id) : param2.value;
     rd.SetRegisterValue(param1.id, value);
@@ -71,7 +72,7 @@ bool RegisterSet::Apply(RegisterSolo& rd)
     return true;
 }
 
-bool RegisterAdd::Apply(RegisterSolo& rd)
+bool RegisterAdd::Apply(RegisterBase& rd)
 {
     const long long prevValue = rd.GetRegisterValue(param1.id);
     const long long bonus = param2.isChar ? rd.GetRegisterValue(param2.id) : param2.value;
@@ -81,7 +82,7 @@ bool RegisterAdd::Apply(RegisterSolo& rd)
     return true;
 }
 
-bool RegisterMul::Apply(RegisterSolo& rd)
+bool RegisterMul::Apply(RegisterBase& rd)
 {
     const long long prevValue = rd.GetRegisterValue(param1.id);
     const long long multiplier = param2.isChar ? rd.GetRegisterValue(param2.id) : param2.value;
@@ -91,7 +92,7 @@ bool RegisterMul::Apply(RegisterSolo& rd)
     return true;
 }
 
-bool RegisterMod::Apply(RegisterSolo& rd)
+bool RegisterMod::Apply(RegisterBase& rd)
 {
     const long long prevValue = rd.GetRegisterValue(param1.id);
     const long long modValue  = param2.isChar ? rd.GetRegisterValue(param2.id) : param2.value;
@@ -107,7 +108,7 @@ bool RegisterMod::Apply(RegisterSolo& rd)
     return true;
 }
 
-bool RegisterJgz::Apply(RegisterSolo& rd)
+bool RegisterJgz::Apply(RegisterBase& rd)
 {
     const long long value = param1.isChar ? rd.GetRegisterValue(param1.id) : param1.value;
 
@@ -120,6 +121,7 @@ bool RegisterJgz::Apply(RegisterSolo& rd)
 
     const int offset = param2.isChar ? static_cast<int>(rd.GetRegisterValue(param2.id)) : param2.value;
     rd.SetCurrentIndex(rd.GetCurrentIndex() + offset);
+    rd.IncreaseCounter(command);
 
     return true;
 }
@@ -127,14 +129,42 @@ bool RegisterJgz::Apply(RegisterSolo& rd)
 // ----------------------------------
 // RegisterDuet
 // ----------------------------------
-RegisterSolo::RegisterSolo(const std::string& fileName)
-    : AdventOfCodeBase()
+bool RegisterBase::ExecuteNextCommand()
 {
-    ReadFile(fileName);
-    ExecuteCommands();
+    if (m_currentIndex < 0 || m_currentIndex >= m_commands.size())
+    {
+        return false;
+    }
+
+    // may also affect m_currentIndex
+    return ApplyCurrentCommand();
 }
 
-bool RegisterSolo::ParseLine(const std::string& inputLine)
+void RegisterBase::IncreaseCounter(const std::string& key)
+{
+    auto& found = m_commandCounter.find(key);
+    if (found == m_commandCounter.end())
+    {
+        m_commandCounter.emplace(key, 1);
+    }
+    else
+    {
+        found->second++;
+    }
+}
+
+int RegisterBase::GetCommandCounter(const std::string& key) const
+{
+    const auto& found = m_commandCounter.find(key);
+    if (found == m_commandCounter.end())
+    {
+        return 0;
+    }
+
+    return found->second;
+}
+
+bool RegisterBase::ParseLine(const std::string& inputLine)
 {
     const std::vector<std::string> elements = CodeUtils::CodeUtil::SplitStringBySpace(inputLine);
 
@@ -148,6 +178,13 @@ bool RegisterSolo::ParseLine(const std::string& inputLine)
     const std::string paramStr2 = elements.size() < 3 ? "" : elements[2];
 
     return ParseCommand(command, CharOrNumber(paramStr1), CharOrNumber(paramStr2));
+}
+
+RegisterSolo::RegisterSolo(const std::string& fileName)
+    : RegisterBase()
+{
+    ReadFile(fileName);
+    ExecuteCommands();
 }
 
 bool RegisterSolo::ParseCommand(const std::string& command, const CharOrNumber& param1, const CharOrNumber& param2)
@@ -229,6 +266,11 @@ void RegisterSolo::OutputResultToConsole() const
     std::cout << "December18.a: result = " << GetRecoveredFrequency() << std::endl;
 }
 
+bool RegisterSolo::ApplyCurrentCommand()
+{
+    return (m_commands[m_currentIndex]->Apply(*this));
+}
+
 bool RegisterSolo::ExecuteCommands()
 {
     m_currentIndex = 0;
@@ -249,18 +291,7 @@ bool RegisterSolo::ExecuteCommands()
     return true;
 }
 
-bool RegisterSolo::ExecuteNextCommand()
-{
-    if (m_currentIndex < 0 || m_currentIndex >= m_commands.size())
-    {
-        return false;
-    }
-
-    // may also affect m_currentIndex
-    return (m_commands[m_currentIndex]->Apply(*this));
-}
-
-void RegisterSolo::SetRegisterValue(char id, long long value)
+void RegisterBase::SetRegisterValue(char id, long long value)
 {
     auto& found = m_registers.find(id);
     if (found == m_registers.end())
@@ -273,7 +304,7 @@ void RegisterSolo::SetRegisterValue(char id, long long value)
     }
 }
 
-long long RegisterSolo::GetRegisterValue(char id) const
+long long RegisterBase::GetRegisterValue(char id) const
 {
     const auto& found = m_registers.find(id);
     if (found == m_registers.end())

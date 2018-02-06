@@ -11,7 +11,7 @@ using namespace AdventOfCode::December18;
 // ---------------------------------
 
 // send value
-bool RegisterSndB::Apply(RegisterSolo& rd)
+bool RegisterSndB::Apply(RegisterBase& rd)
 {
     const long long value = param.isChar ? rd.GetRegisterValue(param.id) : param.value;
     rd.Send(value);
@@ -21,7 +21,7 @@ bool RegisterSndB::Apply(RegisterSolo& rd)
 }
 
 // receive value
-bool RegisterRcvB::Apply(RegisterSolo& rd)
+bool RegisterRcvB::Apply(RegisterBase& rd)
 {
     if (rd.SetQueuedValue(param.id))
     {

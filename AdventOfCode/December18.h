@@ -64,7 +64,8 @@ namespace December18 {
         bool isChar = false;
     };
 
-    class RegisterSolo;
+    class RegisterBase;
+    //class RegisterSolo;
 
     class RegisterCommand
     {
@@ -75,7 +76,7 @@ namespace December18 {
         }
 
     public:
-        virtual bool Apply(RegisterSolo& rd);
+        virtual bool Apply(RegisterBase& rd);
 
     protected:
         std::string command;
@@ -122,7 +123,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterSolo& rd) override;
+        bool Apply(RegisterBase& rd) override;
     };
 
     class RegisterRcv
@@ -135,7 +136,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterSolo& rd) override;
+        bool Apply(RegisterBase& rd) override;
     };
 
     // double-param commands
@@ -149,7 +150,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterSolo& rd) override;
+        bool Apply(RegisterBase& rd) override;
     };
 
     class RegisterAdd
@@ -162,7 +163,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterSolo& rd) override;
+        bool Apply(RegisterBase& rd) override;
     };
 
     class RegisterMul
@@ -175,7 +176,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterSolo& rd) override;
+        bool Apply(RegisterBase& rd) override;
     };
 
     class RegisterMod
@@ -188,7 +189,7 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterSolo& rd) override;
+        bool Apply(RegisterBase& rd) override;
     };
 
     class RegisterJgz
@@ -201,31 +202,26 @@ namespace December18 {
         }
 
     public:
-        bool Apply(RegisterSolo& rd) override;
+        bool Apply(RegisterBase& rd) override;
     };
 
 
-    // main class
-    class RegisterSolo
+    class RegisterBase
         : public AdventOfCodeBase
     {
     public:
-        RegisterSolo() {};
-        RegisterSolo(const std::string& fileName);
-        ~RegisterSolo() = default;
+        RegisterBase() {};
+        ~RegisterBase() = default;
 
     public:
         // AdventOfCodeBase
         virtual bool ParseLine(const std::string& inputLine) override;
-        virtual void OutputResultToConsole() const override;
         // ~AdventOfCodeBase
 
-    public:
-        virtual bool ParseCommand(const std::string& command, const CharOrNumber& param1, const CharOrNumber& param2);
-        virtual bool ExecuteCommands();
+        virtual bool ParseCommand(const std::string& command, const CharOrNumber& param1, const CharOrNumber& param2) = 0;
+        virtual bool ExecuteCommands() = 0;
+        virtual bool ApplyCurrentCommand() = 0;
         virtual bool ExecuteNextCommand();
-        virtual void Send(long long val) {};
-        virtual bool SetQueuedValue(char id) { return false; };
 
     public:
         void SetCurrentIndex(int index) { m_currentIndex = index; }
@@ -238,15 +234,41 @@ namespace December18 {
         long long GetFrequency() const { return m_lastFrequency; }
         void SetRecoveredFrequency(long long freq) { m_lastRecoveredFrequency = freq; }
         long long GetRecoveredFrequency() const { return m_lastRecoveredFrequency; }
+        virtual bool SetQueuedValue(char id) { return false; };
+        virtual void Send(long long value) {};
+        virtual void Send(int id, long long value) {};
+        void IncreaseCounter(const std::string& key);
+        int GetCommandCounter(const std::string& key) const;
 
     protected:
         std::vector<std::shared_ptr<RegisterCommand>> m_commands;
         std::map<char, long long> m_registers;
         int m_currentIndex = -1;
+        std::map<std::string, int> m_commandCounter;
 
-    private:
+    protected:
         long long m_lastFrequency = -1;
         long long m_lastRecoveredFrequency = -1;
+    };
+
+    // main class
+    class RegisterSolo
+        : public RegisterBase
+    {
+    public:
+        RegisterSolo() {};
+        RegisterSolo(const std::string& fileName);
+        ~RegisterSolo() = default;
+
+    public:
+        // AdventOfCodeBase
+        virtual void OutputResultToConsole() const override;
+        // ~AdventOfCodeBase
+
+    public:
+        virtual bool ParseCommand(const std::string& command, const CharOrNumber& param1, const CharOrNumber& param2) override;
+        virtual bool ExecuteCommands() override;
+        virtual bool ApplyCurrentCommand() override;
     };
 
 }}
