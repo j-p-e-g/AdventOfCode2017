@@ -24,6 +24,23 @@ namespace AdventOfCodeTest
             }
         }
 
+        /*
+        If the target value is a prime number itself, it needs to be included in the returned list.
+        */
+        TEST_METHOD(December23b_CalculatePrimesUpToValue_11)
+        {
+            SimplifiedRegisterHandlerB test;
+            std::vector<int> primes;
+            test.CalculatePrimesUpToValue(11, primes);
+
+            const std::vector<int> expectedPrimes = { 2, 3, 5, 7, 11 };
+            Assert::AreEqual(expectedPrimes.size(), primes.size());
+            for (int k = 0; k < expectedPrimes.size(); k++)
+            {
+                Assert::AreEqual(expectedPrimes[k], primes[k]);
+            }
+        }
+
         TEST_METHOD(December23b_CalculatePrimesUpToValue_50)
         {
             SimplifiedRegisterHandlerB test;
@@ -58,6 +75,53 @@ namespace AdventOfCodeTest
         {
             SimplifiedRegisterHandlerB test;
             Assert::AreEqual(12, test.CountNonPrimes(50, 100, 3));
+        }
+
+        /*
+        count non-prime values between 20 and 50 in increases of -7
+        primes up to 50: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47
+        -> non-primes between 20 and 50: 50, 36, 22
+        */
+        TEST_METHOD(December23b_CountNonPrimes_negativeStep)
+        {
+            SimplifiedRegisterHandlerB test;
+            Assert::AreEqual(3, test.CountNonPrimes(50, 20, -7));
+        }
+
+        /*
+        step of 0 should not result in an infinite loop
+        */
+        TEST_METHOD(December23b_CountNonPrimes_step0)
+        {
+            SimplifiedRegisterHandlerB test;
+            Assert::AreEqual(-1, test.CountNonPrimes(8, 25, 0));
+        }
+
+        /*
+        step increasing the value in the wrong direction results in a count of 0
+        */
+        TEST_METHOD(December23b_CountNonPrimes_oppositeStep)
+        {
+            SimplifiedRegisterHandlerB test;
+            Assert::AreEqual(0, test.CountNonPrimes(10, 50, -3));
+        }
+
+        /*
+        if start and target are the same, the counter is only increased once
+        */
+        TEST_METHOD(December23b_CountNonPrimes_identicalNonPrime)
+        {
+            SimplifiedRegisterHandlerB test;
+            Assert::AreEqual(1, test.CountNonPrimes(30, 30, 7));
+        }
+
+        /*
+        if start and target are the same and prime, the counter never is increased
+        */
+        TEST_METHOD(December23b_CountNonPrimes_identicalPrime)
+        {
+            SimplifiedRegisterHandlerB test;
+            Assert::AreEqual(0, test.CountNonPrimes(17, 17, -2));
         }
     };
 }

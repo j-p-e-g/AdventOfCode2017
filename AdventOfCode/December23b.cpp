@@ -39,7 +39,7 @@ void SimplifiedRegisterHandlerB::CalculatePrimesUpToValue(const int upperLimit, 
 {
     // Sieve of Eratosthenes
     std::vector<int> numbers;
-    for (int k = 2; k < upperLimit; k++)
+    for (int k = 2; k <= upperLimit; k++)
     {
         bool isPrime = true;
         for (const auto p : primes)
@@ -60,12 +60,18 @@ void SimplifiedRegisterHandlerB::CalculatePrimesUpToValue(const int upperLimit, 
 
 int SimplifiedRegisterHandlerB::CountNonPrimes(int start, int target, int step) const
 {
+    // sanity check to prevent infinite loops
+    if (step == 0 && start != target)
+    {
+        return -1;
+    }
+
     // pre-compute all prime numbers up to the target value (actually, we only need the values starting at 108100, but that's negligible)
     std::vector<int> primes;
-    CalculatePrimesUpToValue(target, primes);
+    CalculatePrimesUpToValue(target > start ? target : start, primes);
 
     int count = 0;
-    for (int bValue = start; bValue <= target; bValue += step)
+    for (int bValue = start; step > 0 ? bValue <= target : bValue >= target; bValue += step)
     {
         // only increase h if the value isn't prime
         if (std::find(primes.begin(), primes.end(), bValue) == primes.end())
