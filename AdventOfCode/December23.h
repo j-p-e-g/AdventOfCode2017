@@ -1,7 +1,6 @@
 #pragma once
 
 #include "December18.h"
-//#include "AdventOfCodeBase.h"
 
 /*
     https://adventofcode.com/2017/day/23

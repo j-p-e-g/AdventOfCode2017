@@ -1,0 +1,35 @@
+## initial setup:
+
+if (a == 0)
+{
+    b = 81
+    c = 81
+}
+else
+{
+    b = 108100
+    c = 125100
+}
+
+# note that c never changes after this!
+
+h = 0
+
+# now things get dynamic:
+
+for (; b <= c; b += 17)
+{
+    # TODO: simplify this loop!!!
+    # we could skip it entirely if b is prime but it's not clear if that would save any time (pre-compute all prime numbers up to c)
+    for (e = 2; e <= b/2; e++)
+    {
+        for (d = 2; d <= b/2; d++)
+        {
+            if (d * e == b)
+            {
+                h++
+                break
+            }
+        }
+    }
+}

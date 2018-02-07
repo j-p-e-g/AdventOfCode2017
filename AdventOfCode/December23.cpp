@@ -113,7 +113,7 @@ bool RegisterHandler::ExecuteCommands()
 
 void RegisterHandler::OutputResultToConsole() const
 {
-    std::cout << "December23: result = " << GetMultiplierCommandCount() << std::endl;
+    std::cout << "December23.a: result = " << GetMultiplierCommandCount() << std::endl;
 }
 
 int RegisterHandler::GetMultiplierCommandCount() const

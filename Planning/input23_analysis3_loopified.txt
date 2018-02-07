@@ -1,0 +1,74 @@
+#b = 81
+#c = b # c = 81
+#
+#if (a != 0)
+#{
+#    b *= 100 # b = 8100
+#    b += 100000 # b = 108100
+#    c = b # c = 108100
+#    c += 17000 # c = 125100
+#}
+
+## initial setup:
+
+if (a == 0)
+{
+    b = 81
+    c = 81
+}
+else
+{
+    b = 108100
+    c = 125100
+}
+
+e = 0
+g = 0
+h = 0
+
+# from now, things get dynamic:
+# note that c never changes after this!
+
+while (true)
+{
+    f = 1
+    d = 2
+
+    do
+    {
+        e = 2
+
+        do
+        {
+            g = d * e - b
+            
+            if (g == 0)
+            {
+                f = 0
+            }
+
+            e++
+
+            g = e - b
+        }
+        while (g != 0)
+
+        d++
+        g = d - b
+    }
+    while (g != 0)
+
+    if (f == 0)
+    {
+        h++
+    }
+
+    g = b - c
+
+    if (g == 0)
+    {
+        EXIT
+    }
+    
+    b += 17
+}

@@ -1,0 +1,28 @@
+## initial setup:
+
+if (a == 0)
+{
+    b = 81
+    c = 81
+}
+else
+{
+    b = 108100
+    c = 125100
+}
+
+# note that c never changes after this!
+
+h = 0
+
+vector<int> primes = getAllPrimesUpTo(c)
+
+# now things get dynamic:
+
+for (; b <= c; b += 17)
+{
+    if (not b in primes)
+    {
+        h++
+    }
+}

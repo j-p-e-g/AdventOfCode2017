@@ -28,7 +28,7 @@
 #include "December20b.h"
 #include "December21.h"
 #include "December22b.h"
-#include "December23.h"
+#include "December23b.h"
 
 int main()
 {
@@ -192,6 +192,9 @@ int main()
     {
         AdventOfCode::December23::RegisterHandler testa("InputFiles/input23.txt");
         testa.OutputResultToConsole();
+        // doesn't need the input file
+        AdventOfCode::December23::SimplifiedRegisterHandlerB testb;
+        testb.OutputResultToConsole();
     }
 
     return 0;
