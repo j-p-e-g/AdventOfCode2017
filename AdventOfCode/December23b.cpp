@@ -70,6 +70,17 @@ int SimplifiedRegisterHandlerB::CountNonPrimes(int start, int target, int step) 
     std::vector<int> primes;
     CalculatePrimesUpToValue(target > start ? target : start, primes);
 
+    if (step == 0) // start == target
+    {
+        if (std::find(primes.begin(), primes.end(), start) == primes.end())
+        {
+            // non-prime -> count
+            return 1;
+        }
+
+        return 0;
+    }
+
     int count = 0;
     for (int bValue = start; step > 0 ? bValue <= target : bValue >= target; bValue += step)
     {

@@ -98,6 +98,24 @@ namespace AdventOfCodeTest
         }
 
         /*
+        if start and target are the same prime number, a step of 0 just results in a count of 0
+        */
+        TEST_METHOD(December23b_CountNonPrimes_step0_sameValuesPrime)
+        {
+            SimplifiedRegisterHandlerB test;
+            Assert::AreEqual(0, test.CountNonPrimes(17, 17, 0));
+        }
+
+        /*
+        if start and target are the same non-prime number, a step of 0 just results in a count of 1
+        */
+        TEST_METHOD(December23b_CountNonPrimes_step0_sameValuesNonPrime)
+        {
+            SimplifiedRegisterHandlerB test;
+            Assert::AreEqual(1, test.CountNonPrimes(80, 80, 0));
+        }
+
+        /*
         step increasing the value in the wrong direction results in a count of 0
         */
         TEST_METHOD(December23b_CountNonPrimes_oppositeStep)
