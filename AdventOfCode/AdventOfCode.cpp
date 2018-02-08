@@ -29,6 +29,7 @@
 #include "December21.h"
 #include "December22b.h"
 #include "December23b.h"
+#include "December24.h"
 
 int main()
 {
@@ -195,6 +196,10 @@ int main()
         // doesn't need the input file
         AdventOfCode::December23::SimplifiedRegisterHandlerB testb;
         testb.OutputResultToConsole();
+    }
+    {
+        AdventOfCode::December24::PortConnection testa("InputFiles/input24.txt");
+        testa.OutputResultToConsole();
     }
 
     return 0;
