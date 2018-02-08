@@ -106,16 +106,17 @@ namespace December24 {
         int GetWeight(const std::string& start, const std::string& end) const;
 
         void CalculateBestPath(const std::string& start, std::vector<Connection>& bestPath) const;
-        static int GetWeight(const std::vector<Connection>& path);
+        int GetWeight(const std::vector<Connection>& path) const;
         void AddPossiblePath(std::set<std::vector<Connection>>& paths, const std::string& currentNode, const std::vector<Connection>& predecessors) const;
         // only add paths that can not be extended further (optimized version)
-        void AddPossibleLongestPath(std::set<std::vector<Connection>>& paths, const std::string& currentNode, const std::vector<Connection>& predecessors) const;
+        void AddPossibleLongPath(std::set<std::vector<Connection>>& paths, const std::string& currentNode, const std::vector<Connection>& predecessors) const;
 
         int CalculateStrongestBridgeWeight();
 
     private:
         std::vector<Connection> m_bestPath;
         std::map<std::string, std::set<Connection>> m_graph;
+        std::map<std::string, int> m_recursiveConnections;
     };
 }
 }

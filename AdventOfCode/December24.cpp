@@ -38,7 +38,14 @@ bool PortConnection::ParseLine(const std::string& inputLine)
         return false;
     }
 
-    AddConnection(elementVector[0], elementVector[1], valueA+valueB);
+    if (valueA == valueB)
+    {
+        m_recursiveConnections.emplace(elementVector[0], 2 * valueA);
+    }
+    else
+    {
+        AddConnection(elementVector[0], elementVector[1], valueA + valueB);
+    }
 
     return true;
 }
@@ -112,7 +119,9 @@ int PortConnection::GetWeight(const std::string& start, const std::string& end) 
 void PortConnection::CalculateBestPath(const std::string& start, std::vector<Connection>& bestPath) const
 {
     std::set<std::vector<Connection>> allPaths;
-    AddPossibleLongestPath(allPaths, start, std::vector<Connection>());
+    AddPossibleLongPath(allPaths, start, std::vector<Connection>());
+
+    std::cout << "      #paths: " << allPaths.size() << std::endl;
 
     int bestPathWeight = -1;
     for (const auto& p : allPaths)
@@ -151,7 +160,7 @@ void PortConnection::AddPossiblePath(std::set<std::vector<Connection>>& paths, c
     }
 }
 
-void PortConnection::AddPossibleLongestPath(std::set<std::vector<Connection>>& paths, const std::string& currentNode, const std::vector<Connection>& predecessors) const
+void PortConnection::AddPossibleLongPath(std::set<std::vector<Connection>>& paths, const std::string& currentNode, const std::vector<Connection>& predecessors) const
 {
     const auto& found = m_graph.find(currentNode);
     if (found == m_graph.end())
@@ -168,7 +177,7 @@ void PortConnection::AddPossibleLongestPath(std::set<std::vector<Connection>>& p
         {
             std::vector<Connection> pred = predecessors;
             pred.push_back(c);
-            AddPossibleLongestPath(paths, c.valueA == currentNode ? c.valueB : c.valueA, pred);
+            AddPossibleLongPath(paths, c.valueA == currentNode ? c.valueB : c.valueA, pred);
             neighbourFound = true;
         }
     }
@@ -179,14 +188,31 @@ void PortConnection::AddPossibleLongestPath(std::set<std::vector<Connection>>& p
     }
 }
 
-int PortConnection::GetWeight(const std::vector<Connection>& path)
+int PortConnection::GetWeight(const std::vector<Connection>& path) const
 {
+    std::set<std::string> nodes;
+
     int weight = 0;
     for (const auto& c : path)
     {
         weight += c.strength;
+        nodes.emplace(c.valueA);
+        nodes.emplace(c.valueB);
     }
     
+    if (!m_recursiveConnections.empty())
+    {
+        // add weights for any recursive loops that need to taken into account
+        for (const auto& n : nodes)
+        {
+            const auto& foundLoop = m_recursiveConnections.find(n);
+            if (foundLoop != m_recursiveConnections.end())
+            {
+                weight += foundLoop->second;
+            }
+        }
+    }
+
     return weight;
 }
 
