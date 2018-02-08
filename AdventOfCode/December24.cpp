@@ -52,7 +52,7 @@ bool PortConnection::ParseLine(const std::string& inputLine)
 
 void PortConnection::OutputResultToConsole() const
 {
-    std::cout << "December24: result = " << GetWeight(m_bestPath) << std::endl;
+    std::cout << "December24.a: result = " << GetWeight(m_bestPath) << std::endl;
 }
 
 void PortConnection::AddConnection(const Connection& connection)

@@ -29,7 +29,7 @@
 #include "December21.h"
 #include "December22b.h"
 #include "December23b.h"
-#include "December24.h"
+#include "December24b.h"
 
 int main()
 {
@@ -200,6 +200,8 @@ int main()
     {
         AdventOfCode::December24::PortConnection testa("InputFiles/input24.txt");
         testa.OutputResultToConsole();
+        AdventOfCode::December24::PortConnectionB testb("InputFiles/input24.txt");
+        testb.OutputResultToConsole();
     }
 
     return 0;
