@@ -30,6 +30,7 @@
 #include "December22b.h"
 #include "December23b.h"
 #include "December24b.h"
+#include "December25.h"
 
 int main()
 {
@@ -202,6 +203,10 @@ int main()
         testa.OutputResultToConsole();
         AdventOfCode::December24::PortConnectionB testb("InputFiles/input24.txt");
         testb.OutputResultToConsole();
+    }
+    {
+        AdventOfCode::December25::TMBlueprints testa("InputFiles/input25.txt");
+        testa.OutputResultToConsole();
     }
 
     return 0;
