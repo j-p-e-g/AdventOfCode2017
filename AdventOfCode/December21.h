@@ -127,12 +127,12 @@ namespace December21 {
         // gather matrix descriptions for all flips and rotations
         static void GatherAllDescriptions(std::shared_ptr<Matrix::CharMatrix>& matrix, std::set<std::string>& descriptions);
 
-        bool ProcessRules(int numIterations);
+        virtual bool ProcessRules(int numIterations);
         bool ApplyRulesToSubMatrix(std::shared_ptr<Matrix::CharMatrix>& subMatrix);
         int CountActivePixels() const;
         std::shared_ptr<Matrix::CharMatrix> GetPattern() const { return m_pattern; }
 
-    private:
+    protected:
         std::shared_ptr<Matrix::CharMatrix> m_pattern;
         std::map<std::string, std::string> m_rules;
     };

@@ -26,7 +26,7 @@
 #include "December18b.h"
 #include "December19b.h"
 #include "December20b.h"
-#include "December21.h"
+#include "December21b.h"
 #include "December22b.h"
 #include "December23b.h"
 #include "December24b.h"
@@ -179,6 +179,11 @@ int main()
         // 5 iterations
         testa.ProcessRules(5);
         testa.OutputResultToConsole();
+
+        AdventOfCode::December21::PixelPatternB testb("InputFiles/input21.txt");
+        // 18 iterations
+        testb.ProcessRules(18);
+        testb.OutputResultToConsole();
     }
     {
         AdventOfCode::December22::InfectedGrid testa("InputFiles/input22.txt");

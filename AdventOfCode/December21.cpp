@@ -87,7 +87,7 @@ bool PixelPattern::CreateAndValidatePatternMatrix(const std::string& pattern, st
 
 void PixelPattern::OutputResultToConsole() const
 {
-    std::cout << "December21: result = " << CountActivePixels() << std::endl;
+    std::cout << "December21.a: result = " << CountActivePixels() << std::endl;
 }
 
 bool PixelPattern::CreateMatrix(const std::string& input, std::shared_ptr<Matrix::CharMatrix>& matrix)
