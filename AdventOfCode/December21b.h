@@ -35,6 +35,7 @@ namespace December21 {
 
     private:
         std::map<std::string, std::map<int, std::string> > m_4x4Transformations;
+        std::map<std::string, std::string> m_4x4Rotations;
     };
 
 }}

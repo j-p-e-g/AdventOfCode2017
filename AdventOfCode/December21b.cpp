@@ -43,7 +43,17 @@ int PixelPatternB::ApplyRulesToMatrix(std::shared_ptr<Matrix::CharMatrix>& matri
 
     if (was4x4)
     {
-        const auto& foundPattern = m_4x4Transformations.find(startPattern);
+        auto& foundPattern = m_4x4Transformations.find(startPattern);
+        if (foundPattern == m_4x4Transformations.end())
+        {
+            // try the rotations instead
+            const auto& foundRotation = m_4x4Rotations.find(startPattern);
+            if (foundRotation != m_4x4Rotations.end())
+            {
+                foundPattern = m_4x4Transformations.find(foundRotation->second);
+            }
+        }
+
         if (foundPattern != m_4x4Transformations.end())
         {
             std::string pattern;
@@ -54,7 +64,6 @@ int PixelPatternB::ApplyRulesToMatrix(std::shared_ptr<Matrix::CharMatrix>& matri
                 {
                     pattern = foundIterations->second;
                     remainingIterations = numIterations - k;
-                    //std::cout << "Found 4x4 pattern with " << k << " iteration(s) -> remainingIterations " << remainingIterations << std::endl;
                     break;
                 }
             }
@@ -66,7 +75,6 @@ int PixelPatternB::ApplyRulesToMatrix(std::shared_ptr<Matrix::CharMatrix>& matri
 
                 if (remainingIterations == 0)
                 {
-                    //std::cout << "done" << std::endl;
                     return remainingIterations;
                 }
             }
@@ -82,7 +90,6 @@ int PixelPatternB::ApplyRulesToMatrix(std::shared_ptr<Matrix::CharMatrix>& matri
 
         if (first && remainingIterations > 1)
         {
-            //std::cout << "After matrix size " << matrix->GetWidth() << " modification: Recursively call ApplyRulesToMatrix with remainingIterations " << (remainingIterations - 1) << std::endl;
             return ApplyRulesToMatrix(matrix, remainingIterations - 1, false);
         }
 
@@ -98,19 +105,18 @@ int PixelPatternB::ApplyRulesToMatrix(std::shared_ptr<Matrix::CharMatrix>& matri
         return -1;
     }
 
-    int newIterations = -1;
+    int newRemainingIterations = -1;
     for (auto& m : subMatrices)
     {
-        //std::cout << "Recursively call ApplyRulesToMatrix for submatrix with remainingIterations " << remainingIterations << std::endl;
-        newIterations = ApplyRulesToMatrix(m.second, remainingIterations, false);
+        newRemainingIterations = ApplyRulesToMatrix(m.second, remainingIterations, false);
 
-        if (newIterations < 0)
+        if (newRemainingIterations < 0)
         {
             return -1;
         }
     }
 
-    remainingIterations = newIterations;
+    remainingIterations = newRemainingIterations;
 
     int oldMatrixSize = matrix->GetWidth();
     if (!CombineMatrices(subMatrices, matrix))
@@ -118,12 +124,8 @@ int PixelPatternB::ApplyRulesToMatrix(std::shared_ptr<Matrix::CharMatrix>& matri
         return -1;
     }
 
-    //std::cout << "matrix of size " << oldMatrixSize << " was combined to " << matrix->GetWidth() << std::endl;
-
     if (remainingIterations > 0)
     {
-        //std::cout << "After matrix size " << matrix->GetWidth() << " Split/Combine: Recursively call ApplyRulesToMatrix with remainingIterations " << (remainingIterations - 1) << std::endl;
-
         remainingIterations = ApplyRulesToMatrix(matrix, remainingIterations, false);
         if (remainingIterations < 0)
         {
@@ -141,6 +143,21 @@ int PixelPatternB::ApplyRulesToMatrix(std::shared_ptr<Matrix::CharMatrix>& matri
             std::map<int, std::string> patternMap;
             patternMap.emplace(numIterations, targetPattern);
             m_4x4Transformations.emplace(startPattern, patternMap);
+
+            // store all rotations
+            std::shared_ptr<Matrix::CharMatrix> startMatrix = std::make_shared<Matrix::CharMatrix>();
+            CreateMatrix(startPattern, startMatrix);
+
+            std::set<std::string> rotations;
+            GatherAllDescriptions(startMatrix, rotations);
+
+            for (const auto& rot : rotations)
+            {
+                if (rot != startPattern)
+                {
+                    m_4x4Rotations.emplace(rot, startPattern);
+                }
+            }
         }
         else
         {
